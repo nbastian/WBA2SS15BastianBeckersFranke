@@ -1,0 +1,17 @@
+{
+  "name": "WBA2-Workshop1",
+  "version": "1.0.0",
+  "description": "Projekt zum ersten Workshop in WBA2",
+  "main": "aufgabe1.js",
+  "dependencies": {
+      "chalk": ">= 1.0.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "wba2"
+  ],
+  "author": "Steven Beckers, Nico Bastian, Christian Franke",
+  "license": "ISC"
+}
