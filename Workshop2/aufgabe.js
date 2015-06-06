@@ -27,22 +27,21 @@ app.use(bodyParser.json({ extended: true }));
 // environments
 app.set('port', process.env.PORT || 1337);
 var userlistObj = 'userlist';
+var eventObj = 'events';
 
 // redis error handling
 redis.on('error', function (err) {
     console.log(err);
+    process.exit(1);
 });
 
 // static assets (html-files)
 app.use(express.static('public'));
 
 
-
-
 /**
  *  ENDPOINTS
  */
-
 
 // todo: authentication
 
@@ -167,7 +166,7 @@ app.route('/user/:id([0-9]+)')
 
 
 
-/**
+/** 
  *  START IT UP..
  */
 
@@ -175,5 +174,9 @@ app.route('/user/:id([0-9]+)')
 var server = app.listen(app.get('port'), function () {
     var port = server.address().port;
     
+    console.log('+++++++++++++++++++++++++++++');
+    console.log('+ PerPla Personalplanung    +');
+    console.log('+++++++++++++++++++++++++++++');
+    console.log('');
     console.log('Please point your browser to http://localhost:%s', port);
 });
