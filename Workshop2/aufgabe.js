@@ -1,8 +1,8 @@
 /**
  * 	PerPla Personalplanung
- *  restful-endpoints orientiert an der facebook graph api
+ *	restful-endpoints orientiert an der facebook graph api
  * 
- *  (c) 2015 by christian franke, franky.ws
+ *	(c) 2015 by christian franke, franky.ws
  */
 
 // include express module
@@ -15,7 +15,7 @@ var crypto = require('crypto'),
 // functions
 var sha1sum = function(input) {
 	// function for creating sha1-hash
-    return crypto.createHash('sha1').update(JSON.stringify(input)).digest('hex');
+	return crypto.createHash('sha1').update(JSON.stringify(input)).digest('hex');
 }
 
 // init em up
@@ -40,7 +40,7 @@ app.use(express.static('public'));
 
 
 /**
- *  ENDPOINTS
+ *	ENDPOINTS
  */
 
 
@@ -53,7 +53,7 @@ app.route('/user')
 		// get userlist from db
 		
 		redis.get(userlistObj, function (err, obj) {
-		    res.json(JSON.parse(obj));
+			  res.json(JSON.parse(obj));
 		});
 	})
 	
@@ -63,29 +63,29 @@ app.route('/user')
 		
 		redis.get(userlistObj, function (err, obj) {
 			// get old list
-		    var userList = JSON.parse(obj)
-		    	newId = userList.length;
-		    
-		    
-		    // todo: check for valid inputs
-		    
-		    
-		    // push new user
-		    userList.push({
-			    id: newId,
-			    username: req.params.id,
-			    email: req.params.email,
-			    password: sha1sum(req.params.password), // never save password plaintext! todo: salt!
-			    isAdmin: 0 // todo: isAdmin
-		    });
-		    
-		    // save list
-		    redis.set(userlistObj, JSON.stringify(userList));
-		    
-		    // output
-		    res.json({ 
-			    success: true,
-			    newId: newId 
+			  var userList = JSON.parse(obj)
+			  	newId = userList.length;
+			  
+			  
+			  // todo: check for valid inputs
+			  
+			  
+			  // push new user
+			  userList.push({
+				   id: newId,
+				   username: req.params.id,
+				   email: req.params.email,
+				   password: sha1sum(req.params.password), // never save password plaintext! todo: salt!
+				   isAdmin: 0 // todo: isAdmin
+			  });
+			  
+			  // save list
+			  redis.set(userlistObj, JSON.stringify(userList));
+			  
+			  // output
+			  res.json({ 
+				   success: true,
+				   newId: newId 
 			});
 		});
 	});
@@ -96,71 +96,71 @@ app.route('/user')
 app.route('/user/:id([0-9]+)')
 
 	.get(function(req, res) {
-    	// return single user
-    			
+		// return single user
+				
 		redis.get(userlistObj, function (err, obj) {
-		    var userList = JSON.parse(obj);
-		    
-		    for (var i in userList) {
-			    if (userList[i] == req.params.id) {
-				    res.json(userList[i]);
-				    break;
-			    }
-		    }
+			  var userList = JSON.parse(obj);
+			  
+			  for (var i in userList) {
+				   if (userList[i] == req.params.id) {
+					res.json(userList[i]);
+					break;
+				   }
+			  }
 		});
 	})
 	
 	
 	.put(function(req, res) {
-    	// update single user
-    			
+		// update single user
+				
 		redis.get(userlistObj, function (err, obj) {
-		    var userList = JSON.parse(obj);
-		    
-		    for (var i in userList) {
-			    if (userList[i] == req.params.id) {
-				    
-				    // todo: check for valid inputs
-		    	    		    	    
-				    userList[i] = {
-					    id: newId,
-					    username: req.params.id,
-					    email: req.params.email,
-					    password: sha1sum(req.params.password), // never save password plaintext! todo: salt!
-					    isAdmin: 0 // todo: isAdmin
-				    };
-				    
-				    break;
-			    }
-		    }
-		    				    
-		    // save list
-		    redis.set(userlistObj, JSON.stringify(userList));
-		    
-		    // output
-		    res.json({ 
-			    success: true
+			  var userList = JSON.parse(obj);
+			  
+			  for (var i in userList) {
+				   if (userList[i] == req.params.id) {
+					
+					// todo: check for valid inputs
+			  		   			 		  
+					userList[i] = {
+						 id: newId,
+						 username: req.params.id,
+						 email: req.params.email,
+						 password: sha1sum(req.params.password), // never save password plaintext! todo: salt!
+						 isAdmin: 0 // todo: isAdmin
+					};
+					
+					break;
+				   }
+			  }
+			  					  
+			  // save list
+			  redis.set(userlistObj, JSON.stringify(userList));
+			  
+			  // output
+			  res.json({ 
+				   success: true
 			});
 		});
 	})
 	
 	.delete(function(req, res) {
-    	// delete single user
-    			
+		// delete single user
+				
 		redis.get(userlistObj, function (err, obj) {
-		    var userList = JSON.parse(obj);
-		    
-		    // filter userlist..
-		    userList = userList.filter(function(el) {
-			    return el.id !== req.params.id
-		    });
-		    				    
-		    // save list
-		    redis.set(userlistObj, JSON.stringify(userList));
-		    
-		    // output
-		    res.json({ 
-			    success: true
+			  var userList = JSON.parse(obj);
+			  
+			  // filter userlist..
+			  userList = userList.filter(function(el) {
+				   return el.id !== req.params.id
+			  });
+			  					  
+			  // save list
+			  redis.set(userlistObj, JSON.stringify(userList));
+			  
+			  // output
+			  res.json({ 
+				   success: true
 			});
 		});
 	});
@@ -168,7 +168,7 @@ app.route('/user/:id([0-9]+)')
 
 
 /**
- *  START IT UP..
+ *	START IT UP..
  */
 
 // Start server listening..
