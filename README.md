@@ -19,6 +19,8 @@ Endpoint | HTTP-Verb | POST-Body | Result
 /event/:eventid | GET | empty | returns single event
 /event/:eventid | PUT | JSON string | update an existing event
 /event/:eventid | DELETE | empty | delete an existing event
+
+Endpoint | HTTP-Verb | POST-Body | Result
 --- | --- | --- | ---
 /event/:eventid | POST | JSON string | create new event entry
 /event/:eventid/:entryid | GET | empty | returns single event entry
