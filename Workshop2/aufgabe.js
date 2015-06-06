@@ -16,7 +16,7 @@ var crypto = require('crypto'),
 var sha1sum = function(input) {
     // function for creating sha1-hash
     return crypto.createHash('sha1').update(JSON.stringify(input)).digest('hex');
-}
+}  
 
 // init em up
 var app = express();
@@ -72,10 +72,10 @@ app.route('/user')
             // push new user
             userList.push({
                 id: newId,
-                username: req.params.id,
-                email: req.params.email,
-                password: sha1sum(req.params.password), // never save password plaintext! todo: salt!
-                isAdmin: 0 // todo: isAdmin
+                username: req.body.username,
+                email: req.body.email,
+                password: sha1sum(req.body.password), // never save password plaintext! todo: salt!
+                isAdmin: req.body.isAdmin == 1 // todo: isAdmin
             });
             
             // save list
@@ -122,11 +122,10 @@ app.route('/user/:id([0-9]+)')
                     // todo: check for valid inputs
                                         
                     userList[i] = {
-                        id: newId,
-                        username: req.params.id,
-                        email: req.params.email,
-                        password: sha1sum(req.params.password), // never save password plaintext! todo: salt!
-                        isAdmin: 0 // todo: isAdmin
+                        username: req.body.id,
+                        email: req.body.email,
+                        password: sha1sum(req.body.password), // never save password plaintext! todo: salt!
+                        isAdmin: req.body.isAdmin == 1 // todo: isAdmin
                     };
                     
                     break;
