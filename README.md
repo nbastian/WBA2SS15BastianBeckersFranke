@@ -14,11 +14,11 @@ Ressource | Methode | content-type (req) | content-type (res) | Semantik
 ### Veranstalter endpoints
 Ressource | Methode | content-type (req) | content-type (res) | Semantik
 --- | --- | --- | --- | ---
-/user | GET | empty | application/json | returns all user as json object-array
-/user | POST | application/json | empty | create new user
-/user/:id | GET | empty | application/json | returns single user
-/user/:id | PUT | application/json | empty | update an existing user
-/user/:id | DELETE | empty | empty | delete an existing user
+/organizer | GET | empty | application/json | returns all organizers as json object-array
+/organizer | POST | application/json | empty | create new organizer
+/organizer/:id | GET | empty | application/json | returns single organizer
+/organizer/:id | PUT | application/json | empty | update an existing organizer
+/organizer/:id | DELETE | empty | empty | delete an existing organizer
 
 
 ### Event endpoints
