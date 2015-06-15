@@ -3,16 +3,27 @@
 ## API endpoints
 
 ### User endpoints
-Endpoint | HTTP-Verb | POST-Body | Result
+Ressource | Methode | content-type (req) | content-type (res) | Result/Semantik
+--- | --- | --- | --- | ---
+/user | GET | empty | application/json | returns all user as json object-array
+/user | POST | application/json | empty | create new user
+/user/:id | GET | empty | application/json | returns single user
+/user/:id | PUT | application/json | empty | update an existing user
+/user/:id | DELETE | empty | empty | delete an existing user
+
+!!!temp!!!
+### Veranstalter endpoints
+Ressource | Methode | POST-Body | Result
 --- | --- | --- | ---
 /user | GET | empty | returns all user as json object-array
 /user | POST | JSON string | create new user
 /user/:id | GET | empty | returns single user
 /user/:id | PUT | JSON string | update an existing user
 /user/:id | DELETE | empty | delete an existing user
+!!!temp!!!
 
 ### Event endpoints
-Endpoint | HTTP-Verb | POST-Body | Result
+Ressource | Methode | POST-Body | Result
 --- | --- | --- | ---
 /event | GET | empty | returns all events as json object-array
 /event | POST | JSON string | create new event
@@ -21,7 +32,7 @@ Endpoint | HTTP-Verb | POST-Body | Result
 /event/:eventid | DELETE | empty | delete an existing event
 
 ### Dienstplan endpoints
-Endpoint | HTTP-Verb | POST-Body | Result
+Ressource | Methode | POST-Body | Result
 --- | --- | --- | ---
 /event/:eventid | POST | JSON string | create new event entry
 /event/:eventid/:entryid | GET | empty | returns single event entry
