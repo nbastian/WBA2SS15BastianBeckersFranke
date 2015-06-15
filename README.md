@@ -20,6 +20,7 @@ Endpoint | HTTP-Verb | POST-Body | Result
 /event/:eventid | PUT | JSON string | update an existing event
 /event/:eventid | DELETE | empty | delete an existing event
 
+### Dienstplan endpoints
 Endpoint | HTTP-Verb | POST-Body | Result
 --- | --- | --- | ---
 /event/:eventid | POST | JSON string | create new event entry
