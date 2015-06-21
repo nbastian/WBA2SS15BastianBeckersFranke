@@ -464,6 +464,124 @@ app.route('/organizer/:id([0-9]+)')
 
 
 
+
+
+// endpoint for getting and setting events
+app.route('/event')
+    
+    .get(function(req, res) {
+        // get userlist from db
+        
+        redis.get(eventObj, function (err, obj) {
+	        var eventList = parseJsonList(obj);
+			
+            res.json(eventList);
+        });
+    })
+    
+    
+    .post(function(req, res) {
+        // save new user in db
+        
+        redis.get(eventObj, function (err, obj) {
+            // get old list
+            var eventList = JSON.parse(obj)
+                newId = eventList.length + 1;
+            
+            
+            // todo: check for valid inputs
+            
+            
+            // push new user
+            eventList.push({
+                id: newId,
+                name: req.body.name,
+                dateStart: moment(req.body.dateStart).format('X'),
+                dateEnd: moment(req.body.dateEnd).format('X')
+            });
+            
+            // save list
+            redis.set(eventObj, JSON.stringify(eventList));
+            
+            // output
+            res.json({ 
+                success: true,
+                newId: newId 
+            });
+        });
+    });
+
+
+// endpoint for existing organisations
+// only with numberic organisation-id!
+app.route('/event/:id([0-9]+)')
+
+    .get(function(req, res) {
+        // return single user
+                
+        redis.get(eventObj, function (err, obj) {
+            var eventList = parseJsonList(obj),
+            	event = eventList.filter(function(el) {
+	                return el.id == req.params.id
+	            });
+            
+            res.json(event[0] || []);
+        });
+    })
+    
+    
+    .put(function(req, res) {
+        // update single user
+                
+        redis.get(eventObj, function (err, obj) {
+            var eventList = JSON.parse(obj);
+            
+            for (var i in eventList) {
+                if (eventList[i].id == req.params.id) {
+                    
+                    // todo: check for valid inputs
+                                        
+                    if (req.body.name) organizerList[i].name = req.body.name;
+                    if (req.body.dateStart) organizerList[i].dateStart = moment(req.body.dateStart).format('X');
+                    if (req.body.dateEnd) organizerList[i].dateEnd = moment(req.body.dateEnd).format('X');
+                    
+                    break;
+                }
+            }
+                                
+            // save list
+            redis.set(eventObj, JSON.stringify(eventList));
+            
+            // output
+            res.json({ 
+                success: true
+            });
+        });
+    })
+    
+    .delete(function(req, res) {
+        // delete single user
+                
+        redis.get(eventObj, function (err, obj) {
+            var eventList = JSON.parse(obj);
+            
+            // filter userlist..
+            eventList = eventList.filter(function(el) {
+                return el.id != req.params.id
+            });
+                                
+            // save list
+            redis.set(eventObj, JSON.stringify(eventList));
+            
+            // output
+            res.json({ 
+                success: true
+            });
+        });
+    });
+
+
+
 /** 
  *  START IT UP..
  */
