@@ -11,6 +11,7 @@ var bodyParser = require('body-parser');
 var redis = require('redis').createClient();
 var crypto = require('crypto'), 
     shasum = crypto.createHash('sha1');
+var moment = require('moment');
     
 // functions
 var sha1sum = function(input) {
@@ -38,6 +39,7 @@ app.use(bodyParser.json({ extended: true }));
 app.set('port', process.env.PORT || 1337);
 var userlistObj = 'userlist';
 var adminlistObj = 'adminlist';
+var organizerObj = 'organizerlist';
 var eventObj = 'events';
 
 // redis error handling
@@ -56,6 +58,7 @@ app.use(express.static('public'));
 
 // Objekte erstellen und Demodaten in DB legen
 app.route('/initdemo').get(function(req, res) {
+	// User
 	redis.set(userlistObj, JSON.stringify([
 		{
 			id: 1,
@@ -68,6 +71,37 @@ app.route('/initdemo').get(function(req, res) {
 			username: 'Testuser2',
 			email: 'info@franky.ws',
 			password: '7288edd0fc3ffcbe93a0cf06e3568e28521687bc' // test123
+		}
+	]));
+	
+	// Adminuser
+	redis.set(adminlistObj, JSON.stringify([
+		{
+			id: 1,
+			username: 'Franky',
+			email: 'franky@pollerwiesen.org',
+			password: '7288edd0fc3ffcbe93a0cf06e3568e28521687bc' // test123
+		}
+	]));
+	
+	// Veranstaltungen
+	redis.set(eventObj, JSON.stringify([
+		{
+			id: 1,
+			name: 'PollerWiesen',
+			dateStart: moment('2015-08-15 13:00').format('X'),
+			dateEnd: moment('2015-08-15 18:00').format('X')
+		}
+	]));
+	
+	// Organisationen
+	redis.set(organizerObj, JSON.stringify([
+		{
+			id: 1,
+			name: 'PollerWiesen GmbH',
+			user: [1, 2],
+			events: [1],
+			adminId: 1
 		}
 	]));
 	
@@ -298,6 +332,127 @@ app.route('/adminuser/:id([0-9]+)')
                                 
             // save list
             redis.set(adminlistObj, JSON.stringify(userList));
+            
+            // output
+            res.json({ 
+                success: true
+            });
+        });
+    });
+
+
+
+
+
+
+// endpoint for getting and setting organisation
+app.route('/organizer')
+    
+    .get(function(req, res) {
+        // get userlist from db
+        
+        redis.get(organizerObj, function (err, obj) {
+	        var organizerList = parseJsonList(obj);
+			
+            res.json(organizerList);
+        });
+    })
+    
+    
+    .post(function(req, res) {
+        // save new user in db
+        
+        redis.get(organizerObj, function (err, obj) {
+            // get old list
+            var organizerList = JSON.parse(obj)
+                newId = organizerList.length + 1;
+            
+            
+            // todo: check for valid inputs
+            
+            
+            // push new user
+            organizerList.push({
+                id: newId,
+                name: req.body.name,
+                user: req.body.userIdList,
+                events: req.body.eventIdList,
+                adminId: req.body.adminId
+            });
+            
+            // save list
+            redis.set(organizerObj, JSON.stringify(organizerList));
+            
+            // output
+            res.json({ 
+                success: true,
+                newId: newId 
+            });
+        });
+    });
+
+
+// endpoint for existing organisations
+// only with numberic organisation-id!
+app.route('/organizer/:id([0-9]+)')
+
+    .get(function(req, res) {
+        // return single user
+                
+        redis.get(organizerObj, function (err, obj) {
+            var organizerList = parseJsonList(obj),
+            	organisation = organizerList.filter(function(el) {
+	                return el.id == req.params.id
+	            });
+            
+            res.json(organisation[0] || []);
+        });
+    })
+    
+    
+    .put(function(req, res) {
+        // update single user
+                
+        redis.get(organizerObj, function (err, obj) {
+            var organizerList = JSON.parse(obj);
+            
+            for (var i in organizerList) {
+                if (organizerList[i].id == req.params.id) {
+                    
+                    // todo: check for valid inputs
+                                        
+                    if (req.body.name) organizerList[i].name = req.body.name;
+                    if (req.body.userIdList) organizerList[i].user = req.body.userIdList;
+                    if (req.body.eventIdList) organizerList[i].events = req.body.eventIdList;
+                    if (req.body.adminId) organizerList[i].adminId = req.body.adminId;
+                    
+                    break;
+                }
+            }
+                                
+            // save list
+            redis.set(organizerObj, JSON.stringify(organizerList));
+            
+            // output
+            res.json({ 
+                success: true
+            });
+        });
+    })
+    
+    .delete(function(req, res) {
+        // delete single user
+                
+        redis.get(organizerObj, function (err, obj) {
+            var organizerList = JSON.parse(obj);
+            
+            // filter userlist..
+            organizerList = organizerList.filter(function(el) {
+                return el.id != req.params.id
+            });
+                                
+            // save list
+            redis.set(organizerObj, JSON.stringify(organizerList));
             
             // output
             res.json({ 
