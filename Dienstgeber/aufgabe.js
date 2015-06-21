@@ -16,7 +16,17 @@ var crypto = require('crypto'),
 var sha1sum = function(input) {
     // function for creating sha1-hash
     return crypto.createHash('sha1').update(JSON.stringify(input)).digest('hex');
-}  
+}
+
+var parseJsonList = function(jsonString) {
+	try {
+	    jsonObj = JSON.parse(jsonString);
+	} catch (e) {
+	    jsonObj = [];
+	}
+	
+	return jsonObj;
+}
 
 // init em up
 var app = express();
@@ -43,7 +53,30 @@ app.use(express.static('public'));
  *  ENDPOINTS
  */
 
-// todo: authentication
+// Objekte erstellen und Demodaten in DB legen
+app.route('/initdemo').get(function(req, res) {
+	redis.set(userlistObj, JSON.stringify([
+		{
+			id: 1,
+			username: 'Testuser1',
+			email: 'fh@franky.ws',
+			password: '7288edd0fc3ffcbe93a0cf06e3568e28521687bc', // test123
+			isAdmin: true
+		},
+		{
+			id: 2,
+			username: 'Testuser2',
+			email: 'info@franky.ws',
+			password: '7288edd0fc3ffcbe93a0cf06e3568e28521687bc', // test123
+			isAdmin: false
+		}
+	]));
+	
+	res.json({
+		success: true,
+		msg: 'Demodata filled successful.'
+	});
+});
 
 // endpoint for getting and setting user
 app.route('/user')
@@ -52,7 +85,9 @@ app.route('/user')
         // get userlist from db
         
         redis.get(userlistObj, function (err, obj) {
-            res.json(JSON.parse(obj));
+	        userObj = parseJsonList(obj);
+			
+            res.json(userObj);
         });
     })
     
@@ -98,7 +133,7 @@ app.route('/user/:id([0-9]+)')
         // return single user
                 
         redis.get(userlistObj, function (err, obj) {
-            var userList = JSON.parse(obj);
+            var userList = parseJsonList(obj);
             
             for (var i in userList) {
                 if (userList[i] == req.params.id) {
@@ -173,9 +208,9 @@ app.route('/user/:id([0-9]+)')
 var server = app.listen(app.get('port'), function () {
     var port = server.address().port;
     
-    console.log('+++++++++++++++++++++++++++++');
-    console.log('+ PerPla Personalplanung    +');
-    console.log('+++++++++++++++++++++++++++++');
+    console.log('+++++++++++++++++++++++++++++++++++++++++');
+    console.log('+ PerPla Personalplanung                +');
+    console.log('+++++++++++++++++++++++++++++++++++++++++');
     console.log('');
     console.log('Please point your browser to http://localhost:%s', port);
 });
