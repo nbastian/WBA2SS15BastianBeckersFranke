@@ -11,6 +11,15 @@ Ressource | Methode | content-type (req) | content-type (res) | Semantik
 /user/:id | PUT | application/json | empty | update an existing user
 /user/:id | DELETE | empty | empty | delete an existing user
 
+### Adminuser endpoints
+Ressource | Methode | content-type (req) | content-type (res) | Semantik
+--- | --- | --- | --- | ---
+/adminuser | GET | empty | application/json | returns all adminuser as json object-array
+/adminuser | POST | application/json | empty | create new adminuser
+/adminuser/:id | GET | empty | application/json | returns single adminuser
+/adminuser/:id | PUT | application/json | empty | update an existing adminuser
+/adminuser/:id | DELETE | empty | empty | delete an existing adminuser
+
 ### Veranstalter endpoints
 Ressource | Methode | content-type (req) | content-type (res) | Semantik
 --- | --- | --- | --- | ---
