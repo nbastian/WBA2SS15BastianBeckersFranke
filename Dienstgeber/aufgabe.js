@@ -51,7 +51,6 @@ redis.on('error', function (err) {
 // static assets (html-files)
 app.use(express.static('public'));
 
-
 /**
  *  ENDPOINTS
  */
@@ -252,9 +251,13 @@ app.route('/adminuser')
         
         redis.get(adminlistObj, function (err, obj) {
             // get old list
-            var userList = JSON.parse(obj)
-                newId = userList.length + 1;
+            var adminList = JSON.parse(obj)
             
+            for (var i in adminList) {
+                if (adminList[i].id != null) {
+                    var newId = parseInt(adminList[i].id) + 1;
+                }
+            }
             
             // todo: check for valid inputs
             
@@ -287,8 +290,8 @@ app.route('/adminuser/:id([0-9]+)')
         // return single user
                 
         redis.get(adminlistObj, function (err, obj) {
-            var userList = parseJsonList(obj),
-            	user = userList.filter(function(el) {
+            var adminList = parseJsonList(obj),
+            	user = adminList.filter(function(el) {
 	                return el.id == req.params.id
 	            });
             
@@ -301,16 +304,16 @@ app.route('/adminuser/:id([0-9]+)')
         // update single user
                 
         redis.get(adminlistObj, function (err, obj) {
-            var userList = JSON.parse(obj);
+            var adminList = JSON.parse(obj);
             
-            for (var i in userList) {
-                if (userList[i].id == req.params.id) {
+            for (var i in adminList) {
+                if (adminList[i].id == req.params.id) {
                     
                     // todo: check for valid inputs
                                         
-                    userList[i].username = req.body.username;
-                    userList[i].email = req.body.email;
-                    if (req.body.password) userList[i].password = sha1sum(req.body.password);
+                    adminList[i].username = req.body.username;
+                    adminList[i].email = req.body.email;
+                    if (req.body.password) adminList[i].password = sha1sum(req.body.password);
                     
                     break;
                 }
@@ -330,15 +333,15 @@ app.route('/adminuser/:id([0-9]+)')
         // delete single user
                 
         redis.get(adminlistObj, function (err, obj) {
-            var userList = JSON.parse(obj);
+            var adminList = JSON.parse(obj);
             
             // filter userlist..
-            userList = userList.filter(function(el) {
+            adminList = adminList.filter(function(el) {
                 return el.id != req.params.id
             });
                                 
             // save list
-            redis.set(adminlistObj, JSON.stringify(userList));
+            redis.set(adminlistObj, JSON.stringify(adminList));
             
             // output
             res.json({ 
@@ -372,7 +375,12 @@ app.route('/organizer')
         redis.get(organizerObj, function (err, obj) {
             // get old list
             var organizerList = JSON.parse(obj)
-                newId = organizerList.length + 1;
+            
+            for (var i in organizerList) {
+                if (organizerList[i].id != null) {
+                    var newId = parseInt(organizerList[i].id) + 1;
+                }
+            }
             
             
             // todo: check for valid inputs
@@ -493,7 +501,12 @@ app.route('/event')
         redis.get(eventObj, function (err, obj) {
             // get old list
             var eventList = JSON.parse(obj)
-                newId = eventList.length + 1;
+                
+            for (var i in eventList) {
+                if (eventList[i].id != null) {
+                    var newId = parseInt(eventList[i].id) + 1;
+                }
+            }
             
             
             // todo: check for valid inputs
