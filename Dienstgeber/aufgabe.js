@@ -131,8 +131,15 @@ app.route('/user')
         redis.get(userlistObj, function (err, obj) { 
             // get old list
             var userList = JSON.parse(obj)
-                newId = userList.length + 1;
+            //<<<<<<< Updated upstream
+            for (var i in userList) {
+                if (userList[i].id != null) {
+                    var newId = parseInt(userList[i].id) + 1;
+                }
+            }
             
+            //=======
+            //>>>>>>> Stashed changes
             
             // todo: check for valid inputs
             
