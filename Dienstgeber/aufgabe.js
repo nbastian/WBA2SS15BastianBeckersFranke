@@ -119,7 +119,7 @@ app.route('/user')
         redis.get(userlistObj, function (err, obj) {
 	        userObj = parseJsonList(obj);
 			
-            res.json(userObj);
+            res.status('200').json(userObj);
         });
     })
     
@@ -152,7 +152,7 @@ app.route('/user')
             redis.set(userlistObj, JSON.stringify(userList));
             
             // output
-            res.json({ 
+            res.status(201).json({ 
                 newId: newId,
                 username: req.body.username,
                 email: req.body.email,
@@ -175,7 +175,7 @@ app.route('/user/:id([0-9]+)')
 	                return el.id == req.params.id
 	            });
             
-            res.json(user[0] || []);
+            res.status('200').json(user[0] || []);
         });
     })
     
@@ -203,7 +203,7 @@ app.route('/user/:id([0-9]+)')
             redis.set(userlistObj, JSON.stringify(userList));
             
             // output
-            res.json({ 
+            res.status('200').json({ 
                 success: true
             });
         });
@@ -224,7 +224,7 @@ app.route('/user/:id([0-9]+)')
             redis.set(userlistObj, JSON.stringify(userList));
             
             // output
-            res.json({ 
+            res.status('204').json({ 
                 success: true
             });
         });
@@ -240,7 +240,7 @@ app.route('/adminuser')
         redis.get(adminlistObj, function (err, obj) {
 	        userObj = parseJsonList(obj);
 			
-            res.json(userObj);
+            res.status('200').json(userObj);
         });
     })
     
@@ -273,7 +273,7 @@ app.route('/adminuser')
             redis.set(adminlistObj, JSON.stringify(userList));
             
             // output
-            res.json({ 
+            res.status('201').json({ 
                 success: true,
                 newId: newId 
             });
@@ -294,7 +294,7 @@ app.route('/adminuser/:id([0-9]+)')
 	                return el.id == req.params.id
 	            });
             
-            res.json(user[0] || []);
+            res.status('200').json(user[0] || []);
         });
     })
     
@@ -322,7 +322,7 @@ app.route('/adminuser/:id([0-9]+)')
             redis.set(adminlistObj, JSON.stringify(userList));
             
             // output
-            res.json({ 
+            res.status('200').json({ 
                 success: true
             });
         });
@@ -343,7 +343,7 @@ app.route('/adminuser/:id([0-9]+)')
             redis.set(adminlistObj, JSON.stringify(adminList));
             
             // output
-            res.json({ 
+            res.status('204').json({ 
                 success: true
             });
         });
@@ -363,7 +363,7 @@ app.route('/organizer')
         redis.get(organizerObj, function (err, obj) {
 	        var organizerList = parseJsonList(obj);
 			
-            res.json(organizerList);
+            res.status('200').json(organizerList);
         });
     })
     
@@ -398,7 +398,7 @@ app.route('/organizer')
             redis.set(organizerObj, JSON.stringify(organizerList));
             
             // output
-            res.json({ 
+            res.status('201').json({ 
                 success: true,
                 newId: newId 
             });
@@ -419,7 +419,7 @@ app.route('/organizer/:id([0-9]+)')
 	                return el.id == req.params.id
 	            });
             
-            res.json(organisation[0] || []);
+            res.status('200').json(organisation[0] || []);
         });
     })
     
@@ -448,7 +448,7 @@ app.route('/organizer/:id([0-9]+)')
             redis.set(organizerObj, JSON.stringify(organizerList));
             
             // output
-            res.json({ 
+            res.status('200').json({ 
                 success: true
             });
         });
@@ -469,7 +469,7 @@ app.route('/organizer/:id([0-9]+)')
             redis.set(organizerObj, JSON.stringify(organizerList));
             
             // output
-            res.json({ 
+            res.status('204').json({ 
                 success: true
             });
         });
@@ -489,7 +489,7 @@ app.route('/event')
         redis.get(eventObj, function (err, obj) {
 	        var eventList = parseJsonList(obj);
 			
-            res.json(eventList);
+            res.json(eventList).status('200');
         });
     })
     
@@ -523,7 +523,7 @@ app.route('/event')
             redis.set(eventObj, JSON.stringify(eventList));
             
             // output
-            res.json({ 
+            res.status('201').json({ 
                 success: true,
                 newId: newId 
             });
@@ -544,7 +544,7 @@ app.route('/event/:id([0-9]+)')
 	                return el.id == req.params.id
 	            });
             
-            res.json(event[0] || []);
+            res.status('200').json(event[0] || []);
         });
     })
     
@@ -572,7 +572,7 @@ app.route('/event/:id([0-9]+)')
             redis.set(eventObj, JSON.stringify(eventList));
             
             // output
-            res.json({ 
+            res.status('200').json({ 
                 success: true
             });
         });
@@ -593,7 +593,7 @@ app.route('/event/:id([0-9]+)')
             redis.set(eventObj, JSON.stringify(eventList));
             
             // output
-            res.json({ 
+            res.status('204').json({ 
                 success: true
             });
         });
