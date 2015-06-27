@@ -130,15 +130,12 @@ app.route('/user')
         redis.get(userlistObj, function (err, obj) { 
             // get old list
             var userList = JSON.parse(obj)
-            //<<<<<<< Updated upstream
+
             for (var i in userList) {
                 if (userList[i].id != null) {
                     var newId = parseInt(userList[i].id) + 1;
                 }
             }
-            
-            //=======
-            //>>>>>>> Stashed changes
             
             // todo: check for valid inputs
             
@@ -156,8 +153,10 @@ app.route('/user')
             
             // output
             res.json({ 
-                success: true,
-                newId: newId 
+                newId: newId,
+                username: req.body.username,
+                email: req.body.email,
+                password: sha1sum(req.body.password)
             });
         });
     });
