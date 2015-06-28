@@ -65,10 +65,10 @@ app.route('/initdemo').get(function(req, res) {
             email: 'fh@franky.ws',
             password: '7288edd0fc3ffcbe93a0cf06e3568e28521687bc', // test123
             experience: [
-	            'zapfen',
-	            'worker',
-	            'aufbau',
-	            'abbau'
+                'zapfen',
+                'worker',
+                'aufbau',
+                'abbau'
             ]
         },
         {
@@ -77,9 +77,9 @@ app.route('/initdemo').get(function(req, res) {
             email: 'info@franky.ws',
             password: '7288edd0fc3ffcbe93a0cf06e3568e28521687bc', // test123
             experience: [
-	            'kasse',
-	            'kassenleitung',
-	            'bonstelle'
+                'kasse',
+                'kassenleitung',
+                'bonstelle'
             ]
         }
     ]));
@@ -102,13 +102,13 @@ app.route('/initdemo').get(function(req, res) {
             user: [1, 2],
             events: [1],
             admins: [
-		        {
-		            id: 1,
-		            username: 'Franky',
-		            email: 'franky@pollerwiesen.org',
-		            password: '7288edd0fc3ffcbe93a0cf06e3568e28521687bc' // test123
-		        }
-		    ]
+                {
+                    id: 1,
+                    username: 'Franky',
+                    email: 'franky@pollerwiesen.org',
+                    password: '7288edd0fc3ffcbe93a0cf06e3568e28521687bc' // test123
+                }
+            ]
         }
     ]));
     
