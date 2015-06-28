@@ -143,25 +143,21 @@ app.route('/user')
             
             // todo: check for valid inputs
             
-            
-            // push new user
-            userList.push({
+            var newUser = {
                 id: newId,
                 username: req.body.username,
                 email: req.body.email,
                 password: sha1sum(req.body.password) // never save password plaintext! todo: salt!
-            });
+            };
+            
+            // push new user
+            userList.push(newUser);
             
             // save list
             redis.set(userlistObj, JSON.stringify(userList));
             
             // output
-            res.status(201).json({ 
-                newId: newId,
-                username: req.body.username,
-                email: req.body.email,
-                password: sha1sum(req.body.password)
-            });
+            res.status(201).json(newUser);
         });
     });
 
@@ -199,6 +195,8 @@ app.route('/user/:id([0-9]+)')
                     userList[i].email = req.body.email;
                     if (req.body.password) userList[i].password = sha1sum(req.body.password);
                     
+                    var newUser = userList[i];
+                    
                     break;
                 }
             }
@@ -207,9 +205,7 @@ app.route('/user/:id([0-9]+)')
             redis.set(userlistObj, JSON.stringify(userList));
             
             // output
-            res.status(200).json({ 
-                success: true
-            });
+            res.status(200).json(newUser);
         });
     })
     
@@ -268,22 +264,22 @@ app.route('/adminuser')
             // todo: check for valid inputs
             
             
-            // push new user
-            userList.push({
+            var newAdmin = {
                 id: newId,
                 username: req.body.username,
                 email: req.body.email,
                 password: sha1sum(req.body.password) // never save password plaintext! todo: salt!
-            });
+            }
+            
+            
+            // push new user
+            userList.push(newAdmin);
             
             // save list
             redis.set(adminlistObj, JSON.stringify(userList));
             
             // output
-            res.status(201).json({ 
-                success: true,
-                newId: newId 
-            });
+            res.status(201).json(newAdmin);
         });
     });
 
@@ -321,6 +317,8 @@ app.route('/adminuser/:id([0-9]+)')
                     adminList[i].email = req.body.email;
                     if (req.body.password) adminList[i].password = sha1sum(req.body.password);
                     
+                    var newAdmin = adminList[i];
+                    
                     break;
                 }
             }
@@ -329,9 +327,7 @@ app.route('/adminuser/:id([0-9]+)')
             redis.set(adminlistObj, JSON.stringify(userList));
             
             // output
-            res.status(200).json({ 
-                success: true
-            });
+            res.status(200).json(newAdmin);
         });
     })
     
@@ -393,23 +389,22 @@ app.route('/organizer')
             // todo: check for valid inputs
             
             
-            // push new user
-            organizerList.push({
+            var newOrganisation = {
                 id: newId,
                 name: req.body.name,
                 user: req.body.userIdList,
                 events: req.body.eventIdList,
                 adminId: req.body.adminId
-            });
+            };
+            
+            // push new user
+            organizerList.push(newOrganisation);
             
             // save list
             redis.set(organizerObj, JSON.stringify(organizerList));
             
             // output
-            res.status(201).json({ 
-                success: true,
-                newId: newId 
-            });
+            res.status(201).json(newOrganisation);
         });
     });
 
@@ -448,6 +443,8 @@ app.route('/organizer/:id([0-9]+)')
                     if (req.body.eventIdList) organizerList[i].events = req.body.eventIdList;
                     if (req.body.adminId) organizerList[i].adminId = req.body.adminId;
                     
+                    var newOrganisation = organizerList[i];
+                    
                     break;
                 }
             }
@@ -456,9 +453,7 @@ app.route('/organizer/:id([0-9]+)')
             redis.set(organizerObj, JSON.stringify(organizerList));
             
             // output
-            res.status(200).json({ 
-                success: true
-            });
+            res.status(200).json(newOrganisation);
         });
     })
     
@@ -521,22 +516,22 @@ app.route('/event')
             // todo: check for valid inputs
             
             
-            // push new user
-            eventList.push({
+            var newEvent = {
                 id: newId,
                 name: req.body.name,
                 dateStart: moment(req.body.dateStart).format('X'),
                 dateEnd: moment(req.body.dateEnd).format('X')
-            });
+            };
+            
+            
+            // push new user
+            eventList.push(newEvent);
             
             // save list
             redis.set(eventObj, JSON.stringify(eventList));
             
             // output
-            res.status(201).json({ 
-                success: true,
-                newId: newId 
-            });
+            res.status(201).json(newEvent);
         });
     });
 
@@ -574,6 +569,8 @@ app.route('/event/:id([0-9]+)')
                     if (req.body.dateStart) organizerList[i].dateStart = moment(req.body.dateStart).format('X');
                     if (req.body.dateEnd) organizerList[i].dateEnd = moment(req.body.dateEnd).format('X');
                     
+                    var newEvent = organizerList[i];
+                    
                     break;
                 }
             }
@@ -582,9 +579,7 @@ app.route('/event/:id([0-9]+)')
             redis.set(eventObj, JSON.stringify(eventList));
             
             // output
-            res.status(200).json({ 
-                success: true
-            });
+            res.status(200).json(newEvent);
         });
     })
     
