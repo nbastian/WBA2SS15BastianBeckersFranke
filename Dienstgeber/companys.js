@@ -37,7 +37,7 @@ module.exports = {
                         name: req.body.name,
                         user: req.body.userIdList,
                         events: req.body.eventIdList,
-                        adminId: req.body.adminId
+                        admins: req.body.admins
                     };
                     
                     // push new user
@@ -86,6 +86,7 @@ module.exports = {
                             if (req.body.name) organizerList[i].name = req.body.name;
                             if (req.body.userIdList) organizerList[i].user = req.body.userIdList;
                             if (req.body.eventIdList) organizerList[i].events = req.body.eventIdList;
+                            if (req.body.admins) organizerList[i].admins = req.body.admins;
                             
                             var newOrganisation = organizerList[i];
                             
