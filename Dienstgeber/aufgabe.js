@@ -130,12 +130,16 @@ app.route('/user')
         redis.get(userlistObj, function (err, obj) { 
             // get old list
             var userList = JSON.parse(obj)
-
+			var lastId = 0;
+			
             for (var i in userList) {
-                if (userList[i].id != null) {
-                    var newId = parseInt(userList[i].id) + 1;
+                if (userList[i].id > lastId) {
+	                // get last id + 1
+                    lastId = parseInt(userList[i].id);
                 }
             }
+            
+            var newId = lastId + 1;
             
             // todo: check for valid inputs
             
@@ -251,12 +255,15 @@ app.route('/adminuser')
         redis.get(adminlistObj, function (err, obj) {
             // get old list
             var adminList = JSON.parse(obj)
+            var lastId = 0;
             
             for (var i in adminList) {
-                if (adminList[i].id != null) {
-                    var newId = parseInt(adminList[i].id) + 1;
+                if (adminList[i].id > lastId) {
+                    lastId = parseInt(adminList[i].id);
                 }
             }
+            
+            var newId = lastId + 1;
             
             // todo: check for valid inputs
             
@@ -374,13 +381,14 @@ app.route('/organizer')
         redis.get(organizerObj, function (err, obj) {
             // get old list
             var organizerList = JSON.parse(obj)
+            var lastId = 0;
             
             for (var i in organizerList) {
-                if (organizerList[i].id != null) {
-                    var newId = parseInt(organizerList[i].id) + 1;
+                if (organizerList[i].id > lastId) {
+                    lastId = parseInt(organizerList[i].id);
                 }
             }
-            
+            var newId = lastId + 1;
             
             // todo: check for valid inputs
             
@@ -500,13 +508,15 @@ app.route('/event')
         redis.get(eventObj, function (err, obj) {
             // get old list
             var eventList = JSON.parse(obj)
+                lastId = 0;
                 
             for (var i in eventList) {
-                if (eventList[i].id != null) {
-                    var newId = parseInt(eventList[i].id) + 1;
+                if (eventList[i].id > lastId) {
+                    lastId = parseInt(eventList[i].id);
                 }
             }
             
+            var newId = lastId + 1;
             
             // todo: check for valid inputs
             
