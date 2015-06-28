@@ -37,7 +37,8 @@ module.exports = {
                         id: newId,
                         username: req.body.username,
                         email: req.body.email,
-                        password: sha1sum(req.body.password) // never save password plaintext! todo: salt!
+                        password: sha1sum(req.body.password), // never save password plaintext! todo: salt!
+                        experience: req.body.experience
                     };
                     
                     // push new user
