@@ -11,24 +11,14 @@ Ressource | Methode | content-type (req) | content-type (res) | Semantik
 /user/:id | PUT | application/json | empty | update an existing user
 /user/:id | DELETE | empty | empty | delete an existing user
 
-### Adminuser endpoints
+### Company endpoints
 Ressource | Methode | content-type (req) | content-type (res) | Semantik
 --- | --- | --- | --- | ---
-/adminuser | GET | empty | application/json | returns all adminuser as json object-array
-/adminuser | POST | application/json | empty | create new adminuser
-/adminuser/:id | GET | empty | application/json | returns single adminuser
-/adminuser/:id | PUT | application/json | empty | update an existing adminuser
-/adminuser/:id | DELETE | empty | empty | delete an existing adminuser
-
-### Veranstalter endpoints
-Ressource | Methode | content-type (req) | content-type (res) | Semantik
---- | --- | --- | --- | ---
-/organizer | GET | empty | application/json | returns all organizers as json object-array
-/organizer | POST | application/json | empty | create new organizer
-/organizer/:id | GET | empty | application/json | returns single organizer
-/organizer/:id | PUT | application/json | empty | update an existing organizer
-/organizer/:id | DELETE | empty | empty | delete an existing organizer
-
+/companys | GET | empty | application/json | returns all companies as json object-array
+/companys | POST | application/json | empty | create new company
+/companys/:id | GET | empty | application/json | returns single company
+/companys/:id | PUT | application/json | empty | update an existing company
+/companys/:id | DELETE | empty | empty | delete an existing company
 
 ### Event endpoints
 Ressource | Methode | content-type (req) | content-type (res) | Semantik
