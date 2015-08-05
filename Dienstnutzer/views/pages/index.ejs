@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+<body class="container">
+
+    <header>
+        <% include ../partials/header %>
+    </header>
+
+    <main>
+        <div class="jumbotron">
+            <h1>Willkommen auf der Seite der Personalplanung</h1>
+        </div>
+        <div class="jumbotron">
+            <ul class="list-group">
+                <% test.forEach(function(event) { %>
+                <li class="list-group-item"><%= event.name %>-<%= event.dateStart %>-<%= event.dateEnd %></li>
+                <% }); %>
+            </ul> 
+        </div>
+    </main>
+
+    <footer>
+        <% include ../partials/footer %>
+    </footer>
+    
+</body>
+</html>
