@@ -23,18 +23,13 @@ app.get('/', function(req, res) {
         externalres.on('data', function(chunk){
             var test = JSON.parse(chunk);
             console.log(test);
-            //var html = ejs.render('pages/index', test);
             res.render('pages/index', {
                 test: test                      
             });
-            //res.send(html);
         });
     });
                          
     x.end();
-    
-    
-    
 })
 
 app.listen(1338, function(){
