@@ -91,6 +91,12 @@ app.route('/initdemo').get(function(req, res) {
             name: 'PollerWiesen',
             dateStart: moment('2015-08-15 13:00').format('X'),
             dateEnd: moment('2015-08-15 18:00').format('X')
+        },
+        {
+            id: 2,
+            name: 'PollerWiesen Dortmund',
+            dateStart: moment('2015-09-15 13:00').format('X'),
+            dateEnd: moment('2015-09-15 18:00').format('X')
         }
     ]));
     
