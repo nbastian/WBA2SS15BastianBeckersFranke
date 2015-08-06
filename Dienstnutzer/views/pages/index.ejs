@@ -11,7 +11,7 @@
 
     <main>
         <div class="row">
-            <div class="col-sm-8">
+            <div class="col-sm-6">
             
                 <div class="jumbotron">
                     <form class="form-signin">
@@ -21,21 +21,19 @@
                     <label for="inputPassword" class="sr-only">Password</label>
                     <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
                     <div class="checkbox">
-                      <label>
-                        <input type="checkbox" value="remember-me"> Remember me
-                      </label>
+                      <label><input type="checkbox" value="remember-me"> Remember me</label>
                     </div>
                     <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
                   </form>
                 </div>
                 
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-6">
                 
                 <div class="well">
                     <p>Anstehende Veranstaltungen:</p>
                     <ul class="list-group">
-                        <% test.forEach(function(event) { %>
+                        <% anVer.forEach(function(event) { %>
                         <li class="list-group-item"><%= event.name %>-<%= event.dateStart %>-<%= event.dateEnd %></li>
                         <% }); %>
                     </ul> 
