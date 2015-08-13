@@ -12,7 +12,8 @@ global.redis = require('redis').createClient();
 global.crypto = require('crypto');
 global.shasum = crypto.createHash('sha1');
 global.moment = require('moment');
-    
+global.jwt = require('jsonwebtoken');
+
 // functions
 global.sha1sum = function(input) {
     // function for creating sha1-hash

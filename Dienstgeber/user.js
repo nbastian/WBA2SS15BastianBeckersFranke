@@ -121,35 +121,34 @@ module.exports = {
                 });
             });
 		
-        /*app.post('/authenticate', function(req, res) {
-            User.findOne({
-                name: req.body.name
-            }, function(err, user) {
-                
-                if (err) throw err;
-                
-                if (!user) {
-                    res.json({ success: false, message: 'Authentication failed. User not found.' });
-                } else if (user) {
+        app.post('/authenticate', function(req, res) {
+            redis.get(userlistObj, function (err, obj) {
+                    var userList = JSON.parse(obj);
                     
-                    if (user.password != req.body.password) {
-                        res.json({ success: false, message: 'Authentication failed. Wrong password.' });
-                    } else {
+                    for (var i in userList) {
+                        if (userList[i].username == req.body.name) {
+                            
+                            if (userList[i].password != req.body.password) {
+                                res.json({ success: false, message: 'Authentication failed. Wrong password.' });
+                                break;
+                            }else{
                         
-                        var token = jwt.sign(user, app.get('superSecret'), {
-                            expiresInMinutes: 1440 //24 Stunden
-                        });
+                                var token = jwt.sign(userList[i], 'secret'/*app.get('superSecret')*/, {
+                                    expiresInMinutes: 1440 //24 Stunden
+                                });
                     
-                        res.json({
-                            success: true,
-                            message: 'Enjoy your token!',
-                            token: token
-                        });
+                                res.json({
+                                    success: true,
+                                    message: 'Enjoy your token!',
+                                    token: token
+                                });
+                                break;
+                            }
+                        }
                     }
-                }
+                res.json({ success: false, message: 'Authentication failed. User not found.' });
             });
-        });*/
-        
+        });
 		console.log('module user loaded successful');
     }
 }

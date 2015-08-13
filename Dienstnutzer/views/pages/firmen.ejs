@@ -16,8 +16,9 @@
                     <% unternehmen.forEach(function(firmen) { %>
                     <a href="/" class="list-group-item">
                         <h4 class="list-group-item-heading"><%= firmen.name %></h4>
-                        <p class="list-group-item-text">Start:<%= firmen.admin %></p>
-                        <p class="list-group-item-text">Ende:<%= firmen.id %></p>
+                        <p class="list-group-item-text">Eventliste:<%= firmen.events %></p>
+                        <p class="list-group-item-text">Userliste:<%= firmen.user %></p>
+                        <p class="list-group-item-text">ID:<%= firmen.id %></p>
                     </a>
                     <% }); %>
                 </ul>
