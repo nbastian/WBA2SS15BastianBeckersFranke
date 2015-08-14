@@ -64,7 +64,7 @@ app.route('/initdemo').get(function(req, res) {
             id: 1,
             username: 'Testuser1',
             email: 'fh@franky.ws',
-            password: '7288edd0fc3ffcbe93a0cf06e3568e28521687bc', // test123
+            password: sha1sum('test123'),
             experience: [
                 'zapfen',
                 'worker',
@@ -76,7 +76,7 @@ app.route('/initdemo').get(function(req, res) {
             id: 2,
             username: 'Testuser2',
             email: 'info@franky.ws',
-            password: '7288edd0fc3ffcbe93a0cf06e3568e28521687bc', // test123
+            password: sha1sum('test123'),
             experience: [
                 'kasse',
                 'kassenleitung',
@@ -113,7 +113,7 @@ app.route('/initdemo').get(function(req, res) {
                     id: 1,
                     username: 'Franky',
                     email: 'franky@pollerwiesen.org',
-                    password: '7288edd0fc3ffcbe93a0cf06e3568e28521687bc' // test123
+                    password: sha1sum('test123')
                 }
             ]
         }

@@ -124,12 +124,10 @@ module.exports = {
         app.post('/authenticate', function(req, res) {
             redis.get(userlistObj, function (err, obj) {
                     var userList = JSON.parse(obj);
-                    
                     for (var i in userList) {
                         if (userList[i].username == req.body.name) {
-                            
-                            if (userList[i].password != req.body.password) {
-                                res.json({ success: false, message: 'Authentication failed. Wrong password.' });
+                            if (userList[i].password != sha1sum(req.body.password)) {
+                                res.json({ success: false, message: 'Authentication failed. Wrong password.'});
                                 break;
                             }else{
                         
@@ -146,7 +144,7 @@ module.exports = {
                             }
                         }
                     }
-                res.json({ success: false, message: 'Authentication failed. User not found.' });
+                    res.json({ success: false, message: 'Authentication failed. User not found.' });
             });
         });
 		console.log('module user loaded successful');
