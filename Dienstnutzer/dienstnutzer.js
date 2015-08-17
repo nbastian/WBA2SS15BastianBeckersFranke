@@ -3,6 +3,7 @@ var express = require('express');
 var ejs = require('ejs');
 var bodyparser = require('body-parser');
 var jsonParser = bodyparser.json();
+var moment = require('moment');
 
 var app = express();
 
@@ -22,6 +23,10 @@ app.get('/', function(req, res) {
     var x = http.request(options, function(externalres){
         externalres.on('data', function(chunk){
             var anVer = JSON.parse(chunk);
+            for(i=0; i<anVer.length; i++) {
+                anVer[i].dateEnd = moment(anVer.dateEnd).format('YYYY-MM-DD HH:mm');
+                anVer[i].dateStart = moment(anVer.dateStart).format('YYYY-MM-DD HH:mm');
+            }
             res.render('pages/index', {
                 anVer: anVer                      
             });
@@ -68,6 +73,10 @@ app.get('/veranstaltungen', function(req, res) {
     var x = http.request(options, function(externalres){
         externalres.on('data', function(chunk){
             var veranstaltungen = JSON.parse(chunk);
+            for(i=0; i<veranstaltungen.length; i++) {
+                veranstaltungen[i].dateEnd = moment(veranstaltungen.dateEnd).format('YYYY-MM-DD HH:mm');
+                veranstaltungen[i].dateStart = moment(veranstaltungen.dateStart).format('YYYY-MM-DD HH:mm');
+            }
             res.render('pages/veranstaltungen', {
                 veranstaltungen: veranstaltungen                      
             });
@@ -97,7 +106,7 @@ app.post('/login', function(req, res) {
             res.render('pages/indexein', {
                 token: token                      
             });
-        });			
+      });			
     });
     
     x.end();
