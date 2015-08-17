@@ -127,20 +127,18 @@ module.exports = {
                     for (var i in userList) {
                         if (userList[i].username == req.body.username) {
                             if (userList[i].password != sha1sum(req.body.password)) {
-                                res.json({ success: false, message: 'Authentication failed. Wrong password.'});
-                                break;
+                                return res.json({ success: false, message: 'Authentication failed. Wrong password.'});
                             }else{
                         
                                 var token = jwt.sign(userList[i], 'secret'/*app.get('superSecret')*/, {
                                     expiresInMinutes: 1440 //24 Stunden
                                 });
                     
-                                res.json({
+                                return res.json({
                                     success: true,
                                     message: 'Enjoy your token!',
                                     token: token
                                 });
-                                break;
                             }
                         }
                     }
