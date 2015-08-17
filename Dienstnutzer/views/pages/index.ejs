@@ -2,20 +2,22 @@
 <html lang="en">
 <head>
     <% include ../partials/head %>
+    
+    <script type="text/javascript">
+	$(function(){
+		$('form').on('submit', function(e) {
+			e.preventDefault();
+			
+			console.log('send..');
+			
+			$.post('http://localhost:1338/login', $(this).serialize(), function(resp) {
+				console.log(resp);
+			}, 'json');
+		});
+    });
+	</script>
 </head>
 <body class="container">
-    <script type="text/javascript">
-			$(document).ready(function(){
-				
-				$('form').on('submit', function(e) {
-					e.preventDefault();
-					
-					$.post('//localhost:1338/login', $(this).serialize(), function(resp) {
-						console.log(resp);
-					}, 'json');
-				});
-            });
-		</script>
     <header>
         <% include ../partials/header %>
     </header>
@@ -26,15 +28,16 @@
             
                 <div class="jumbotron">
                     <form class="form-signin">
-                    <h2 class="form-signin-heading">Please sign in</h2>
-                    <label for="inputUsername" class="sr-only">Username</label>
-                    <input name="username" type="username" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
-                    <label for="inputPassword" class="sr-only">Password</label>
-                    <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-                    <!--<div class="checkbox">
-                      <label><input type="checkbox" value="remember-me"> Remember me</label>
-                    </div>-->
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+	                    <h2 class="form-signin-heading">Please sign in</h2>
+	                    <label for="inputUsername" class="sr-only">Username</label>
+	                    <input name="username" type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
+	                    
+	                    <label for="inputPassword" class="sr-only">Password</label>
+	                    <input name="password" type="text" id="inputPassword" class="form-control" placeholder="Password" required>
+	                    <!--<div class="checkbox">
+	                      <label><input type="checkbox" value="remember-me"> Remember me</label>
+	                    </div>-->
+	                    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
                   </form>
                 </div>
                 
