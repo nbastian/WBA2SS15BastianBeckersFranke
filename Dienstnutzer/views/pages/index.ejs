@@ -7,9 +7,14 @@
     <script type="text/javascript">
 			$(document).ready(function(){
 				
-				$('form').submit(function(event) {
+				$('form').on('submit', function(e) {
+					e.preventDefault();
+					
+					$.post('//localhost:1338/login', $(this).serialize(), function(resp) {
+						console.log(data);
+					}, 'json');
 				
-					var formData =  {
+					/* var formData =  {
 						username : $('#inputUsername').val(),
 						password : $('#inputPassword').val(),
 				    };
@@ -18,18 +23,17 @@
                     console.log(formData.password);
                     
 				    //alert('Ihre Anfrage wird verarbeitet');
-				        $.ajax({
-                            type: 'POST',
-				            url: 'http://localhost:1338/login',
-                            data: JSON.stringify(formData),
-                            dataType: 'json',
-                            encode: true
-                            }).done(function(data){
-                                console.log(data);
-                            }).fail(function(e){
-                                console.log(e);
-				        });
-                        event.preventDefault();
+			        $.ajax({
+                        type: 'POST',
+			            url: 'http://localhost:1338/login',
+                        data: JSON.stringify(formData),
+                        dataType: 'json',
+                        encode: true
+                    }).done(function(data){
+                        console.log(data);
+                    }).fail(function(e){
+                        console.log(e);
+			        }); */
 				});
             });
 		</script>
@@ -45,9 +49,9 @@
                     <form class="form-signin">
                     <h2 class="form-signin-heading">Please sign in</h2>
                     <label for="inputUsername" class="sr-only">Username</label>
-                    <input type="username" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
+                    <input name="username" type="username" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
                     <label for="inputPassword" class="sr-only">Password</label>
-                    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                    <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
                     <!--<div class="checkbox">
                       <label><input type="checkbox" value="remember-me"> Remember me</label>
                     </div>-->
