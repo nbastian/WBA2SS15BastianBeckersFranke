@@ -7,6 +7,9 @@ var moment = require('moment');
 
 var app = express();
 
+// set bodyparser as default
+app.use(bodyparser.urlencoded({ extended: true }));
+
 app.set('view engine', 'ejs');
 
 app.get('/', function(req, res) {
@@ -88,25 +91,27 @@ app.get('/veranstaltungen', function(req, res) {
 
 app.post('/login', function(req, res) {
     
+    console.log(req.body);
+    
     var options = {
-      host: 'localhost',
-      port: 1337,
-      path: '/authenticate',
-      method: 'POST',
-      data: req.body,
-      headers: {
-          'Content-Type': 'application/json'
-      }
+		host: 'localhost',
+		port: 1337,
+		path: '/authenticate',
+		method: 'POST',
+		data: req.body,
+		headers: {
+		  	'Content-Type': 'application/json'
+		}
     };
 
     // Request an Server
     var x = http.request(options, function(externalres){		
-      externalres.on('data', function(chunk){
+      	externalres.on('data', function(chunk){
             var token = JSON.parse(chunk);
             res.render('pages/indexein', {
-                token: token                      
+                token: token         
             });
-      });			
+      	});			
     });
     
     x.end();
