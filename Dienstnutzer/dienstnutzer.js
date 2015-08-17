@@ -77,6 +77,32 @@ app.get('/veranstaltungen', function(req, res) {
     x.end();
 })
 
+app.post('/login', function(req, res) {
+    
+    var options = {
+      host: 'localhost',
+      port: 1337,
+      path: '/authenticate',
+      method: 'POST',
+      data: req.body,
+      headers: {
+          'Content-Type': 'application/json'
+      }
+    };
+
+    // Request an Server
+    var x = http.request(options, function(externalres){		
+      externalres.on('data', function(chunk){
+            var token = JSON.parse(chunk);
+            res.render('pages/indexein', {
+                token: token                      
+            });
+        });			
+    });
+    
+    x.end();
+})
+
 
 
 app.listen(1338, function(){
