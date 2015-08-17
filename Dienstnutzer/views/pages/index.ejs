@@ -11,7 +11,7 @@
 					e.preventDefault();
 					
 					$.post('//localhost:1338/login', $(this).serialize(), function(resp) {
-						console.log(data);
+						console.log(resp);
 					}, 'json');
 				
 					/* var formData =  {
