@@ -98,7 +98,6 @@ app.post('/login', function(req, res) {
 		port: 1337,
 		path: '/authenticate',
 		method: 'POST',
-		data: req.body,
 		headers: {
 		  	'Content-Type': 'application/json'
 		}
@@ -113,6 +112,8 @@ app.post('/login', function(req, res) {
             });
       	});			
     });
+    
+    x.write(JSON.stringify(req.body));
     
     x.end();
 })
