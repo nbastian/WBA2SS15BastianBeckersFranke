@@ -13,27 +13,6 @@
 					$.post('//localhost:1338/login', $(this).serialize(), function(resp) {
 						console.log(resp);
 					}, 'json');
-				
-					/* var formData =  {
-						username : $('#inputUsername').val(),
-						password : $('#inputPassword').val(),
-				    };
-                    
-                    console.log(formData.username);
-                    console.log(formData.password);
-                    
-				    //alert('Ihre Anfrage wird verarbeitet');
-			        $.ajax({
-                        type: 'POST',
-			            url: 'http://localhost:1338/login',
-                        data: JSON.stringify(formData),
-                        dataType: 'json',
-                        encode: true
-                    }).done(function(data){
-                        console.log(data);
-                    }).fail(function(e){
-                        console.log(e);
-			        }); */
 				});
             });
 		</script>
