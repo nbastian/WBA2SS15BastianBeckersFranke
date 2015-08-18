@@ -13,13 +13,11 @@
         <div class="row">
             <div class="col-sm-12">
                 <ul class="list-group">
-                    <% veranstaltungen.forEach(function(event) { %>
-                    <a href="/veranstaltungen/<%= event.id %>" class="list-group-item">
-                        <h4 class="list-group-item-heading"><%= event.name %></h4>
-                        <p class="list-group-item-text">Start:<%= event.dateStart %></p>
-                        <p class="list-group-item-text">Ende:<%= event.dateEnd %></p>
+                    <a class="list-group-item">
+                        <h4 class="list-group-item-heading"><%= veranstaltung.name %></h4>
+                        <p class="list-group-item-text">Start:<%= veranstaltung.dateStart %></p>
+                        <p class="list-group-item-text">Ende:<%= veranstaltung.dateEnd %></p>
                     </a>
-                    <% }); %>
                 </ul>
             </div>
         </div>

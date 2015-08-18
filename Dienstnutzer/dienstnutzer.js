@@ -26,9 +26,15 @@ app.get('/', function(req, res) {
     var x = http.request(options, function(externalres){
         externalres.on('data', function(chunk){
             var anVer = JSON.parse(chunk);
+            var jetzt = moment();
             for(i=0; i<anVer.length; i++) {
-                anVer[i].dateEnd = moment(anVer.dateEnd).format('YYYY-MM-DD HH:mm');
-                anVer[i].dateStart = moment(anVer.dateStart).format('YYYY-MM-DD HH:mm');
+                var start = moment(anVer[i].dateStart, "X").format('YYYY-MM-DD HH:mm');
+                if(jetzt.isBefore(start)){
+                    anVer[i].dateEnd = moment(anVer[i].dateEnd, "X").format('YYYY-MM-DD HH:mm');
+                    anVer[i].dateStart = moment(anVer[i].dateStart, "X").format('YYYY-MM-DD HH:mm');
+                }else{
+                    delete anVer[i];
+                }
             }
             res.render('pages/index', {
                 anVer: anVer                      
@@ -77,11 +83,38 @@ app.get('/veranstaltungen', function(req, res) {
         externalres.on('data', function(chunk){
             var veranstaltungen = JSON.parse(chunk);
             for(i=0; i<veranstaltungen.length; i++) {
-                veranstaltungen[i].dateEnd = moment(veranstaltungen.dateEnd).format('YYYY-MM-DD HH:mm');
-                veranstaltungen[i].dateStart = moment(veranstaltungen.dateStart).format('YYYY-MM-DD HH:mm');
+                veranstaltungen[i].dateEnd = moment(veranstaltungen[i].dateEnd, 'X').format('YYYY-MM-DD HH:mm');
+                veranstaltungen[i].dateStart = moment(veranstaltungen[i].dateStart, 'X').format('YYYY-MM-DD HH:mm');
             }
             res.render('pages/veranstaltungen', {
                 veranstaltungen: veranstaltungen                      
+            });
+        });
+    });
+                         
+    x.end();
+})
+
+app.get('/veranstaltungen/:VeranstaltungsID', function(req, res) {
+    var options = {
+        host: 'localhost',
+        port: 1337,
+        path: '/event/'+req.params.VeranstaltungsID,
+        method: 'GET',
+        headers: {
+            accept: 'application/json'
+        }
+    };
+    
+    var x = http.request(options, function(externalres){
+        externalres.on('data', function(chunk){
+            var veranstaltung = JSON.parse(chunk);
+            
+            veranstaltung.dateEnd = moment(veranstaltung.dateEnd, 'X').format('YYYY-MM-DD HH:mm');
+            veranstaltung.dateStart = moment(veranstaltung.dateStart, 'X').format('YYYY-MM-DD HH:mm');
+
+            res.render('pages/veranstaltung', {
+                veranstaltung: veranstaltung                      
             });
         });
     });
@@ -98,13 +131,11 @@ app.post('/login', function(req, res) {
 		port: 1337,
 		path: '/authenticate',
 		method: 'POST',
-		data: req.body,
 		headers: {
 		  	'Content-Type': 'application/json'
 		}
     };
 
-    // Request an Server
     var x = http.request(options, function(externalres){		
       	externalres.on('data', function(chunk){
             var token = JSON.parse(chunk);
@@ -113,7 +144,7 @@ app.post('/login', function(req, res) {
             });
       	});			
     });
-    
+    x.write(JSON.stringify(req.body));
     x.end();
 })
 
