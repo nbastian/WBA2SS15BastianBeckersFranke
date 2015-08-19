@@ -5,7 +5,6 @@ module.exports = {
             
             .get(function(req, res) {
                 // get userlist from db
-                
                 redis.get(eventObj, function (err, obj) {
                     var eventList = parseJsonList(obj);
                     

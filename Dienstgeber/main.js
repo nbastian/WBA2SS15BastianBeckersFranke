@@ -30,6 +30,24 @@ global.parseJsonList = function(jsonString) {
     return jsonObj;
 }
 
+global.verifyToken = function(req){
+    var token = req.query.token;
+    console.log(token);
+    // decode token
+    if (token) {
+        // verifies secret and checks exp
+        jwt.verify(token, 'secret' /*app.get('superSecret')*/, function(err, decoded) {      
+            if (err) {
+                return false;   
+            } else {
+                return true;
+            }
+        });
+    } else {
+        return false;
+    }
+}
+
 // init em up
 global.app = express();
 

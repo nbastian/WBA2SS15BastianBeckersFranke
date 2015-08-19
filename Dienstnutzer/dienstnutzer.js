@@ -4,6 +4,8 @@ var ejs = require('ejs');
 var bodyparser = require('body-parser');
 var jsonParser = bodyparser.json();
 var moment = require('moment');
+var LocalStorage = require('node-localstorage').LocalStorage;
+localStorage = new LocalStorage('./scratch');
 
 var app = express();
 
@@ -49,7 +51,7 @@ app.get('/firmen', function(req, res) {
     var options = {
         host: 'localhost',
         port: 1337,
-        path: '/companys',
+        path: '/companys?token='+localStorage.getItem("token"),
         method: 'GET',
         headers: {
             accept: 'application/json'
@@ -59,12 +61,16 @@ app.get('/firmen', function(req, res) {
     var x = http.request(options, function(externalres){
         externalres.on('data', function(chunk){
             var unternehmen = JSON.parse(chunk);
-            res.render('pages/firmen', {
-                unternehmen: unternehmen                      
-            });
+            console.log(unternehmen);
+            if (unternehmen.success == false){
+                res.render('pages/zutrittverboten');
+            }else{
+                res.render('pages/firmen', {
+                    unternehmen: unternehmen                      
+                });
+            }
         });
     });
-                         
     x.end();
 })
 
@@ -78,7 +84,7 @@ app.get('/veranstaltungen', function(req, res) {
             accept: 'application/json'
         }
     };
-    
+    console.log( "token = " + localStorage.getItem("token"));
     var x = http.request(options, function(externalres){
         externalres.on('data', function(chunk){
             var veranstaltungen = JSON.parse(chunk);
@@ -90,8 +96,7 @@ app.get('/veranstaltungen', function(req, res) {
                 veranstaltungen: veranstaltungen                      
             });
         });
-    });
-                         
+    });                   
     x.end();
 })
 
@@ -117,8 +122,7 @@ app.get('/veranstaltungen/:VeranstaltungsID', function(req, res) {
                 veranstaltung: veranstaltung                      
             });
         });
-    });
-                         
+    });                     
     x.end();
 })
 
@@ -135,15 +139,25 @@ app.post('/login', function(req, res) {
 		  	'Content-Type': 'application/json'
 		}
     };
-
+    
     var x = http.request(options, function(externalres){		
       	externalres.on('data', function(chunk){
             var token = JSON.parse(chunk);
+            // Save data to the current local store falls falsches Login alten Token auch löschen eher für Testzwecke
+            if (token.success == true){
+                localStorage.setItem("token", token.token);
+
+                // Access some stored data
+                console.log( "token = " + localStorage.getItem("token"));
+            }else{
+                localStorage.removeItem("token");
+            }
             res.render('pages/indexein', {
                 token: token         
             });
       	});			
     });
+    
     x.write(JSON.stringify(req.body));
     x.end();
 })
