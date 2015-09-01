@@ -38,8 +38,10 @@ app.get('/', function(req, res) {
                     delete anVer[i];
                 }
             }
+            console.log( "username = " + localStorage.getItem("name"));
             res.render('pages/index', {
-                anVer: anVer                      
+                anVer: anVer,
+                name: localStorage.getItem("name")
             });
         });
     });
@@ -66,7 +68,8 @@ app.get('/firmen', function(req, res) {
                 res.render('pages/zutrittverboten');
             }else{
                 res.render('pages/firmen', {
-                    unternehmen: unternehmen                      
+                    unternehmen: unternehmen,
+                    name: localStorage.getItem("name")
                 });
             }
         });
@@ -93,7 +96,8 @@ app.get('/veranstaltungen', function(req, res) {
                 veranstaltungen[i].dateStart = moment(veranstaltungen[i].dateStart, 'X').format('YYYY-MM-DD HH:mm');
             }
             res.render('pages/veranstaltungen', {
-                veranstaltungen: veranstaltungen                      
+                veranstaltungen: veranstaltungen,
+                name: localStorage.getItem("name")
             });
         });
     });                   
@@ -119,7 +123,8 @@ app.get('/veranstaltungen/:VeranstaltungsID', function(req, res) {
             veranstaltung.dateStart = moment(veranstaltung.dateStart, 'X').format('YYYY-MM-DD HH:mm');
 
             res.render('pages/veranstaltung', {
-                veranstaltung: veranstaltung                      
+                veranstaltung: veranstaltung,
+                name: localStorage.getItem("name")
             });
         });
     });                     
@@ -146,19 +151,60 @@ app.post('/login', function(req, res) {
             // Save data to the current local store falls falsches Login alten Token auch löschen eher für Testzwecke
             if (token.success == true){
                 localStorage.setItem("token", token.token);
-
+                localStorage.setItem("name", req.body.username);
                 // Access some stored data
                 console.log( "token = " + localStorage.getItem("token"));
+                console.log( "username = " + localStorage.getItem("name"));
             }else{
                 localStorage.removeItem("token");
+                localStorage.removeItem("name");
             }
             res.render('pages/indexein', {
-                token: token         
+                token: token,
+                name: localStorage.getItem("name")
             });
       	});			
     });
     
     x.write(JSON.stringify(req.body));
+    x.end();
+})
+
+app.get('/logout', function(req, res) {
+    
+    localStorage.removeItem("token");
+    localStorage.removeItem("name");
+    
+    var options = {
+        host: 'localhost',
+        port: 1337,
+        path: '/event',
+        method: 'GET',
+        headers: {
+            accept: 'application/json'
+        }
+    };
+    
+    var x = http.request(options, function(externalres){
+        externalres.on('data', function(chunk){
+            var anVer = JSON.parse(chunk);
+            var jetzt = moment();
+            for(i=0; i<anVer.length; i++) {
+                var start = moment(anVer[i].dateStart, "X").format('YYYY-MM-DD HH:mm');
+                if(jetzt.isBefore(start)){
+                    anVer[i].dateEnd = moment(anVer[i].dateEnd, "X").format('YYYY-MM-DD HH:mm');
+                    anVer[i].dateStart = moment(anVer[i].dateStart, "X").format('YYYY-MM-DD HH:mm');
+                }else{
+                    delete anVer[i];
+                }
+            }
+            res.render('pages/index', {
+                anVer: anVer,                      
+                name: localStorage.getItem("name")
+            });
+        });
+    });
+                         
     x.end();
 })
 

@@ -17,7 +17,8 @@ module.exports = {
                         return res.json({ success: false, message: 'Failed to authenticate token.' });    
                       } else {
                         // if everything is good, save to request for use in other routes
-                        //req.decoded = decoded;    
+                        //Gibt den User des Tokens! nützlich für die eingelogt als Anzeige
+                        console.log(decoded.username);
                         redis.get(companyObj, function (err, obj) {
                             var organizerList = parseJsonList(obj);
 
