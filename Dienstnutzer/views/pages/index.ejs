@@ -12,18 +12,22 @@
     <main>
         <div class="row">
             <div class="col-sm-6">
-            
-                <div class="jumbotron">
-                    <form class="form-signin" action="//localhost:1338/login" method="post">
-	                    <h2 class="form-signin-heading">Please sign in</h2>
-	                    <label for="inputUsername" class="sr-only">Username</label>
-	                    <input name="username" type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
-	                    <label for="inputPassword" class="sr-only">Password</label>
-	                    <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-	                    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-                  </form>
-                </div>
-                
+                <% if(!name) { %>
+                    <div class="jumbotron">
+                        <form class="form-signin" action="//localhost:1338/login" method="post">
+                            <h2 class="form-signin-heading">Please sign in</h2>
+                            <label for="inputUsername" class="sr-only">Username</label>
+                            <input name="username" type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
+                            <label for="inputPassword" class="sr-only">Password</label>
+                            <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                      </form>
+                    </div>
+                <% } else { %>
+                    <div class="jumbotron">
+                        <p>Wir freuen uns Sie heute begrüßen zu dürfen, <%= name %>!</p>
+                    </div>
+                <% } %>
             </div>
             <div class="col-sm-6">
                 <div class="well">

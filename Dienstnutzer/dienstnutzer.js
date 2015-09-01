@@ -133,8 +133,6 @@ app.get('/veranstaltungen/:VeranstaltungsID', function(req, res) {
 
 app.post('/login', function(req, res) {
     
-    console.log(req.body);
-    
     var options = {
 		host: 'localhost',
 		port: 1337,
@@ -155,18 +153,44 @@ app.post('/login', function(req, res) {
                 // Access some stored data
                 console.log( "token = " + localStorage.getItem("token"));
                 console.log( "username = " + localStorage.getItem("name"));
-            }else{
-                localStorage.removeItem("token");
-                localStorage.removeItem("name");
             }
-            res.render('pages/indexein', {
-                token: token,
-                name: localStorage.getItem("name")
-            });
       	});			
     });
     
     x.write(JSON.stringify(req.body));
+    x.end();
+    
+    var options = {
+        host: 'localhost',
+        port: 1337,
+        path: '/event',
+        method: 'GET',
+        headers: {
+            accept: 'application/json'
+        }
+    };
+    
+    var x = http.request(options, function(externalres){
+        externalres.on('data', function(chunk){
+            var anVer = JSON.parse(chunk);
+            var jetzt = moment();
+            for(i=0; i<anVer.length; i++) {
+                var start = moment(anVer[i].dateStart, "X").format('YYYY-MM-DD HH:mm');
+                if(jetzt.isBefore(start)){
+                    anVer[i].dateEnd = moment(anVer[i].dateEnd, "X").format('YYYY-MM-DD HH:mm');
+                    anVer[i].dateStart = moment(anVer[i].dateStart, "X").format('YYYY-MM-DD HH:mm');
+                }else{
+                    delete anVer[i];
+                }
+            }
+            console.log( "username = " + localStorage.getItem("name"));
+            res.render('pages/index', {
+                anVer: anVer,
+                name: localStorage.getItem("name")
+            });
+        });
+    });
+                         
     x.end();
 })
 
