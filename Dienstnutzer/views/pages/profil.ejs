@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+<body class="container">
+
+    <header>
+        <% include ../partials/header %>
+    </header>
+
+    <main>
+        <div class="row">
+            <div class="col-sm-12">
+                <ul class="list-group">
+                    <h4 class="list-group-item-heading">ID:<%= nutzer.id %></h4>
+                    <p class="list-group-item-text">Username:<%= nutzer.username %></p>
+                    <p class="list-group-item-text">Email:<%= nutzer.email %></p>
+                    <p class="list-group-item-text">codiertes PW:<%= nutzer.password %></p>
+                    <p class="list-group-item-text">EXP:<%= nutzer.experience %></p>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <% include ../partials/footer %>
+    </footer>
+    
+</body>
+</html>

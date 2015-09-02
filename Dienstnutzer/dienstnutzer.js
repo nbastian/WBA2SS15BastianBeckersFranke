@@ -38,7 +38,6 @@ app.get('/', function(req, res) {
                     delete anVer[i];
                 }
             }
-            console.log( "username = " + localStorage.getItem("name"));
             res.render('pages/index', {
                 anVer: anVer,
                 name: localStorage.getItem("name")
@@ -63,7 +62,6 @@ app.get('/firmen', function(req, res) {
     var x = http.request(options, function(externalres){
         externalres.on('data', function(chunk){
             var unternehmen = JSON.parse(chunk);
-            console.log(unternehmen);
             if (unternehmen.success == false){
                 res.render('pages/zutrittverboten');
             }else{
@@ -87,7 +85,6 @@ app.get('/veranstaltungen', function(req, res) {
             accept: 'application/json'
         }
     };
-    console.log( "token = " + localStorage.getItem("token"));
     var x = http.request(options, function(externalres){
         externalres.on('data', function(chunk){
             var veranstaltungen = JSON.parse(chunk);
@@ -150,9 +147,6 @@ app.post('/login', function(req, res) {
             if (token.success == true){
                 localStorage.setItem("token", token.token);
                 localStorage.setItem("name", req.body.username);
-                // Access some stored data
-                console.log( "token = " + localStorage.getItem("token"));
-                console.log( "username = " + localStorage.getItem("name"));
             }
       	});			
     });
@@ -183,7 +177,6 @@ app.post('/login', function(req, res) {
                     delete anVer[i];
                 }
             }
-            console.log( "username = " + localStorage.getItem("name"));
             res.render('pages/index', {
                 anVer: anVer,
                 name: localStorage.getItem("name")
@@ -229,6 +222,29 @@ app.get('/logout', function(req, res) {
         });
     });
                          
+    x.end();
+})
+
+app.get('/profil', function(req, res) {
+    var options = {
+        host: 'localhost',
+        port: 1337,
+        path: '/user?username='+localStorage.getItem("name"),
+        method: 'GET',
+        headers: {
+            accept: 'application/json'
+        }
+    };
+    
+    var x = http.request(options, function(externalres){
+        externalres.on('data', function(chunk){
+            var nutzer = JSON.parse(chunk);
+            res.render('pages/profil', {
+                nutzer: nutzer,
+                name: localStorage.getItem("name")
+            });
+        });
+    });
     x.end();
 })
 
