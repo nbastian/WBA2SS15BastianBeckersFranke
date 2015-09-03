@@ -53,8 +53,8 @@ app.use(bodyParser.json({ extended: true }));
 // environments
 app.set('port', process.env.PORT || 1337);
 global.userlistObj = 'userlist';
-global.adminlistObj = 'adminlist';
 global.eventObj = 'events';
+global.rosterObj = 'roster';
 
 global.tokenSecret = 'v;]LDoBv6^$!DSLdtQ&BNae>F)8MnifI{VO%7*GMp{eh/Pfc2eY^Tn_uP8}?op6*';
 
@@ -84,11 +84,11 @@ app.route('/initdemo').get(function(req, res) {
             username: 'Franky',
             email: 'fh@franky.ws',
             password: sha1sum('test123'),
-            experience: [
-                'zapfen',
-                'worker',
-                'aufbau',
-                'abbau'
+            experiences: [
+                { experience: 'zapfen', level: 2 },
+                { experience: 'worker', level: 4 },
+                { experience: 'aufbau', level: 5 },
+                { experience: 'abbau', level: 8 }
             ]
         },
         {
@@ -97,9 +97,9 @@ app.route('/initdemo').get(function(req, res) {
             username: 'Steve',
             email: 'info@franky.ws',
             password: sha1sum('test123'),
-            experience: [
-                'bonstelle',
-                'worker'
+            experiences: [
+                { experience: 'bonstelle', level: 2 },
+                { experience: 'worker', level: 5 }
             ]
         },
         {
@@ -108,7 +108,7 @@ app.route('/initdemo').get(function(req, res) {
             username: 'PollerWiesen GmbH',
             email: 'franky@pollwiesen.org',
             password: sha1sum('test123'),
-            experience: null
+            experiences: null
         },
         {
             id: 4,
@@ -116,9 +116,9 @@ app.route('/initdemo').get(function(req, res) {
             username: 'Nico',
             email: 'n.bastian@outlook.com',
             password: sha1sum('test123'),
-            experience: [
-                'kasse',
-                'kassenleitung'
+            experiences: [
+                { experience: 'kasse', level: 5 },
+                { experience: 'kassenleitung', level: 5 }
             ]
         }
     ]));
@@ -130,57 +130,60 @@ app.route('/initdemo').get(function(req, res) {
             userId: 3,
             name: 'PollerWiesen Minus',
             dateStart: moment('2015-08-15 13:00').format('X'),
-            dateEnd: moment('2015-08-15 18:00').format('X'),
-            
-            roster: [
-	            {
-		            id: 1,
-		            userId: 1,
-		            dateStart: moment('2015-08-15 13:00').format('X'),
-		            dateEnd: moment('2015-08-15 14:00').format('X'),
-		            position: 'kasse'
-	            },
-	            {
-		            id: 2,
-		            userId: 2,
-		            dateStart: moment('2015-08-15 14:00').format('X'),
-		            dateEnd: moment('2015-08-15 16:00').format('X'),
-		            position: 'kasse'
-	            },
-	            {
-		            id: 3,
-		            userId: 3,
-		            dateStart: moment('2015-08-15 13:00').format('X'),
-		            dateEnd: moment('2015-08-15 18:00').format('X'),
-		            position: 'kassenleitung'
-	            }
-            ]
+            dateEnd: moment('2015-08-15 18:00').format('X')
         },
         {
             id: 2,
             userId: 3,
             name: 'PollerWiesen Dortmund',
             dateStart: moment('2015-09-15 13:00').format('X'),
-            dateEnd: moment('2015-09-15 18:00').format('X'),
-            
-            roster: [
-	            {
-		            id: 1,
-		            userId: 1,
-		            dateStart: moment('2015-09-15 13:00').format('X'),
-		            dateEnd: moment('2015-09-15 15:00').format('X'),
-		            position: 'worker'
-	            },
-	            {
-		            id: 2,
-		            userId: 2,
-		            dateStart: moment('2015-09-15 15:00').format('X'),
-		            dateEnd: moment('2015-09-15 16:00').format('X'),
-		            position: 'worker'
-	            }
-            ]
+            dateEnd: moment('2015-09-15 18:00').format('X')
         }
     ]));
+    
+    // Dienstpläne
+    redis.set(rosterObj, JSON.stringify([
+	    {
+	        id: 1,
+	        userId: 1,
+	        eventId: 1,
+	        dateStart: moment('2015-08-15 13:00').format('X'),
+	        dateEnd: moment('2015-08-15 14:00').format('X'),
+	        position: 'kasse'
+	    },
+	    {
+	        id: 2,
+	        userId: 2,
+	        eventId: 1,
+	        dateStart: moment('2015-08-15 14:00').format('X'),
+	        dateEnd: moment('2015-08-15 16:00').format('X'),
+	        position: 'kasse'
+	    },
+	    {
+	        id: 3,
+	        userId: 3,
+	        eventId: 1,
+	        dateStart: moment('2015-08-15 13:00').format('X'),
+	        dateEnd: moment('2015-08-15 18:00').format('X'),
+	        position: 'kassenleitung'
+	    },
+	    {
+            id: 1,
+            userId: 1,
+	        eventId: 2,
+            dateStart: moment('2015-09-15 13:00').format('X'),
+            dateEnd: moment('2015-09-15 15:00').format('X'),
+            position: 'worker'
+        },
+        {
+            id: 2,
+            userId: 2,
+	        eventId: 2,
+            dateStart: moment('2015-09-15 15:00').format('X'),
+            dateEnd: moment('2015-09-15 16:00').format('X'),
+            position: 'worker'
+        }
+	]));
     
     res.json({
         success: true,
@@ -193,6 +196,9 @@ module_user.init(app);
 
 var module_event = require('./events.js');
 module_event.init(app);
+
+var module_roster = require('./roster.js');
+module_roster.init(app);
 
 var module_authenticate = require('./authenticate.js');
 module_authenticate.init(app);
