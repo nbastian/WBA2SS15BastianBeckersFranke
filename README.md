@@ -1,38 +1,7 @@
 # WBA2SS15BastianBeckersFranke
 
-## API endpoints
+How to start that stuff:
 
-### User endpoints
-Ressource | Methode | content-type (req) | content-type (res) | Semantik
---- | --- | --- | --- | ---
-/user | GET | empty | application/json | returns all user as json object-array
-/user | POST | application/json | empty | create new user
-/user/:id | GET | empty | application/json | returns single user
-/user/:id | PUT | application/json | empty | update an existing user
-/user/:id | DELETE | empty | empty | delete an existing user
-
-### Company endpoints
-Ressource | Methode | content-type (req) | content-type (res) | Semantik
---- | --- | --- | --- | ---
-/companys | GET | empty | application/json | returns all companies as json object-array
-/companys | POST | application/json | empty | create new company
-/companys/:id | GET | empty | application/json | returns single company
-/companys/:id | PUT | application/json | empty | update an existing company
-/companys/:id | DELETE | empty | empty | delete an existing company
-
-### Event endpoints
-Ressource | Methode | content-type (req) | content-type (res) | Semantik
---- | --- | --- | --- | ---
-/event | GET | empty | application/json | returns all events as json object-array
-/event | POST | application/json | empty | create new event
-/event/:eventid | GET | empty | empty | returns single event
-/event/:eventid | PUT | application/json | empty | update an existing event
-/event/:eventid | DELETE | empty | empty | delete an existing event
-
-### Dienstplan endpoints
-Ressource | Methode | content-type (req) | content-type (res) | Semantik
---- | --- | --- | --- | ---
-/event/:eventid | POST | application/json | empty | create new event entry
-/event/:eventid/:entryid | GET | empty | application/json | returns single event entry
-/event/:eventid/:entryid | PUT | application/json | empty | update an existing event entry
-/event/:eventid/:entryid | DELETE | empty | empty | delete an existing event entry
+  1. Datenhaltung in gesonderten Tab in der Konsole mit "redis-server" starten			-->Datenhaltung aktivieren
+  2. Dienstgeber in gesondertem Tab in der Konsole mit "node main.js" starten				--> Dienstgeber aktivieren
+  3. Dienstnutzer in gesondertem Tab in der Konsole mit "node dienstnutzer.js" starten		--> Dienstnutzer aktivieren
