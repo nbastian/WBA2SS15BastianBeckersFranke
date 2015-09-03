@@ -145,7 +145,7 @@ module.exports = {
                         } else {
                     
                             var token = jwt.sign(userList[i], tokenSecret, {
-                                expiresInMinutes: 1440 //24 Stunden
+                                expiresInMinutes: 60 * 24
                             });
                 
                             return res.json({
