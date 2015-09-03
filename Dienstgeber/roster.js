@@ -2,7 +2,6 @@ module.exports = {
     init: function(app) {
         // get all Roster by eventId
         app.route('/event/:eventId([0-9]+)/roster')
-        
             .get(function(req, res) {
                 // return single roster by eventId
                         
