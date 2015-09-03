@@ -20,7 +20,7 @@ global.sha1sum = function(input) {
     return crypto.createHash('sha1').update(JSON.stringify(input)).digest('hex');
 }
 
-// 
+// parse json fix
 global.parseJsonList = function(jsonString) {
     try {
         jsonObj = JSON.parse(jsonString);
@@ -31,7 +31,7 @@ global.parseJsonList = function(jsonString) {
     return jsonObj;
 }
 
-// 
+// is token valid?
 global.verifyToken = function(req, callback){
     var token = req.query.token;
     
@@ -56,6 +56,7 @@ global.userlistObj = 'userlist';
 global.eventObj = 'events';
 global.rosterObj = 'roster';
 
+// secret token salt
 global.tokenSecret = 'v;]LDoBv6^$!DSLdtQ&BNae>F)8MnifI{VO%7*GMp{eh/Pfc2eY^Tn_uP8}?op6*';
 
 // redis error handling
