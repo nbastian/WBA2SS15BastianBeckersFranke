@@ -152,7 +152,8 @@ module_company.init(app);
 var module_event = require('./events.js');
 module_event.init(app);
 
-
+var module_authenticate = require('./authenticate.js');
+module_authenticate.init(app);
 
 /** 
  *  START IT UP..
