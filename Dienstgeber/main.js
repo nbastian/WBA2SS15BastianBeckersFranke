@@ -143,34 +143,34 @@ app.route('/initdemo').get(function(req, res) {
     
     // Dienstpläne
     redis.set(rosterObj, JSON.stringify([
-	    {
-	        id: 1,
-	        userId: 1,
-	        eventId: 1,
-	        dateStart: moment('2015-08-15 13:00').format('X'),
-	        dateEnd: moment('2015-08-15 14:00').format('X'),
-	        position: 'kasse'
-	    },
-	    {
-	        id: 2,
-	        userId: 2,
-	        eventId: 1,
-	        dateStart: moment('2015-08-15 14:00').format('X'),
-	        dateEnd: moment('2015-08-15 16:00').format('X'),
-	        position: 'kasse'
-	    },
-	    {
-	        id: 3,
-	        userId: 3,
-	        eventId: 1,
-	        dateStart: moment('2015-08-15 13:00').format('X'),
-	        dateEnd: moment('2015-08-15 18:00').format('X'),
-	        position: 'kassenleitung'
-	    },
-	    {
+        {
             id: 1,
             userId: 1,
-	        eventId: 2,
+            eventId: 1,
+            dateStart: moment('2015-08-15 13:00').format('X'),
+            dateEnd: moment('2015-08-15 14:00').format('X'),
+            position: 'kasse'
+        },
+        {
+            id: 2,
+            userId: 2,
+            eventId: 1,
+            dateStart: moment('2015-08-15 14:00').format('X'),
+            dateEnd: moment('2015-08-15 16:00').format('X'),
+            position: 'kasse'
+        },
+        {
+            id: 3,
+            userId: 3,
+            eventId: 1,
+            dateStart: moment('2015-08-15 13:00').format('X'),
+            dateEnd: moment('2015-08-15 18:00').format('X'),
+            position: 'kassenleitung'
+        },
+        {
+            id: 1,
+            userId: 1,
+            eventId: 2,
             dateStart: moment('2015-09-15 13:00').format('X'),
             dateEnd: moment('2015-09-15 15:00').format('X'),
             position: 'worker'
@@ -178,12 +178,12 @@ app.route('/initdemo').get(function(req, res) {
         {
             id: 2,
             userId: 2,
-	        eventId: 2,
+            eventId: 2,
             dateStart: moment('2015-09-15 15:00').format('X'),
             dateEnd: moment('2015-09-15 16:00').format('X'),
             position: 'worker'
         }
-	]));
+    ]));
     
     res.json({
         success: true,
