@@ -239,7 +239,7 @@ app.get('/profil', function(req, res) {
     var x = http.request(options, function(externalres){
         externalres.on('data', function(chunk){
             var nutzer = JSON.parse(chunk);
-            res.render('pages/', {
+            res.render('pages/profil', {
                 nutzer: nutzer,
                 name: localStorage.getItem("name")
             });

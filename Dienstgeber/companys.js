@@ -14,7 +14,7 @@ module.exports = {
                     jwt.verify(token, 'secret' /*app.get('superSecret')*/, function(err, decoded) {      
                       if (err) {
                         
-                        return res.json({ success: false, message: 'Failed to authenticate token.' });    
+                        return res.status(401).json({ success: false, message: 'Failed to authenticate token.' });    
                       } else {
                         //Gibt den User des Tokens! nützlich für die eingelogt als Anzeige
                         console.log(decoded);
@@ -30,7 +30,7 @@ module.exports = {
 
                     // if there is no token
                     // return an error
-                    return res.status(403).send({ 
+                    return res.status(401).send({ 
                         success: false, 
                         message: 'No token provided.' 
                     });
