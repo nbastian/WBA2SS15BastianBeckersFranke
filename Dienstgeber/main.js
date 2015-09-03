@@ -20,6 +20,7 @@ global.sha1sum = function(input) {
     return crypto.createHash('sha1').update(JSON.stringify(input)).digest('hex');
 }
 
+// 
 global.parseJsonList = function(jsonString) {
     try {
         jsonObj = JSON.parse(jsonString);
@@ -30,22 +31,17 @@ global.parseJsonList = function(jsonString) {
     return jsonObj;
 }
 
-global.verifyToken = function(req){
+// 
+global.verifyToken = function(req, callback){
     var token = req.query.token;
-    console.log(token);
+    
     // decode token
-    if (token) {
-        // verifies secret and checks exp
-        jwt.verify(token, 'secret' /*app.get('superSecret')*/, function(err, decoded) {      
-            if (err) {
-                return false;   
-            } else {
-                return true;
-            }
-        });
-    } else {
-        return false;
-    }
+    if (!token && typeof callback == 'function') callback(false);
+    
+    // verifies secret and checks exp
+    jwt.verify(token, tokenSecret, function(err, decoded) {      
+        if (typeof callback == 'function') callback(!err);
+    });
 }
 
 // init em up
@@ -58,8 +54,9 @@ app.use(bodyParser.json({ extended: true }));
 app.set('port', process.env.PORT || 1337);
 global.userlistObj = 'userlist';
 global.adminlistObj = 'adminlist';
-global.companyObj = 'companys';
 global.eventObj = 'events';
+
+global.tokenSecret = 'v;]LDoBv6^$!DSLdtQ&BNae>F)8MnifI{VO%7*GMp{eh/Pfc2eY^Tn_uP8}?op6*';
 
 // redis error handling
 redis.on('error', function (err) {
@@ -69,6 +66,9 @@ redis.on('error', function (err) {
 
 // static assets (html-files)
 app.use(express.static('public'));
+
+
+
 
 /**
  *  ENDPOINTS
@@ -80,7 +80,8 @@ app.route('/initdemo').get(function(req, res) {
     redis.set(userlistObj, JSON.stringify([
         {
             id: 1,
-            username: 'Testuser1',
+            isCompany: false,
+            username: 'Franky',
             email: 'fh@franky.ws',
             password: sha1sum('test123'),
             experience: [
@@ -92,13 +93,32 @@ app.route('/initdemo').get(function(req, res) {
         },
         {
             id: 2,
-            username: 'Testuser2',
+            isCompany: false,
+            username: 'Steve',
             email: 'info@franky.ws',
             password: sha1sum('test123'),
             experience: [
+                'bonstelle',
+                'worker'
+            ]
+        },
+        {
+            id: 3,
+            isCompany: true,
+            username: 'PollerWiesen GmbH',
+            email: 'franky@pollwiesen.org',
+            password: sha1sum('test123'),
+            experience: null
+        },
+        {
+            id: 4,
+            isCompany: false,
+            username: 'Nico',
+            email: 'n.bastian@outlook.com',
+            password: sha1sum('test123'),
+            experience: [
                 'kasse',
-                'kassenleitung',
-                'bonstelle'
+                'kassenleitung'
             ]
         }
     ]));
@@ -107,32 +127,57 @@ app.route('/initdemo').get(function(req, res) {
     redis.set(eventObj, JSON.stringify([
         {
             id: 1,
-            name: 'PollerWiesen',
+            userId: 3,
+            name: 'PollerWiesen Minus',
             dateStart: moment('2015-08-15 13:00').format('X'),
-            dateEnd: moment('2015-08-15 18:00').format('X')
+            dateEnd: moment('2015-08-15 18:00').format('X'),
+            
+            roster: [
+	            {
+		            id: 1,
+		            userId: 1,
+		            dateStart: moment('2015-08-15 13:00').format('X'),
+		            dateEnd: moment('2015-08-15 14:00').format('X'),
+		            position: 'kasse'
+	            },
+	            {
+		            id: 2,
+		            userId: 2,
+		            dateStart: moment('2015-08-15 14:00').format('X'),
+		            dateEnd: moment('2015-08-15 16:00').format('X'),
+		            position: 'kasse'
+	            },
+	            {
+		            id: 3,
+		            userId: 3,
+		            dateStart: moment('2015-08-15 13:00').format('X'),
+		            dateEnd: moment('2015-08-15 18:00').format('X'),
+		            position: 'kassenleitung'
+	            }
+            ]
         },
         {
             id: 2,
+            userId: 3,
             name: 'PollerWiesen Dortmund',
             dateStart: moment('2015-09-15 13:00').format('X'),
-            dateEnd: moment('2015-09-15 18:00').format('X')
-        }
-    ]));
-    
-    // Firmen
-    redis.set(companyObj, JSON.stringify([
-        {
-            id: 1,
-            name: 'PollerWiesen GmbH',
-            user: [1, 2],
-            events: [1],
-            admins: [
-                {
-                    id: 1,
-                    username: 'Franky',
-                    email: 'franky@pollerwiesen.org',
-                    password: sha1sum('test123')
-                }
+            dateEnd: moment('2015-09-15 18:00').format('X'),
+            
+            roster: [
+	            {
+		            id: 1,
+		            userId: 1,
+		            dateStart: moment('2015-09-15 13:00').format('X'),
+		            dateEnd: moment('2015-09-15 15:00').format('X'),
+		            position: 'worker'
+	            },
+	            {
+		            id: 2,
+		            userId: 2,
+		            dateStart: moment('2015-09-15 15:00').format('X'),
+		            dateEnd: moment('2015-09-15 16:00').format('X'),
+		            position: 'worker'
+	            }
             ]
         }
     ]));
@@ -145,9 +190,6 @@ app.route('/initdemo').get(function(req, res) {
 
 var module_user = require('./user.js');
 module_user.init(app);
-
-var module_company = require('./companys.js');
-module_company.init(app);
 
 var module_event = require('./events.js');
 module_event.init(app);
