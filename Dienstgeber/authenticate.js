@@ -1,6 +1,6 @@
 module.exports = {
     init: function(app) {
-        app.post('/authenticate', function(req, res) {
+        app.post('/user/authenticate', function(req, res) {
             redis.get(userlistObj, function (err, obj) {
 	            console.log(req.body);
 	            
@@ -9,9 +9,8 @@ module.exports = {
                     if (userList[i].username == req.body.username) {
                         if (userList[i].password != sha1sum(req.body.password)) {
                             return res.json({ success: false, message: 'Authentication failed. Wrong password.'});
-                        }else{
-                    
-                            var token = jwt.sign(userList[i], 'secret'/*app.get('superSecret')*/, {
+                        } else {
+                            var token = jwt.sign(userList[i], tokenSecret, {
                                 expiresInMinutes: 1440 //24 Stunden
                             });
                 
