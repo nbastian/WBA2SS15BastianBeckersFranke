@@ -75,6 +75,26 @@ app.get('/firmen', function(req, res) {
     x.end();
 })
 
+app.post('/veranstaltungen', function(req, res) {
+    var options = {
+        host: 'localhost',
+        port: 1337,
+        path: '/event',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+    var x = http.request(options, function(externalres){
+        externalres.on('data', function(chunk){
+            var veranstaltung = JSON.parse(chunk);
+        });
+    });
+    
+    x.write(JSON.stringify(req.body));
+    x.end();
+})
+
 app.get('/veranstaltungen', function(req, res) {
     var options = {
         host: 'localhost',

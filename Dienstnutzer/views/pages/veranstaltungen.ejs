@@ -22,6 +22,17 @@
                     <% }); %>
                 </ul>
             </div>
+            <div class="col-sm-12">
+                <form action="//localhost:1338/veranstaltungen" method="post">
+                    <label for="inputEventname" class="sr-only">Veranstaltungsname</label>
+                    <input name="name" type="text" id="inputEventname" class="form-control" placeholder="Veranstaltungsname" required>
+                    <label for="inputDateStart" class="sr-only">Startdatum</label>
+                    <input name="dateStart" type="date" id="inputStartDate" class="form-control" placeholder="Startdatum" required>
+                    <label for="inputDateEnd" class="sr-only">Enddatum</label>
+                    <input name="dateEnd" type="date" id="inputEndDate" class="form-control" placeholder="Enddatum" required>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                </form>
+            </div>
         </div>
     </main>
 
