@@ -47,6 +47,8 @@ module.exports = {
                     
                     var newUser = {
                         id: newId,
+                        isCompany: !!req.body.isCompany,
+                        companyId: parseInt(req.body.companyId),
                         username: req.body.username,
                         email: req.body.email,
                         password: sha1sum(req.body.password), // never save password plaintext! todo: salt!
@@ -94,6 +96,8 @@ module.exports = {
                             
                             // todo: check for valid inputs
                                                 
+                            userList[i].isCompany = !!req.body.isCompany;
+                            userList[i].companyId = parseInt(req.body.companyId);
                             userList[i].username = req.body.username;
                             userList[i].email = req.body.email;
                             if (req.body.password) userList[i].password = sha1sum(req.body.password);
