@@ -13,7 +13,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <% if(!name) { %>
-                    <div class="jumbotron">
+                    <div class="jumbotron" id="signin">
                         <form class="form-signin" action="//localhost:1338/login" method="post">
                             <h2 class="form-signin-heading">Please sign in</h2>
                             <label for="inputUsername" class="sr-only">Username</label>
@@ -24,7 +24,7 @@
                         </form>
                     </div>
                 <hr>
-                    <div class="jumbotron">
+                    <div class="jumbotron" id="signup">
                         <form class="form-signin" id="signupForm">
                             <h2 class="form-signin-heading">Sign up</h2>
                             <label for="inputUsername" class="sr-only">Username</label>
@@ -33,7 +33,7 @@
                             <input name="password" type="password" id="inputSignupPassword" class="form-control" placeholder="Password" required>
                             <label for="inputEmail" class="sr-only">Email</label>
                             <input name="email" type="email" id="inputSignupEmail" class="form-control" placeholder="Email" required>
-                            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+                            <button class="btn btn-lg btn-primary btn-block" type="submit" id="signupButton">Sign up</button>
                         </form>
                         <script type="text/javascript">
                 $(document).ready(function(){
@@ -47,7 +47,8 @@
                                 data: postData,
                                 success: function(result)
                                 {
-                                    $('#signupForm').append("<p>Der Benutzer '"+$('#inputSignupUsername').val()+"' wurde erfolgreich angelegt.<br/>Sie können sich nun mit Ihren Zugangsdaten einloggen.");
+                                    $('#signin').append("<p>Der Benutzer '"+$('#inputSignupUsername').val()+"' wurde erfolgreich angelegt.<br/>Sie können sich nun mit Ihren Zugangsdaten einloggen.");
+                                    $('#signup').fadeOut( "slow" );
                                     //location.reload();
                                 }
                             });
