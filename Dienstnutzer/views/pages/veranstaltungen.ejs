@@ -19,6 +19,7 @@
                         <p class="list-group-item-text">Start:<%= event.dateStart %></p>
                         <p class="list-group-item-text">Ende:<%= event.dateEnd %></p>
                     </a>
+                    <button onclick="deleteEvent(<%= event.id %>);">löschen</button>
                     <% }); %>
                 </ul>
             </div>
@@ -88,6 +89,17 @@
                         }
                     });
                 })
+                </script>
+                <script type="text/javascript">
+                    function deleteEvent(eventId) {
+                        $.ajax ({
+                                url: '//localhost:1338/veranstaltungen/'+eventId,
+                                type: "DELETE",
+                                success: function(result) {
+                                    console.log('geht');
+                                }
+                            });
+                    }
                 </script>
             </div>
         </div>

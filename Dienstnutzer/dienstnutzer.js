@@ -129,7 +129,7 @@ app.get('/veranstaltungen/:VeranstaltungsID', function(req, res) {
     x.end();
 })
 
-app.delete('/veranstaltungen:VeranstaltungsID', function(req, res) {
+app.delete('/veranstaltungen/:VeranstaltungsID', function(req, res) {
     var options = {
         host: 'localhost',
         port: 1337,
@@ -150,7 +150,7 @@ app.delete('/veranstaltungen:VeranstaltungsID', function(req, res) {
         host: 'localhost',
         port: 1337,
         path: '/event/'+req.params.VeranstaltungsID,
-        method: 'GET',
+        method: 'DELETE',
         headers: {
             accept: 'application/json'
         }
@@ -194,11 +194,10 @@ app.post('/signup', function(req, res) {
         });
     });
         
-<<<<<<< Updated upstream
     x.write(JSON.stringify(req.body));
     x.end();
     
-    var options = {
+    /*var options = {
 		host: 'localhost',
 		port: 1337,
 		path: '/authenticate',
@@ -256,7 +255,7 @@ app.post('/signup', function(req, res) {
 =======
         x.write(JSON.stringify(req.body));
         x.end();
->>>>>>> Stashed changes
+>>>>>>> Stashed changes*/
 })
 
 app.post('/login', function(req, res) {
