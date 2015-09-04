@@ -108,7 +108,7 @@ var module_roster = require('./roster.js');
 module_roster.init(app);
 
 
-// authenticale endpint
+// authenticate endpoint
 var module_authenticate = require('./authenticate.js');
 module_authenticate.init(app);
 
