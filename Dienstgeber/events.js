@@ -4,7 +4,7 @@ module.exports = {
         app.route('/event')
             
             .get(function(req, res) {
-                // get userlist from db
+                // get eventlist from db
                 redis.get(eventObj, function (err, obj) {
                     var eventList = parseJsonList(obj);
                     
@@ -14,7 +14,7 @@ module.exports = {
             
             
             .post(function(req, res) {
-                // save new user in db
+                // save new event in db
                 
                 redis.get(eventObj, function (err, obj) {
                     // get old list
@@ -40,7 +40,7 @@ module.exports = {
                     };
                     
                     
-                    // push new user
+                    // push new event
                     eventList.push(newEvent);
                     
                     // save list
@@ -57,7 +57,7 @@ module.exports = {
         app.route('/event/:id([0-9]+)')
         
             .get(function(req, res) {
-                // return single user
+                // return single event
                         
                 redis.get(eventObj, function (err, obj) {
                     var eventList = parseJsonList(obj),
@@ -71,7 +71,7 @@ module.exports = {
             
             
             .put(function(req, res) {
-                // update single user
+                // update single event
                         
                 redis.get(eventObj, function (err, obj) {
                     var eventList = JSON.parse(obj);
@@ -100,10 +100,12 @@ module.exports = {
             })
             
             .delete(function(req, res) {
-                // delete single user
+                // delete single event
                         
                 redis.get(eventObj, function (err, obj) {
                     var eventList = JSON.parse(obj);
+                    
+                    //console.log(eventList);
                     
                     // filter userlist..
                     eventList = eventList.filter(function(el) {
@@ -114,7 +116,7 @@ module.exports = {
                     redis.set(eventObj, JSON.stringify(eventList));
                     
                     // output
-                    res.status(204).json({ 
+                    res.status(200).json({ 
                         success: true
                     });
                 });

@@ -121,7 +121,7 @@ module.exports = {
                     redis.set(userlistObj, JSON.stringify(userList));
                     
                     // output
-                    res.status(204).json({ 
+                    res.status(200).json({ 
                         success: true
                     });
                 });

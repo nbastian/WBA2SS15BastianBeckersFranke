@@ -101,7 +101,7 @@ module.exports = {
                     redis.set(rosterObj, JSON.stringify(rosterList));
                     
                     // output
-                    res.status(204).json({ 
+                    res.status(200).json({ 
                         success: true
                     });
                 });
