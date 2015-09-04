@@ -13,7 +13,45 @@ module.exports = {
                     
                     res.status(200).json(rosterByEvent || []);
                 });
-            });
+            })
+            
+            .post(function(req, res) {
+                // save new roster entry in db
+                
+                redis.get(rosterObj, function (err, obj) { 
+                    // get old list
+                    var rosterList = JSON.parse(obj)
+                    var lastId = 0;
+                    
+                    for (var i in rosterList) {
+                        if (rosterList[i].id > lastId) {
+                            // get last id + 1
+                            lastId = parseInt(rosterList[i].id);
+                        }
+                    }
+                    
+                    var newId = lastId + 1;
+                    
+                    // todo: check for valid inputs
+                    
+                    var newRoster = {
+                        id: newId,
+                        userId: parseInt(req.body.userId),
+                        eventId: parseInt(req.body.eventId),
+                        dataStart: moment(req.body.dateStart).format('X'),
+                        dataEnd: moment(req.body.dataEnd).format('X')
+                    };
+                    
+                    // push new user
+                    rosterList.push(newRoster);
+                    
+                    // save list
+                    redis.set(rosterObj, JSON.stringify(rosterList));
+                    
+                    // output
+                    res.status(201).json(newRoster);
+                });
+            });;
         
         // specific rosterEntry
         app.route('/roster/:rosterId([0-9]+)')
@@ -29,7 +67,7 @@ module.exports = {
                             // todo: check for valid inputs
                                                 
                             if (req.body.userId) rosterList[i].userId = parseInt(req.body.userId);
-                            if (req.body.eventId) rosterList[i].userId = parseInt(req.body.eventId);
+                            if (req.body.eventId) rosterList[i].eventId = parseInt(req.body.eventId);
                             if (req.body.dateStart) rosterList[i].dateStart = moment(req.body.dateStart).format('X');
                             if (req.body.dateEnd) rosterList[i].dateEnd = moment(req.body.dateEnd).format('X');
                             
