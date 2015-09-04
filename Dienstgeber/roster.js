@@ -42,7 +42,7 @@ module.exports = {
                         dataEnd: moment(req.body.dataEnd).format('X')
                     };
                     
-                    // push new user
+                    // push new roster
                     rosterList.push(newRoster);
                     
                     // save list
@@ -51,7 +51,8 @@ module.exports = {
                     // output
                     res.status(201).json(newRoster);
                 });
-            });;
+            });
+            
         
         // specific rosterEntry
         app.route('/roster/:rosterId([0-9]+)')
