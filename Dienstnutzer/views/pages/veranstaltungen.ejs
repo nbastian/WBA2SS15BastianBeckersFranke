@@ -19,7 +19,7 @@
                         <p class="list-group-item-text">Start:<%= event.dateStart %></p>
                         <p class="list-group-item-text">Ende:<%= event.dateEnd %></p>
                     </a>
-                    <button onclick="deleteEvent(<%= event.id %>);">löschen</button>
+                    <button class="btn btn-danger" onclick="deleteEvent(<%= event.id %>);">löschen</button>
                     <% }); %>
                 </ul>
             </div>
@@ -28,15 +28,21 @@
                     <label for="inputEventname" class="sr-only">Veranstaltungsname</label>
                     <input name="name" type="text" id="inputEventname" class="form-control" placeholder="Veranstaltungsname" required>
                     <label for="inputDateStart" class="sr-only">Startdatum</label>
-                    <input name="dateStart" type="datetime" id="inputStartDate" class="form-control" placeholder="Startdatum" required>
+                    <input name="dateStart" type="date" id="inputStartDate" class="form-control" placeholder="Startdatum" required>
+                    <label for="inputTimeStart" class="sr-only">Startzeit</label>
+                    <input name="timeStart" type="time" id="inputStartTime" class="form-control" placeholder="Startzeit" required>
                     <label for="inputDateEnd" class="sr-only">Enddatum</label>
-                    <input name="dateEnd" type="datetime" id="inputEndDate" class="form-control" placeholder="Enddatum" required>
+                    <input name="dateEnd" type="date" id="inputEndDate" class="form-control" placeholder="Enddatum" required>
+                    <label for="inputTimeEnd" class="sr-only">Endzeit</label>
+                    <input name="timeEnd" type="time" id="inputEndTime" class="form-control" placeholder="Endzeit" required>
                     <button class="btn btn-lg btn-primary btn-block" type="submit" disabled id="formSubmit">Sign in</button>
                 </form>
                 <script type="text/javascript">
                 $(document).ready(function(){
                     $('#newEventForm').submit(function(e) {
+                        console.log($('#inputStartTime').val());
                         var postData = $(this).serialize();
+                        console.log(postData);
                         var formURL = '//localhost:1338/veranstaltungen';
                         $.ajax (
                             {
@@ -46,7 +52,7 @@
                                 success: function(result)
                                 {
                                     $('#veranstaltungList').append(
-                                        "<a href='/veranstaltungen/"+result.id+"' class='list-group-item'><h4 class='list-group-item-heading'>"+$('#inputEventname').val()+"</h4><p class='list-group-item-text'>Start:"+$('#inputStartDate').val()+"</p><p class='list-group-item-text'>Ende:"+$('#inputEndDate').val()+"</p></a>");
+                                        "<a href='/veranstaltungen/"+result.id+"' class='list-group-item'><h4 class='list-group-item-heading'>"+result.name+"</h4><p class='list-group-item-text'>Start:"+result.start+"</p><p class='list-group-item-text'>Ende:"+result.end+"</p></a><button onclick='deleteEvent("+result.id+");'>löschen</button>");
                                     $('#inputEventname').val("");
                                     $('#inputStartDate').val("");
                                     $('#inputEndDate').val("");
@@ -55,7 +61,7 @@
                             });
                         e.preventDefault();
                     });
-                    $('#inputEventname').blur(function(){
+                    $('#inputEventname,#inputStartDate,#inputEndDate').blur(function(){
                         var name = $('#inputEventname').val();
                         var start = $('#inputStartDate').val();
                         var end = $('#inputEndDate').val();
@@ -66,7 +72,7 @@
                             $('#formSubmit').attr('disabled', 'disabled');
                         }
                     });
-                    $('#inputStartDate').blur(function(){
+                    /*$('#inputStartDate').blur(function(){
                         var name = $('#inputEventname').val();
                         var start = $('#inputStartDate').val();
                         var end = $('#inputEndDate').val();
@@ -87,7 +93,7 @@
                         else {
                             $('#formSubmit').attr('disabled', 'disabled');
                         }
-                    });
+                    });*/
                 })
                 </script>
                 <script type="text/javascript">

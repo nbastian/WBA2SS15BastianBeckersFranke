@@ -61,18 +61,22 @@ app.post('/veranstaltungen', function(req, res) {
     var x = http.request(options, function(externalres){
         externalres.on('data', function(chunk){
             var veranstaltung = JSON.parse(chunk);
+            console.log(req.body);
             if(veranstaltung != null)
             {
                 res.json({"id": veranstaltung.id,
-                          "start": veranstaltung.dateStart,
-                          "end": veranstaltung.dateEnd,
+                          "start": moment(veranstaltung.dateStart, "X").format('DD.MM.YYYY HH:mm'),
+                          "end": moment(veranstaltung.dateEnd, "X").format('DD.MM.YYYY HH:mm'),
                           "name": veranstaltung.name,
                          "success": true});
             }
         });
     });
     
-    x.write(JSON.stringify(req.body));
+    x.write(JSON.stringify({"id": req.body.id,
+                          "dateStart": req.body.dateStart + " " + req.body.timeStart,
+                          "dateEnd": req.body.dateEnd + " " + req.body.timeEnd,
+                          "name": req.body.name}));
     x.end();
 })
 
@@ -216,7 +220,8 @@ app.post('/login', function(req, res) {
             // Save data to the current local store falls falsches Login alten Token auch löschen eher für Testzwecke
             if (token.success == true){
                 localStorage.setItem("token", token.token);
-                localStorage.setItem("name", req.body.username);
+                localStorage.setItem("name", token.user.username);
+                localStorage.setItem("isCompany", token.user.isCompany);
             }
       	});			
     });
