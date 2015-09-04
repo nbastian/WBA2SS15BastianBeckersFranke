@@ -151,7 +151,8 @@ module.exports = {
                             return res.json({
                                 success: true,
                                 message: 'Enjoy your token!',
-                                token: token
+                                token: token,
+                                user: userList[i]
                             });
                         }
                     }
