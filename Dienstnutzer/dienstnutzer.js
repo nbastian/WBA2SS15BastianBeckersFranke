@@ -176,6 +176,46 @@ app.delete('/veranstaltungen/:VeranstaltungsID', function(req, res) {
     x.end();
 })
 
+app.get('/mitarbeiter', function(req, res) {
+    var options = {
+        host: 'localhost',
+        port: 1337,
+        path: '/user',
+        method: 'GET',
+        headers: {
+            accept: 'application/json'
+        }
+    }
+        
+        var x = http.request(options, function(externalres) {
+            externalres.on('data', function(chunk){
+                var users = JSON.parse(chunk);
+                res.render('pages/mitarbeitervw', {
+                    users: users,
+                    name: localStorage.getItem("name")
+                });
+            });
+        });
+    x.end();
+})
+
+app.delete('/mitarbeiter/:userID', function(req, res) {
+    var options = {
+        host: 'localhost',
+        port: 1337,
+        path:'/user/'+req.params.userID,
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+    var x = http.request(options, function(externalres) {
+        externalres.on('data', function(chunk) {
+            res.json({"success": true});
+        });
+    });
+})
+
 
 app.post('/signup', function(req, res) {
     
