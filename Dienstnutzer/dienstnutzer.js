@@ -188,12 +188,13 @@ app.post('/signup', function(req, res) {
     var x= http.request(options, function(externalres){
         externalres.on('data', function(chunk){
             var user = JSON.parse(chunk);
-            /*if(user != null){
+            if(user != null){
                 res.json({"success": true});
-            }*/
+            }
         });
     });
         
+<<<<<<< Updated upstream
     x.write(JSON.stringify(req.body));
     x.end();
     
@@ -252,6 +253,10 @@ app.post('/signup', function(req, res) {
     });
                          
     x.end();
+=======
+        x.write(JSON.stringify(req.body));
+        x.end();
+>>>>>>> Stashed changes
 })
 
 app.post('/login', function(req, res) {

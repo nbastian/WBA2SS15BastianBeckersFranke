@@ -25,16 +25,36 @@
                     </div>
                 <hr>
                     <div class="jumbotron">
-                        <form class="form-signin" action="//localhost:1338/signup" method="post">
+                        <form class="form-signin" id="signupForm">
                             <h2 class="form-signin-heading">Sign up</h2>
                             <label for="inputUsername" class="sr-only">Username</label>
-                            <input name="username" type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
+                            <input name="username" type="text" id="inputSignupUsername" class="form-control" placeholder="Username" required autofocus>
                             <label for="inputPassword" class="sr-only">Password</label>
-                            <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                            <input name="password" type="password" id="inputSignupPassword" class="form-control" placeholder="Password" required>
                             <label for="inputEmail" class="sr-only">Email</label>
-                            <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email" required>
+                            <input name="email" type="email" id="inputSignupEmail" class="form-control" placeholder="Email" required>
                             <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
                         </form>
+                        <script type="text/javascript">
+                $(document).ready(function(){
+                    $('#signupForm').submit(function(e) {
+                        var postData = $(this).serialize();
+                        var formURL = '//localhost:1338/signup';
+                        $.ajax (
+                            {
+                                url: formURL,
+                                type:"POST",
+                                data: postData,
+                                success: function(result)
+                                {
+                                    $('#signupForm').append("<p>Der Benutzer '"+$('#inputSignupUsername').val()+"' wurde erfolgreich angelegt.<br/>Sie können sich nun mit Ihren Zugangsdaten einloggen.");
+                                    //location.reload();
+                                }
+                            });
+                        e.preventDefault();
+                    });
+                })
+                </script>
                     </div>
                 <% } else { %>
                     <div class="jumbotron">
