@@ -30,10 +30,10 @@ app.get('/', function(req, res) {
             var anVer = JSON.parse(chunk);
             var jetzt = moment();
             for(i=0; i<anVer.length; i++) {
-                var start = moment(anVer[i].dateStart, "X").format('YYYY-MM-DD HH:mm');
+                var start = moment(anVer[i].dateStart, "X");
                 if(jetzt.isBefore(start)){
-                    anVer[i].dateEnd = moment(anVer[i].dateEnd, "X").format('YYYY-MM-DD HH:mm');
-                    anVer[i].dateStart = moment(anVer[i].dateStart, "X").format('YYYY-MM-DD HH:mm');
+                    anVer[i].dateEnd = moment(anVer[i].dateEnd, "X").format('DD.MM.YYYY HH:mm');
+                    anVer[i].dateStart = moment(anVer[i].dateStart, "X").format('DD.MM.YYYY HH:mm');
                 }else{
                     delete anVer[i];
                 }
@@ -90,8 +90,8 @@ app.get('/veranstaltungen', function(req, res) {
         externalres.on('data', function(chunk){
             var veranstaltungen = JSON.parse(chunk);
             for(i=0; i<veranstaltungen.length; i++) {
-                veranstaltungen[i].dateEnd = moment(veranstaltungen[i].dateEnd, 'X').format('YYYY-MM-DD HH:mm');
-                veranstaltungen[i].dateStart = moment(veranstaltungen[i].dateStart, 'X').format('YYYY-MM-DD HH:mm');
+                veranstaltungen[i].dateEnd = moment(veranstaltungen[i].dateEnd, 'X').format('DD.MM.YYYY HH:mm');
+                veranstaltungen[i].dateStart = moment(veranstaltungen[i].dateStart, 'X').format('DD.MM.YYYY HH:mm');
             }
             res.render('pages/veranstaltungen', {
                 veranstaltungen: veranstaltungen,
@@ -117,8 +117,8 @@ app.get('/veranstaltungen/:VeranstaltungsID', function(req, res) {
         externalres.on('data', function(chunk){
             var veranstaltung = JSON.parse(chunk);
             
-            veranstaltung.dateEnd = moment(veranstaltung.dateEnd, 'X').format('YYYY-MM-DD HH:mm');
-            veranstaltung.dateStart = moment(veranstaltung.dateStart, 'X').format('YYYY-MM-DD HH:mm');
+            veranstaltung.dateEnd = moment(veranstaltung.dateEnd, 'X').format('DD.MM.YYYY HH:mm');
+            veranstaltung.dateStart = moment(veranstaltung.dateStart, 'X').format('DD.MM.YYYY HH:mm');
 
             res.render('pages/veranstaltung', {
                 veranstaltung: veranstaltung,
@@ -141,7 +141,7 @@ app.delete('/veranstaltungen/:VeranstaltungsID', function(req, res) {
     };
     var x = http.request(options, function(externalres){
         externalres.on('data', function(chunk){
-            res.status(200);
+            res.json({"success": true});
         });
     });
     x.end();
@@ -160,8 +160,8 @@ app.delete('/veranstaltungen/:VeranstaltungsID', function(req, res) {
         externalres.on('data', function(chunk){
             var veranstaltung = JSON.parse(chunk);
             
-            veranstaltung.dateEnd = moment(veranstaltung.dateEnd, 'X').format('YYYY-MM-DD HH:mm');
-            veranstaltung.dateStart = moment(veranstaltung.dateStart, 'X').format('YYYY-MM-DD HH:mm');
+            veranstaltung.dateEnd = moment(veranstaltung.dateEnd, 'X').format('DD.MM.YYYY HH:mm');
+            veranstaltung.dateStart = moment(veranstaltung.dateStart, 'X').format('DD.MM.YYYY HH:mm');
 
             res.render('pages/veranstaltung', {
                 veranstaltung: veranstaltung,
@@ -196,66 +196,6 @@ app.post('/signup', function(req, res) {
         
     x.write(JSON.stringify(req.body));
     x.end();
-    
-    /*var options = {
-		host: 'localhost',
-		port: 1337,
-		path: '/authenticate',
-		method: 'POST',
-		headers: {
-		  	'Content-Type': 'application/json'
-		}
-    };
-    
-    var x = http.request(options, function(externalres){		
-      	externalres.on('data', function(chunk){
-            var token = JSON.parse(chunk);
-            // Save data to the current local store falls falsches Login alten Token auch löschen eher für Testzwecke
-            if (token.success == true){
-                localStorage.setItem("token", token.token);
-                localStorage.setItem("name", req.body.username);
-            }
-      	});			
-    });
-    
-    x.write(JSON.stringify(req.body));
-    x.end();
-    
-    var options = {
-        host: 'localhost',
-        port: 1337,
-        path: '/event',
-        method: 'GET',
-        headers: {
-            accept: 'application/json'
-        }
-    };
-    
-    var x = http.request(options, function(externalres){
-        externalres.on('data', function(chunk){
-            var anVer = JSON.parse(chunk);
-            var jetzt = moment();
-            for(i=0; i<anVer.length; i++) {
-                var start = moment(anVer[i].dateStart, "X").format('YYYY-MM-DD HH:mm');
-                if(jetzt.isBefore(start)){
-                    anVer[i].dateEnd = moment(anVer[i].dateEnd, "X").format('YYYY-MM-DD HH:mm');
-                    anVer[i].dateStart = moment(anVer[i].dateStart, "X").format('YYYY-MM-DD HH:mm');
-                }else{
-                    delete anVer[i];
-                }
-            }
-            res.render('pages/index', {
-                anVer: anVer,
-                name: localStorage.getItem("name")
-            });
-        });
-    });
-                         
-    x.end();
-=======
-        x.write(JSON.stringify(req.body));
-        x.end();
->>>>>>> Stashed changes*/
 })
 
 app.post('/login', function(req, res) {
@@ -297,12 +237,13 @@ app.post('/login', function(req, res) {
     var x = http.request(options, function(externalres){
         externalres.on('data', function(chunk){
             var anVer = JSON.parse(chunk);
+            console.log(anVer);
             var jetzt = moment();
             for(i=0; i<anVer.length; i++) {
-                var start = moment(anVer[i].dateStart, "X").format('YYYY-MM-DD HH:mm');
+                var start = moment(anVer[i].dateStart, "X");
                 if(jetzt.isBefore(start)){
-                    anVer[i].dateEnd = moment(anVer[i].dateEnd, "X").format('YYYY-MM-DD HH:mm');
-                    anVer[i].dateStart = moment(anVer[i].dateStart, "X").format('YYYY-MM-DD HH:mm');
+                    anVer[i].dateEnd = moment(anVer[i].dateEnd, "X").format('DD.MM.YYYY HH:mm');
+                    anVer[i].dateStart = moment(anVer[i].dateStart, "X").format('DD.MM.YYYY HH:mm');
                 }else{
                     delete anVer[i];
                 }
