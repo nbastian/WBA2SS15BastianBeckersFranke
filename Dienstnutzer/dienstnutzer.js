@@ -88,6 +88,14 @@ app.post('/veranstaltungen', function(req, res) {
     var x = http.request(options, function(externalres){
         externalres.on('data', function(chunk){
             var veranstaltung = JSON.parse(chunk);
+            if(veranstaltung != null)
+            {
+                res.json({"id": veranstaltung.id,
+                          "start": veranstaltung.dateStart,
+                          "end": veranstaltung.dateEnd,
+                          "name": veranstaltung.name,
+                         "success": true});
+            }
         });
     });
     

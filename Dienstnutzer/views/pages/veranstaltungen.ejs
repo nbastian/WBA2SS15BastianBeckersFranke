@@ -12,7 +12,7 @@
     <main>
         <div class="row">
             <div class="col-sm-12">
-                <ul class="list-group">
+                <ul class="list-group" id="veranstaltungList">
                     <% veranstaltungen.forEach(function(event) { %>
                     <a href="/veranstaltungen/<%= event.id %>" class="list-group-item">
                         <h4 class="list-group-item-heading"><%= event.name %></h4>
@@ -23,14 +23,14 @@
                 </ul>
             </div>
             <div class="col-sm-12">
-                <form id="newEventForm" action="/" method="post">
+                <form id="newEventForm">
                     <label for="inputEventname" class="sr-only">Veranstaltungsname</label>
                     <input name="name" type="text" id="inputEventname" class="form-control" placeholder="Veranstaltungsname" required>
                     <label for="inputDateStart" class="sr-only">Startdatum</label>
                     <input name="dateStart" type="datetime" id="inputStartDate" class="form-control" placeholder="Startdatum" required>
                     <label for="inputDateEnd" class="sr-only">Enddatum</label>
                     <input name="dateEnd" type="datetime" id="inputEndDate" class="form-control" placeholder="Enddatum" required>
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit" disabled id="formSubmit">Sign in</button>
                 </form>
                 <script type="text/javascript">
                 $(document).ready(function(){
@@ -42,19 +42,52 @@
                                 url: formURL,
                                 type:"POST",
                                 data: postData,
-                                success: function(data)
+                                success: function(result)
                                 {
-                                    console.log('geht');
-                                },
-                                error: function()
-                                {
-                                    console.log('geht nicht');
+                                    $('#veranstaltungList').append(
+                                        "<a href='/veranstaltungen/"+result.id+"' class='list-group-item'><h4 class='list-group-item-heading'>"+$('#inputEventname').val()+"</h4><p class='list-group-item-text'>Start:"+$('#inputStartDate').val()+"</p><p class='list-group-item-text'>Ende:"+$('#inputEndDate').val()+"</p></a>");
+                                    $('#inputEventname').val("");
+                                    $('#inputStartDate').val("");
+                                    $('#inputEndDate').val("");
+                                    //location.reload();
                                 }
                             });
                         e.preventDefault();
-                        //e.unbind();
                     });
-                    $('#newEventForm').submit();
+                    
+                    $('#inputEventname').blur(function(){
+                        var name = $('#inputEventname').val();
+                        var start = $('#inputStartDate').val();
+                        var end = $('#inputEndDate').val();
+                        if(name != "" && start != "" && end != "") {
+                            $('#formSubmit').removeAttr('disabled');
+                        }
+                        else {
+                            $('#formSubmit').attr('disabled', 'disabled');
+                        }
+                    });
+                    $('#inputStartDate').blur(function(){
+                        var name = $('#inputEventname').val();
+                        var start = $('#inputStartDate').val();
+                        var end = $('#inputEndDate').val();
+                        if(name != "" && start != "" && end != "") {
+                            $('#formSubmit').removeAttr('disabled');
+                        }
+                        else {
+                            $('#formSubmit').attr('disabled', 'disabled');
+                        }
+                    });
+                    $('#inputEndDate').blur(function(){
+                        var name = $('#inputEventname').val();
+                        var start = $('#inputStartDate').val();
+                        var end = $('#inputEndDate').val();
+                        if(name != "" && start != "" && end != "") {
+                            $('#formSubmit').removeAttr('disabled');
+                        }
+                        else {
+                            $('#formSubmit').attr('disabled', 'disabled');
+                        }
+                    });
                 })
                 </script>
             </div>
