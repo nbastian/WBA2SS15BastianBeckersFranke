@@ -6,22 +6,12 @@ module.exports = {
             .get(function(req, res) {
                 // get userlist from db
                 
-                var gesucht = req.query.username;
-                
                 redis.get(userlistObj, function (err, obj) {
                     userObj = parseJsonList(obj);
                     
-                    if (gesucht){
-                        var userList = JSON.parse(obj)
-                        for (var i in userList) {
-                            if (userList[i].username == gesucht) {
-                                // get last id + 1
-                                console.log(userList[i]);
-                                return res.status(200).json(userList[i]);
-                            }
-                        }
-                    }
-                    res.status(200).json(userObj);
+                    var userList = JSON.parse(obj);
+                    
+                    res.status(200).json(userList);
                 });
             })
             
@@ -80,7 +70,7 @@ module.exports = {
                             return el.id == req.params.id
                         });
                     
-                    res.status('200').json(user[0] || []);
+                    res.status(200).json(user[0] || []);
                 });
             })
             
@@ -164,6 +154,7 @@ module.exports = {
                 res.json({ success: false, message: 'Authentication failed. User not found.' });
             });
         });
+        
 		console.log('module user loaded successful');
     }
 }
