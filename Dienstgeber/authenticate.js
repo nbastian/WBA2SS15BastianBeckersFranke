@@ -2,8 +2,6 @@ module.exports = {
     init: function(app) {
         app.post('/user/authenticate', function(req, res) {
             redis.get(userlistObj, function (err, obj) {
-	            console.log(req.body);
-	            
                 var userList = JSON.parse(obj);
                 for (var i in userList) {
                     if (userList[i].username == req.body.username) {

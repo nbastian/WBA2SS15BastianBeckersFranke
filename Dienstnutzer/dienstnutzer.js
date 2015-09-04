@@ -48,33 +48,6 @@ app.get('/', function(req, res) {
     x.end();
 })
 
-app.get('/firmen', function(req, res) {
-    var options = {
-        host: 'localhost',
-        port: 1337,
-        path: '/companys?token='+localStorage.getItem("token"),
-        method: 'GET',
-        headers: {
-            accept: 'application/json'
-        }
-    };
-    
-    var x = http.request(options, function(externalres){
-        externalres.on('data', function(chunk){
-            var unternehmen = JSON.parse(chunk);
-            if (unternehmen.success == false){
-                res.render('pages/zutrittverboten');
-            }else{
-                res.render('pages/firmen', {
-                    unternehmen: unternehmen,
-                    name: localStorage.getItem("name")
-                });
-            }
-        });
-    });
-    x.end();
-})
-
 app.post('/veranstaltungen', function(req, res) {
     var options = {
         host: 'localhost',
@@ -156,6 +129,50 @@ app.get('/veranstaltungen/:VeranstaltungsID', function(req, res) {
     x.end();
 })
 
+app.delete('/veranstaltungen:VeranstaltungsID', function(req, res) {
+    var options = {
+        host: 'localhost',
+        port: 1337,
+        path: '/event',
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+    var x = http.request(options, function(externalres){
+        externalres.on('data', function(chunk){
+            res.status(200);
+        });
+    });
+    x.end();
+    
+    var options = {
+        host: 'localhost',
+        port: 1337,
+        path: '/event/'+req.params.VeranstaltungsID,
+        method: 'GET',
+        headers: {
+            accept: 'application/json'
+        }
+    };
+    
+    var x = http.request(options, function(externalres){
+        externalres.on('data', function(chunk){
+            var veranstaltung = JSON.parse(chunk);
+            
+            veranstaltung.dateEnd = moment(veranstaltung.dateEnd, 'X').format('YYYY-MM-DD HH:mm');
+            veranstaltung.dateStart = moment(veranstaltung.dateStart, 'X').format('YYYY-MM-DD HH:mm');
+
+            res.render('pages/veranstaltung', {
+                veranstaltung: veranstaltung,
+                name: localStorage.getItem("name")
+            });
+        });
+    });                     
+    x.end();
+})
+
+
 app.post('/signup', function(req, res) {
     
     var options = {
@@ -177,10 +194,10 @@ app.post('/signup', function(req, res) {
         });
     });
         
-        x.write(JSON.stringify(req.body));
-        x.end();
+    x.write(JSON.stringify(req.body));
+    x.end();
     
-        var options = {
+    var options = {
 		host: 'localhost',
 		port: 1337,
 		path: '/authenticate',
