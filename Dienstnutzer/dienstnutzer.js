@@ -156,6 +156,87 @@ app.get('/veranstaltungen/:VeranstaltungsID', function(req, res) {
     x.end();
 })
 
+app.post('/signup', function(req, res) {
+    
+    var options = {
+        host: 'localhost',
+        port: 1337,
+        path: '/user',
+        method:'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
+    
+    var x= http.request(options, function(externalres){
+        externalres.on('data', function(chunk){
+            var user = JSON.parse(chunk);
+            /*if(user != null){
+                res.json({"success": true});
+            }*/
+        });
+    });
+        
+        x.write(JSON.stringify(req.body));
+        x.end();
+    
+        var options = {
+		host: 'localhost',
+		port: 1337,
+		path: '/authenticate',
+		method: 'POST',
+		headers: {
+		  	'Content-Type': 'application/json'
+		}
+    };
+    
+    var x = http.request(options, function(externalres){		
+      	externalres.on('data', function(chunk){
+            var token = JSON.parse(chunk);
+            // Save data to the current local store falls falsches Login alten Token auch löschen eher für Testzwecke
+            if (token.success == true){
+                localStorage.setItem("token", token.token);
+                localStorage.setItem("name", req.body.username);
+            }
+      	});			
+    });
+    
+    x.write(JSON.stringify(req.body));
+    x.end();
+    
+    var options = {
+        host: 'localhost',
+        port: 1337,
+        path: '/event',
+        method: 'GET',
+        headers: {
+            accept: 'application/json'
+        }
+    };
+    
+    var x = http.request(options, function(externalres){
+        externalres.on('data', function(chunk){
+            var anVer = JSON.parse(chunk);
+            var jetzt = moment();
+            for(i=0; i<anVer.length; i++) {
+                var start = moment(anVer[i].dateStart, "X").format('YYYY-MM-DD HH:mm');
+                if(jetzt.isBefore(start)){
+                    anVer[i].dateEnd = moment(anVer[i].dateEnd, "X").format('YYYY-MM-DD HH:mm');
+                    anVer[i].dateStart = moment(anVer[i].dateStart, "X").format('YYYY-MM-DD HH:mm');
+                }else{
+                    delete anVer[i];
+                }
+            }
+            res.render('pages/index', {
+                anVer: anVer,
+                name: localStorage.getItem("name")
+            });
+        });
+    });
+                         
+    x.end();
+})
+
 app.post('/login', function(req, res) {
     
     var options = {

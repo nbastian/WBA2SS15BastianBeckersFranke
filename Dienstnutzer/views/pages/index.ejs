@@ -23,6 +23,19 @@
                             <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
                         </form>
                     </div>
+                <hr>
+                    <div class="jumbotron">
+                        <form class="form-signin" action="//localhost:1338/signup" method="post">
+                            <h2 class="form-signin-heading">Sign up</h2>
+                            <label for="inputUsername" class="sr-only">Username</label>
+                            <input name="username" type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
+                            <label for="inputPassword" class="sr-only">Password</label>
+                            <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                            <label for="inputEmail" class="sr-only">Email</label>
+                            <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email" required>
+                            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+                        </form>
+                    </div>
                 <% } else { %>
                     <div class="jumbotron">
                         <p>Wir freuen uns Sie heute begrüßen zu dürfen, <%= name %>!</p>
