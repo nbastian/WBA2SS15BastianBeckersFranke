@@ -134,7 +134,7 @@ app.get('/veranstaltungen/:VeranstaltungsID', function(req, res) {
 })
 
 app.delete('/veranstaltungen/:VeranstaltungsID', function(req, res) {
-    var options = {
+    /*var options = {
         host: 'localhost',
         port: 1337,
         path: '/event',
@@ -148,7 +148,7 @@ app.delete('/veranstaltungen/:VeranstaltungsID', function(req, res) {
             res.json({"success": true});
         });
     });
-    x.end();
+    x.end();*/
     
     var options = {
         host: 'localhost',
@@ -162,7 +162,8 @@ app.delete('/veranstaltungen/:VeranstaltungsID', function(req, res) {
     
     var x = http.request(options, function(externalres){
         externalres.on('data', function(chunk){
-            var veranstaltung = JSON.parse(chunk);
+            console.log(chunk);
+            /*var veranstaltung = JSON.parse(chunk);
             
             veranstaltung.dateEnd = moment(veranstaltung.dateEnd, 'X').format('DD.MM.YYYY HH:mm');
             veranstaltung.dateStart = moment(veranstaltung.dateStart, 'X').format('DD.MM.YYYY HH:mm');
@@ -170,7 +171,8 @@ app.delete('/veranstaltungen/:VeranstaltungsID', function(req, res) {
             res.render('pages/veranstaltung', {
                 veranstaltung: veranstaltung,
                 name: localStorage.getItem("name")
-            });
+            });*/
+            res.json({"success": true});
         });
     });                     
     x.end();
@@ -214,6 +216,7 @@ app.delete('/mitarbeiter/:userID', function(req, res) {
             res.json({"success": true});
         });
     });
+    x.end();
 })
 
 

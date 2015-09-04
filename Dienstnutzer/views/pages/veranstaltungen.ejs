@@ -42,7 +42,6 @@
                     $('#newEventForm').submit(function(e) {
                         console.log($('#inputStartTime').val());
                         var postData = $(this).serialize();
-                        console.log(postData);
                         var formURL = '//localhost:1338/veranstaltungen';
                         $.ajax (
                             {
