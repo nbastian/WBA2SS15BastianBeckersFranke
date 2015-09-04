@@ -8,6 +8,7 @@ module.exports = {
 		        {
 		            id: 1,
 		            isCompany: false,
+		            companyId: 3,
 		            username: 'Franky',
 		            email: 'fh@franky.ws',
 		            password: sha1sum('test123'),
@@ -21,6 +22,7 @@ module.exports = {
 		        {
 		            id: 2,
 		            isCompany: false,
+		            companyId: 3,
 		            username: 'Steve',
 		            email: 'info@franky.ws',
 		            password: sha1sum('test123'),
@@ -40,6 +42,7 @@ module.exports = {
 		        {
 		            id: 4,
 		            isCompany: false,
+		            companyId: 3,
 		            username: 'Nico',
 		            email: 'n.bastian@outlook.com',
 		            password: sha1sum('test123'),
