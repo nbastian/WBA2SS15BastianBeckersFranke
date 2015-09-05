@@ -4,8 +4,6 @@ var ejs = require('ejs');
 var bodyparser = require('body-parser');
 var jsonParser = bodyparser.json();
 var moment = require('moment');
-var LocalStorage = require('node-localstorage').LocalStorage;
-localStorage = new LocalStorage('./scratch');
 
 var app = express();
 
