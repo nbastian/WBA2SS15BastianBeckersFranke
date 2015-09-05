@@ -41,7 +41,7 @@ app.get('/', function(req, res) {
             
             res.render('pages/index', {
                 anVer: anVer,
-                name: (req.cookies.user && req.cookies.user.username) || null
+                name: req.cookies.username
             });
         });
     });
@@ -62,7 +62,7 @@ app.post('/veranstaltungen', function(req, res) {
     var x = http.request(options, function(externalres){
         externalres.on('data', function(chunk){
             var veranstaltung = JSON.parse(chunk);
-            console.log(req.body);
+
             if(veranstaltung != null)
             {
                 res.json({"id": veranstaltung.id,
@@ -127,7 +127,7 @@ app.get('/veranstaltungen/:VeranstaltungsID', function(req, res) {
 
             res.render('pages/veranstaltung', {
                 veranstaltung: veranstaltung,
-                name: 'NAME'
+                name: req.cookies.username
             });
         });
     });                     
@@ -171,7 +171,7 @@ app.delete('/veranstaltungen/:VeranstaltungsID', function(req, res) {
 
             res.render('pages/veranstaltung', {
                 veranstaltung: veranstaltung,
-                name: 'NAME'
+                name: req.cookies.username
             });*/
             res.json({"success": true});
         });
@@ -195,7 +195,7 @@ app.get('/mitarbeiter', function(req, res) {
             var users = JSON.parse(chunk);
             res.render('pages/mitarbeitervw', {
                 users: users,
-                name: 'NAME'
+                name: req.cookies.username
             });
         });
     });
@@ -270,9 +270,9 @@ app.post('/login', function(req, res) {
 		            httpOnly: true 
 		        };
 		        
+		        console.log(jsonResp);
                 res.cookie('token', jsonResp.token, cookieOptions);
-                res.cookie('user', jsonResp.user, cookieOptions);
-                
+                res.cookie('username', jsonResp.user.username, cookieOptions);
             }
       	});			
     });
@@ -293,7 +293,7 @@ app.post('/login', function(req, res) {
     var x = http.request(options, function(externalres){
         externalres.on('data', function(chunk){
             var anVer = JSON.parse(chunk);
-            console.log(anVer);
+
             var jetzt = moment();
             for(i=0; i<anVer.length; i++) {
                 var start = moment(anVer[i].dateStart, "X");
@@ -304,9 +304,10 @@ app.post('/login', function(req, res) {
                     delete anVer[i];
                 }
             }
+            
             res.render('pages/index', {
                 anVer: anVer,
-                name: 'NAME'
+                name: req.cookies.username
             });
         });
     });
@@ -316,7 +317,7 @@ app.post('/login', function(req, res) {
 
 app.get('/logout', function(req, res) {
     res.clearCookie('token');
-    res.clearCookie('user');
+    res.clearCookie('username');
     
     var options = {
         host: 'localhost',
@@ -343,7 +344,7 @@ app.get('/logout', function(req, res) {
             }
             res.render('pages/index', {
                 anVer: anVer,                      
-                name: 'NAME'
+                name: req.cookies.username
             });
         });
     });
@@ -355,7 +356,11 @@ app.get('/profil', function(req, res) {
     var options = {
         host: 'localhost',
         port: 1337,
-        path: '/user?username='+'NAME',
+        
+        // WIRD NICHT MEHR FUNKTIONIEREN!!!
+        path: '/user?username=' + req.cookies.username,
+        // /user?username=.. gibts nicht mehr
+        
         method: 'GET',
         headers: {
             accept: 'application/json'
@@ -367,7 +372,7 @@ app.get('/profil', function(req, res) {
             var nutzer = JSON.parse(chunk);
             res.render('pages/profil', {
                 nutzer: nutzer,
-                name: 'NAME'
+                name: req.cookies.username
             });
         });
     });
