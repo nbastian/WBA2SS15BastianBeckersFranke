@@ -252,7 +252,7 @@ app.post('/login', function(req, res) {
     var options = {
 		host: 'localhost',
 		port: 1337,
-		path: '/user/authenticate',
+		path: '/authenticate',
 		method: 'POST',
 		headers: {
 		  	'Content-Type': 'application/json'
@@ -270,7 +270,6 @@ app.post('/login', function(req, res) {
 		            httpOnly: true 
 		        };
 		        
-		        console.log(jsonResp);
                 res.cookie('token', jsonResp.token, cookieOptions);
                 res.cookie('username', jsonResp.user.username, cookieOptions);
             }
@@ -280,39 +279,7 @@ app.post('/login', function(req, res) {
     x.write(JSON.stringify(req.body));
     x.end();
     
-    var options = {
-        host: 'localhost',
-        port: 1337,
-        path: '/event',
-        method: 'GET',
-        headers: {
-            accept: 'application/json'
-        }
-    };
-    
-    var x = http.request(options, function(externalres){
-        externalres.on('data', function(chunk){
-            var anVer = JSON.parse(chunk);
-
-            var jetzt = moment();
-            for(i=0; i<anVer.length; i++) {
-                var start = moment(anVer[i].dateStart, "X");
-                if(jetzt.isBefore(start)){
-                    anVer[i].dateEnd = moment(anVer[i].dateEnd, "X").format('DD.MM.YYYY HH:mm');
-                    anVer[i].dateStart = moment(anVer[i].dateStart, "X").format('DD.MM.YYYY HH:mm');
-                }else{
-                    delete anVer[i];
-                }
-            }
-            
-            res.render('pages/index', {
-                anVer: anVer,
-                name: req.cookies.username
-            });
-        });
-    });
-                         
-    x.end();
+    res.redirect('/');
 })
 
 app.get('/logout', function(req, res) {
