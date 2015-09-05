@@ -95,21 +95,21 @@ app.use(express.static('public'));
  */
 
 // demodata filler endpoint
-var module_fill = require('./fill.js');
+var module_fill = require('./module/fill.js');
 module_fill.init(app);
 
 
 // live endpoints
-var module_auth = require('./auth.js');
+var module_auth = require('./module/auth.js');
 module_auth.init(app);
 
-var module_user = require('./user.js');
+var module_user = require('./module/user.js');
 module_user.init(app);
 
-var module_event = require('./events.js');
+var module_event = require('./module/events.js');
 module_event.init(app);
 
-var module_roster = require('./roster.js');
+var module_roster = require('./module/roster.js');
 module_roster.init(app);
 
 
