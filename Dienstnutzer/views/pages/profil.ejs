@@ -12,13 +12,15 @@
     <main>
         <div class="row">
             <div class="col-sm-12">
+                <% user.forEach(function(user) { %>
                 <ul class="list-group">
-                    <h4 class="list-group-item-heading">ID:<%= nutzer.id %></h4>
-                    <p class="list-group-item-text">Username:<%= nutzer.username %></p>
-                    <p class="list-group-item-text">Email:<%= nutzer.email %></p>
-                    <p class="list-group-item-text">codiertes PW:<%= nutzer.password %></p>
-                    <p class="list-group-item-text">EXP:<%= nutzer.experience %></p>
+                    <h4 class="list-group-item-heading">ID:<%= user.id %></h4>
+                    <p class="list-group-item-text">Username:<%= user.username %></p>
+                    <p class="list-group-item-text">Email:<%= user.email %></p>
+                    <p class="list-group-item-text">codiertes PW:<%= user.password %></p>
+                    <p class="list-group-item-text">EXP:<%= user.experiences.experience %></p>
                 </ul>
+                <% }); %>
             </div>
         </div>
     </main>
