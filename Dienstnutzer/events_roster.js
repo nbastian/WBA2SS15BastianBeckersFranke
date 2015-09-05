@@ -30,7 +30,8 @@ module.exports = {
 			            	endDate: endDate.format(inputFormat.date),
 			            	endTime: endDate.format(inputFormat.time)
 			            }),
-		                name: req.cookies.username
+		                name: req.cookies.username,
+                        isCompany: req.cookies.isCompany
 		            });
 		        });
 		    }).end();
