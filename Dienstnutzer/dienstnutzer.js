@@ -207,7 +207,7 @@ app.delete('/mitarbeiter/:userID', function(req, res) {
     var options = {
         host: 'localhost',
         port: 1337,
-        path:'/user?token='+req.cookies.token+'/'+req.params.userID,
+        path:'/user/' + req.params.userID + '?token=' + req.cookies.token,
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
