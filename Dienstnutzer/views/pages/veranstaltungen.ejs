@@ -12,6 +12,7 @@
     <main>
         <div class="row">
             <div class="col-sm-12">
+                <h1>Veranstaltungsverwaltung für <%= name %></h1>
                 <ul class="list-group" id="veranstaltungList">
                     <% veranstaltungen.forEach(function(event) { %>
                         <a href="/veranstaltungen/<%= event.id %>" class="list-group-item">
