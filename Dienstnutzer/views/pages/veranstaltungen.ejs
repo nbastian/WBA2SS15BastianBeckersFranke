@@ -14,11 +14,11 @@
             <div class="col-sm-12">
                 <ul class="list-group" id="veranstaltungList">
                     <% veranstaltungen.forEach(function(event) { %>
-                    <a href="/veranstaltungen/<%= event.id %>" class="list-group-item">
-                        <h4 class="list-group-item-heading"><%= event.name %></h4>
-                        <p class="list-group-item-text">Start:<%= event.dateStart %></p>
-                        <p class="list-group-item-text">Ende:<%= event.dateEnd %></p>
-                    </a>
+                        <a href="/veranstaltungen/<%= event.id %>" class="list-group-item">
+                            <h4 class="list-group-item-heading"><%= event.name %></h4>
+                            <p class="list-group-item-text">Start:<%= event.dateStart %></p>
+                            <p class="list-group-item-text">Ende:<%= event.dateEnd %></p>
+                        </a>
                     <button class="btn btn-danger" onclick="deleteEvent(<%= event.id %>);">löschen</button>
                     <% }); %>
                 </ul>

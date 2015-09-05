@@ -36,7 +36,7 @@ module.exports = {
 	                            return res.status(403).json({ success: false, message: 'Authentication failed. Wrong password.'});
 	                        } else {
 	                            var token = jwt.sign(userList[i].id, tokenSecret, {
-	                                expiresInMinutes: 1440 //24 Stunden
+	                                expiresInMinutes: 60 * 60 * 24 * 30 * 12 //1 Jahr
 	                            });
 	                
 	                            return res.json({

@@ -188,15 +188,16 @@ app.get('/mitarbeiter', function(req, res) {
         }
     }
         
-        var x = http.request(options, function(externalres) {
-            externalres.on('data', function(chunk){
-                var users = JSON.parse(chunk);
-                res.render('pages/mitarbeitervw', {
-                    users: users,
-                    name: localStorage.getItem("name")
-                });
+    var x = http.request(options, function(externalres) {
+        externalres.on('data', function(chunk){
+            var users = JSON.parse(chunk);
+            res.render('pages/mitarbeitervw', {
+                users: users,
+                name: localStorage.getItem("name")
             });
         });
+    });
+    
     x.end();
 })
 
@@ -249,7 +250,7 @@ app.post('/login', function(req, res) {
     var options = {
 		host: 'localhost',
 		port: 1337,
-		path: '/authenticate',
+		path: '/user/authenticate',
 		method: 'POST',
 		headers: {
 		  	'Content-Type': 'application/json'
