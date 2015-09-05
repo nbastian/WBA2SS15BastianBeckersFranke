@@ -2,7 +2,9 @@
 
 How to start that stuff:
 
-  1. **Installation von Node.js** - Node.js installieren mittels nodejs.org
+  1. **Installation von Node.js**
+
+     Node.js installieren mittels nodejs.org
   2. **Module für Dienstgeber** - Terminal im Dienstgeber-Ordner befindlich Befehl „npm install“ ausführen
   3. **Module für Dienstnutzer** - Terminal im Dienstnutzer-Ordner befindlich Befehl „npm install“ ausführen
   4. **Datenhaltung aktivieren** - Datenhaltung in gesonderten Tab in der Konsole mit "redis-server" starten			
