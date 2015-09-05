@@ -1,0 +1,20 @@
+{
+  "name": "dienstgeber",
+  "version": "1.0.0",
+  "description": "dienstgeber json",
+  "main": "main.js",
+  "dependencies": {
+    "crypto": "^0.0.3",
+    "jsonwebtoken": "^5.0.4",
+    "body-parser": "^1.12.4",
+    "redis": "^0.12.1",
+    "moment": "^2.10.3",
+    "express": "^4.12.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "BaBeFr",
+  "license": "ISC"
+}

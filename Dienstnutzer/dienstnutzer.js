@@ -14,6 +14,11 @@ app.use(cookieParser());
 
 app.set('view engine', 'ejs');
 
+make_passwd = function(n, a) {
+  var index = (Math.random() * (a.length - 1)).toFixed(0);
+  return n > 0 ? a[index] + make_passwd(n - 1, a) : '';
+};
+
 app.get('/', function(req, res) {
     var options = {
         host: 'localhost',
@@ -250,18 +255,35 @@ app.post('/signup', function(req, res) {
             'Content-Type': 'application/json'
         }
     };
-    
-    var x= http.request(options, function(externalres){
-        externalres.on('data', function(chunk){
-            var user = JSON.parse(chunk);
-            if(user != null){
-                res.json({"success": true});
-            }
+    if(req.body.password != null) {
+        var x= http.request(options, function(externalres){
+            externalres.on('data', function(chunk){
+                var user = JSON.parse(chunk);
+                if(user != null){
+                    res.json({"success": true});
+                }
+            });
         });
-    });
-        
-    x.write(JSON.stringify(req.body));
-    x.end();
+        x.write(JSON.stringify(req.body));
+        x.end();
+    }
+    else {
+        var x= http.request(options, function(externalres){
+            externalres.on('data', function(chunk){
+                var user = JSON.parse(chunk);
+                if(user != null){
+                    res.json({"success": true});
+                }
+            });
+        });
+        console.log(make_passwd(13, 'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890'));
+        x.write(JSON.stringify({"username": req.body.username,
+                                "isCompany": req.body.isCompany,
+                                "companyId": req.cookies.id,
+                                "password": make_passwd(13, 'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890'),
+                               "email": req.body.email}));
+        x.end();
+    }
 })
 
 app.post('/login', function(req, res) {

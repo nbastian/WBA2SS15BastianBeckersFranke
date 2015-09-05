@@ -24,6 +24,17 @@
                 </ul>
             </div>
         </div>
+        <div class="jumbotron" id="signin">
+            <form class="form-signin" action="//localhost:1338/signup" method="post">
+                <h2 class="form-signin-heading">Neuer Mitarbeiter</h2>
+                <label for="inputUsername" class="sr-only">Username</label>
+                <input name="username" type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
+                <label for="inputEmail" class="sr-only">Email</label>
+                <input name="email" type="email" id="inputSignupEmail" class="form-control" placeholder="Email" required>
+                <input type="hidden" name="isCompany" value="false">
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+            </form>
+        </div>
     </main>
 <script type="text/javascript">
                     function deleteUser(userId) {

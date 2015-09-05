@@ -45,6 +45,7 @@ module.exports = {
                         password: sha1sum(req.body.password), // never save password plaintext! todo: salt!
                         experience: req.body.experience
                     };
+                    console.log(newUser);
                     
                     // push new user
                     userList.push(newUser);
