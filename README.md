@@ -1,4 +1,4 @@
-# WBA2SS15BastianBeckersFranke
+# PerPla | Personalplanung
 
 How to start that stuff:
 
