@@ -285,11 +285,7 @@ app.get('/profil', function(req, res) {
     var options = {
         host: 'localhost',
         port: 1337,
-        
-        // WIRD NICHT MEHR FUNKTIONIEREN!!!
-        path: '/user?username=' + req.cookies.username,
-        // /user?username=.. gibts nicht mehr
-        
+        path: '/user?token='+req.cookies.token,
         method: 'GET',
         headers: {
             accept: 'application/json'
@@ -298,9 +294,12 @@ app.get('/profil', function(req, res) {
     
     var x = http.request(options, function(externalres){
         externalres.on('data', function(chunk){
-            var nutzer = JSON.parse(chunk);
+            var users = JSON.parse(chunk);
+            users = users.filter(function(user) {
+                return user.id == Number(req.cookies.id);
+            });
             res.render('pages/profil', {
-                nutzer: nutzer,
+                user: users,
                 name: req.cookies.username
             });
         });
