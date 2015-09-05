@@ -6,6 +6,7 @@ module.exports = {
             .get(function(req, res) {
                 // get userlist from db
                 
+                // private resource
                 redis.get(userlistObj, function (err, obj) {
                     userObj = parseJsonList(obj);
                     
@@ -126,32 +127,6 @@ module.exports = {
                     });
                 });
             });
-		
-		app.route('/user/authenticate')
-			.post(function(req, res) {
-	            redis.get(userlistObj, function (err, obj) {
-	                var userList = JSON.parse(obj);
-	                for (var i in userList) {
-	                    if (userList[i].username == req.body.username) {
-	                        if (userList[i].password != sha1sum(req.body.password)) {
-	                            return res.json({ success: false, message: 'Authentication failed. Wrong password.'});
-	                        } else {
-	                            var token = jwt.sign(userList[i].id, tokenSecret, {
-	                                expiresInMinutes: 1440 //24 Stunden
-	                            });
-	                
-	                            return res.json({
-	                                success: true,
-	                                message: 'Enjoy your token!',
-	                                token: token,
-	                                user: userList[i]
-	                            });
-	                        }
-	                    }
-	                }
-	                res.json({ success: false, message: 'Authentication failed. User not found.' });
-	            });
-			});  
 		        
 		console.log('module user loaded successful');
     }

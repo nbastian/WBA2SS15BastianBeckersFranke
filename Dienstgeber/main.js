@@ -52,16 +52,18 @@ global.parseJsonList = function(jsonString) {
 }
 
 // is token valid?
-global.verifyToken = function(req, callback){
-    var token = req.query.token;
-    
+global.verifyToken = function(token, options){
     // decode token
-    if (!token && typeof callback == 'function') callback(false);
+    if (!token && typeof options.callbackError == 'function') return options.callbackError();
     
     // verifies secret and checks exp
-    jwt.verify(token, tokenSecret, function(err, decoded) {      
-        if (typeof callback == 'function') callback(!err);
+    jwt.verify(token, tokenSecret, function(err, decoded) {   
+	    
+        if (!err && typeof options.callbackSuccess == 'function') return options.callbackSuccess();
+        else if (err && typeof options.callbackError == 'function') return options.callbackError();
     });
+    
+    return false;
 }
 
 
@@ -98,6 +100,9 @@ module_fill.init(app);
 
 
 // live endpoints
+var module_auth = require('./auth.js');
+module_auth.init(app);
+
 var module_user = require('./user.js');
 module_user.init(app);
 
