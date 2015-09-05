@@ -16,7 +16,7 @@
 	            </div>
 	            <div class="col-md-6">
 	                <h4>Veranstaltung bearbeiten</h4>
-	                <form class="form-horizontal" style="margin-bottom:40px">
+	                <form class="form-horizontal form-eventedit" style="margin-bottom:40px">
 						<div class="form-group">
 							<label class="col-sm-3 control-label">Name</label>
 							<div class="col-sm-9">
@@ -55,7 +55,46 @@
 						</div>
 					</form>
 
-	                <h4>Veranstaltungsposition hinzufügen</h4>
+	                <h4>Schicht hinzufügen</h4>
+	                <form class="form-horizontal form-addroster" style="margin-bottom:40px">
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Position</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control">
+							</div>
+						</div>
+						<div class="form-group">
+					    	<label class="col-sm-3 control-label">Schicht-Start</label>
+					    	<div class="col-sm-5">
+					      		<input type="date" name="eventdate_date" placeholder="dd.mm.yyyy" class="form-control" required>
+					    	</div>
+					      	<div class="col-sm-4">
+					      		<div class="input-group">
+									<input type="time" name="eventdate_time" placeholder="hh:mm" class="form-control" required>
+									<span class="input-group-addon">Uhr</span>
+					    		</div>
+					    	</div>
+					  	</div>
+					  	<div class="form-group">
+					    	<label class="col-sm-3 control-label">Schicht-Ende</label>
+					    	<div class="col-sm-5">
+					      		<input type="date" name="eventdate_end_date" placeholder="dd.mm.yyyy" class="form-control" required>
+					      	</div>
+					      	<div class="col-sm-4">
+								<div class="input-group">
+									<input type="time" name="eventdate_end_time" placeholder="hh:mm" class="form-control" required>
+									<span class="input-group-addon">Uhr</span>
+					    		</div>
+					    	</div>
+					  	</div>
+					  	<div class="form-group">
+							<label class="col-sm-3 control-label"></label>
+							<div class="col-sm-9">
+								<input type="submit" class="btn btn-primary" value="Hinzufügen">
+							</div>
+						</div>
+					</form>
+
 	            </div>
 	        </div>
 	    </main>
