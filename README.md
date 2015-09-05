@@ -12,6 +12,10 @@ How to start that stuff:
   8. **Aufrufen des Dienstes** - Der Dienst kann nun unter localhost:1338/ aufgerufen werden
   9. **Einloggen** - Einloggen mit dem Account: 
 	
-	Name: Franky			Passwort: test123	(einfacher Nutzer)
+	Name: Franky (einfacher Nutzer)			
 
-	Name: PollerWiesen GmbH		Passwort: test123 (Firma)
+	Passwort: test123	
+
+	Name: PollerWiesen GmbH	(Firma)
+
+	Passwort: test123 
