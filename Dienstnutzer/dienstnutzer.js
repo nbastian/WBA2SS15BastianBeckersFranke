@@ -98,6 +98,13 @@ app.get('/veranstaltungen', function(req, res) {
                 veranstaltungen[i].dateEnd = moment(veranstaltungen[i].dateEnd, 'X').format('DD.MM.YYYY HH:mm');
                 veranstaltungen[i].dateStart = moment(veranstaltungen[i].dateStart, 'X').format('DD.MM.YYYY HH:mm');
             }
+            if(req.cookies.isCompany == 'true'){
+                veranstaltungen = veranstaltungen.filter(function(ver) {
+	               return ver.userId == req.cookies.companyId;
+                });
+            } else {
+                veranstaltungen = [];
+            }
             res.render('pages/veranstaltungen', {
                 veranstaltungen: veranstaltungen,
                 name: req.cookies.username
@@ -193,11 +200,9 @@ app.get('/mitarbeiter', function(req, res) {
     var x = http.request(options, function(externalres) {
         externalres.on('data', function(chunk){
             var users = JSON.parse(chunk);
-            console.log(req.cookies.isCompany);
             if(req.cookies.isCompany == 'true'){
                 users = users.filter(function(user) {
 	               return user.isCompany == false && user.companyId == req.cookies.companyId;
-                    console.log("hier");
                 });
             } else {
                 users = users.filter(function(user) {
