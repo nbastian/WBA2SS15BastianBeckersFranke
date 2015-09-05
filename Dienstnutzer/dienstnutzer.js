@@ -114,33 +114,6 @@ app.get('/veranstaltungen', function(req, res) {
     x.end();
 })
 
-app.get('/veranstaltungen/:VeranstaltungsID', function(req, res) {
-    var options = {
-        host: 'localhost',
-        port: 1337,
-        path: '/event/'+req.params.VeranstaltungsID,
-        method: 'GET',
-        headers: {
-            accept: 'application/json'
-        }
-    };
-    
-    var x = http.request(options, function(externalres){
-        externalres.on('data', function(chunk){
-            var veranstaltung = JSON.parse(chunk);
-            
-            veranstaltung.dateEnd = moment(veranstaltung.dateEnd, 'X').format('DD.MM.YYYY HH:mm');
-            veranstaltung.dateStart = moment(veranstaltung.dateStart, 'X').format('DD.MM.YYYY HH:mm');
-
-            res.render('pages/veranstaltung', {
-                veranstaltung: veranstaltung,
-                name: req.cookies.username
-            });
-        });
-    });                     
-    x.end();
-})
-
 app.delete('/veranstaltungen/:VeranstaltungsID', function(req, res) {
     /*var options = {
         host: 'localhost',
@@ -337,7 +310,7 @@ app.get('/profil', function(req, res) {
 
 // demodata filler endpoint
 var module_events_roster = require('./events_roster.js');
-module_events_roster.init(app);
+module_events_roster.init(app, http);
 
 
 
