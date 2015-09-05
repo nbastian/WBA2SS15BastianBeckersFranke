@@ -46,7 +46,8 @@ app.get('/', function(req, res) {
             
             res.render('pages/index', {
                 anVer: anVer,
-                name: req.cookies.username
+                name: req.cookies.username,
+                isCompany: req.cookies.isCompany
             });
         });
     });
@@ -112,37 +113,11 @@ app.get('/veranstaltungen', function(req, res) {
             }
             res.render('pages/veranstaltungen', {
                 veranstaltungen: veranstaltungen,
-                name: req.cookies.username
+                name: req.cookies.username,
+                isCompany: req.cookies.isCompany
             });
         });
     });                   
-    x.end();
-})
-
-app.get('/veranstaltungen/:VeranstaltungsID', function(req, res) {
-    var options = {
-        host: 'localhost',
-        port: 1337,
-        path: '/event/'+req.params.VeranstaltungsID,
-        method: 'GET',
-        headers: {
-            accept: 'application/json'
-        }
-    };
-    
-    var x = http.request(options, function(externalres){
-        externalres.on('data', function(chunk){
-            var veranstaltung = JSON.parse(chunk);
-            
-            veranstaltung.dateEnd = moment(veranstaltung.dateEnd, 'X').format('DD.MM.YYYY HH:mm');
-            veranstaltung.dateStart = moment(veranstaltung.dateStart, 'X').format('DD.MM.YYYY HH:mm');
-
-            res.render('pages/veranstaltung', {
-                veranstaltung: veranstaltung,
-                name: req.cookies.username
-            });
-        });
-    });                     
     x.end();
 })
 
@@ -217,7 +192,8 @@ app.get('/mitarbeiter', function(req, res) {
             
             res.render('pages/mitarbeitervw', {
                 users: users,
-                name: req.cookies.username
+                name: req.cookies.username,
+                isCompany: req.cookies.isCompany
             });
         });
     });
@@ -334,11 +310,7 @@ app.get('/profil', function(req, res) {
     var options = {
         host: 'localhost',
         port: 1337,
-        
-        // WIRD NICHT MEHR FUNKTIONIEREN!!!
-        path: '/user?username=' + req.cookies.username,
-        // /user?username=.. gibts nicht mehr
-        
+        path: '/user?token='+req.cookies.token,
         method: 'GET',
         headers: {
             accept: 'application/json'
@@ -347,15 +319,23 @@ app.get('/profil', function(req, res) {
     
     var x = http.request(options, function(externalres){
         externalres.on('data', function(chunk){
-            var nutzer = JSON.parse(chunk);
+            var users = JSON.parse(chunk);
+            users = users.filter(function(user) {
+                return user.id == Number(req.cookies.id);
+            });
             res.render('pages/profil', {
-                nutzer: nutzer,
-                name: req.cookies.username
+                user: users,
+                name: req.cookies.username,
+                isCompany: req.cookies.isCompany
             });
         });
     });
     x.end();
-})
+});
+
+// demodata filler endpoint
+var module_events_roster = require('./events_roster.js');
+module_events_roster.init(app, http);
 
 
 

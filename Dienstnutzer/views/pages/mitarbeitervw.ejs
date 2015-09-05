@@ -11,8 +11,8 @@
 
     <main>
         <div class="row">
-            <h1>Mitarbeiterverwaltung für <%= name %></h1>
             <div class="col-sm-12">
+                <h1>Mitarbeiterverwaltung für <%= name %></h1>
                 <ul class="list-group" id="veranstaltungList">
                     <% users.forEach(function(user) { %>
                     <a href="/mitarbeiter/<%= user.id %>" class="list-group-item">
@@ -36,17 +36,17 @@
             </form>
         </div>
     </main>
-<script type="text/javascript">
-                    function deleteUser(userId) {
-                        $.ajax ({
-                                url: '//localhost:1338/mitarbeiter/'+userId,
-                                type: "DELETE",
-                                success: function(result) {
-                                    location.reload();
-                                }
-                            });
-                    }
-                </script>
+            <script type="text/javascript">
+                 function deleteUser(userId) {
+                    $.ajax ({
+                        url: '//localhost:1338/mitarbeiter/'+userId,
+                        type: "DELETE",
+                        success: function(result) {
+                            location.reload();
+                        }
+                    });
+                }
+            </script>
     <footer>
         <% include ../partials/footer %>
     </footer>

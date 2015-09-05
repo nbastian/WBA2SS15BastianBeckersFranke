@@ -12,13 +12,43 @@
     <main>
         <div class="row">
             <div class="col-sm-12">
-                <ul class="list-group">
-                    <h4 class="list-group-item-heading">ID:<%= nutzer.id %></h4>
-                    <p class="list-group-item-text">Username:<%= nutzer.username %></p>
-                    <p class="list-group-item-text">Email:<%= nutzer.email %></p>
-                    <p class="list-group-item-text">codiertes PW:<%= nutzer.password %></p>
-                    <p class="list-group-item-text">EXP:<%= nutzer.experience %></p>
+                <table class="table">
+                    <th>
+                        <td>ID</td>
+                        <td>Username</td>
+                        <td>Email</td>
+                        <td>codiertes PW</td>
+                        <td>EXP</td>
+                    </th>
+                    <% user.forEach(function(user) { %>
+                        <tr>
+                            <td></td>
+                            <td><%= user.id %></td>
+                            <td><%= user.username %></td> 
+                            <td><%= user.email %></td>
+                            <td><%= user.password %></td>
+                            <td><%= user.experiences %></td>
+                        </tr>
+                    <% }); %>
+                </table>
+                <ul class="list-group" id="veranstaltungList">
+                    <% user.forEach(function(user) { %>
+                    <a href="/mitarbeiter/<%= user.id %>" class="list-group-item">
+                        <h4 class="list-group-item-heading"><%= user.username %></h4>
+                        <p class="list-group-item-text">Email:<%= user.email %></p>
+                    </a>
+                    <button class="btn btn-danger" onclick="deleteUser(<%= user.id %>);">löschen</button>
+                    <% }); %>
                 </ul>
+                <% user.forEach(function(user) { %>
+                <ul class="list-group">
+                    <h4 class="list-group-item-heading">ID:<%= user.id %></h4>
+                    <p class="list-group-item-text">Username:<%= user.username %></p>
+                    <p class="list-group-item-text">Email:<%= user.email %></p>
+                    <p class="list-group-item-text">codiertes PW:<%= user.password %></p>
+                    <p class="list-group-item-text">EXP:<%= user.experiences %></p>
+                </ul>
+                <% }); %>
             </div>
         </div>
     </main>
