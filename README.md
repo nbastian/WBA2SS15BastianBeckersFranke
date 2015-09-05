@@ -4,7 +4,7 @@ How to start that stuff:
 
   1. **Installation von Node.js**
 
-     Node.js installieren mittels (nodejs.org)[http://nodejs.org]
+     Node.js installieren mittels [nodejs.org](http://nodejs.org)
      
   2. **Module für Dienstgeber**
     
@@ -20,13 +20,13 @@ How to start that stuff:
      Dienstgeber in gesondertem Tab in der Konsole mit `node main.js` starten		 
   6. **Testdatensätze in Datenbank**
      
-     Befüllen der Datenbank durch Aufrufen (GET) auf (localhost:1337/initdemo)[http://localhost:1337/initdemo]		
+     Befüllen der Datenbank durch Aufrufen (GET) auf [localhost:1337/initdemo](http://localhost:1337/initdemo)	
   7. **Dienstnutzer aktivieren**
      
      Dienstnutzer in gesondertem Tab in der Konsole mit `node dienstnutzer.js` starten		 
   8. **Aufrufen des Dienstes**
  
-     Der Dienst kann nun unter (localhost:1338)[http://localhost:1338] aufgerufen werden
+     Der Dienst kann nun unter [localhost:1338](http://localhost:1338) aufgerufen werden
   9. **Einloggen**
   
      Einloggen mit dem Account
