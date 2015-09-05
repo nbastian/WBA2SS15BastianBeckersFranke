@@ -11,7 +11,7 @@
 
     <main>
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-sm-8">
                 <h1>Mitarbeiterverwaltung für <%= name %></h1>
                 <ul class="list-group" id="veranstaltungList">
                     <% users.forEach(function(user) { %>
@@ -23,10 +23,9 @@
                     <% }); %>
                 </ul>
             </div>
-        </div>
-        <div class="jumbotron" id="signin">
+            <div class="col-sm-4" id="signin">
             <form class="form-signin" action="//localhost:1338/signup" method="post">
-                <h2 class="form-signin-heading">Neuer Mitarbeiter</h2>
+                <h1 class="form-signin-heading">Neuer Mitarbeiter</h2>
                 <label for="inputUsername" class="sr-only">Username</label>
                 <input name="username" type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
                 <label for="inputEmail" class="sr-only">Email</label>
@@ -34,6 +33,7 @@
                 <input type="hidden" name="isCompany" value="false">
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
             </form>
+            </div>
         </div>
     </main>
             <script type="text/javascript">

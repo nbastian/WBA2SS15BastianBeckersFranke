@@ -11,7 +11,7 @@
 
     <main>
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-sm-8">
                 <h1>Veranstaltungsverwaltung für <%= name %></h1>
                 <ul class="list-group" id="veranstaltungList">
                     <% veranstaltungen.forEach(function(event) { %>
@@ -25,7 +25,8 @@
                 </ul>
             </div>
             <% if(isCompany == "true") { %>
-            <div class="col-sm-12">
+            <div class="col-sm-4">
+                <h1>Veranstaltung hinzufügen</h1>
                 <form id="newEventForm">
                     <label for="inputEventname" class="sr-only">Veranstaltungsname</label>
                     <input name="name" type="text" id="inputEventname" class="form-control" placeholder="Veranstaltungsname" required>
