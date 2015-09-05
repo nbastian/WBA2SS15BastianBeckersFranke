@@ -263,6 +263,8 @@ app.post('/login', function(req, res) {
       	externalres.on('data', function(chunk){
             var jsonResp = JSON.parse(chunk);
             
+            console.log(jsonResp);
+            
             // Save data to the current local store falls falsches Login alten Token auch löschen eher für Testzwecke
             if (jsonResp.success == true) {
 	            var cookieOptions = { 
@@ -272,51 +274,23 @@ app.post('/login', function(req, res) {
 		        
                 res.cookie('token', jsonResp.token, cookieOptions);
                 res.cookie('username', jsonResp.user.username, cookieOptions);
+    
+				res.redirect('/');
+            } else {
+	            res.json(jsonResp);
             }
       	});			
     });
-    
     x.write(JSON.stringify(req.body));
     x.end();
-    
-    res.redirect('/');
 })
 
 app.get('/logout', function(req, res) {
     res.clearCookie('token');
     res.clearCookie('username');
     
-    var options = {
-        host: 'localhost',
-        port: 1337,
-        path: '/event',
-        method: 'GET',
-        headers: {
-            accept: 'application/json'
-        }
-    };
     
-    var x = http.request(options, function(externalres){
-        externalres.on('data', function(chunk){
-            var anVer = JSON.parse(chunk);
-            var jetzt = moment();
-            for(i=0; i<anVer.length; i++) {
-                var start = moment(anVer[i].dateStart, "X").format('YYYY-MM-DD HH:mm');
-                if(jetzt.isBefore(start)){
-                    anVer[i].dateEnd = moment(anVer[i].dateEnd, "X").format('YYYY-MM-DD HH:mm');
-                    anVer[i].dateStart = moment(anVer[i].dateStart, "X").format('YYYY-MM-DD HH:mm');
-                }else{
-                    delete anVer[i];
-                }
-            }
-            res.render('pages/index', {
-                anVer: anVer,                      
-                name: req.cookies.username
-            });
-        });
-    });
-                         
-    x.end();
+	res.redirect('/');
 })
 
 app.get('/profil', function(req, res) {
