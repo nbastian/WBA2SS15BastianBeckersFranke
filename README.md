@@ -5,7 +5,6 @@ How to start that stuff:
   1. **Installation von Node.js**
 
      Node.js installieren mittels [nodejs.org](http://nodejs.org)
-     
   2. **Module für Dienstgeber**
     
      Terminal im Dienstgeber-Ordner befindlich Befehl `npm install` ausführen
