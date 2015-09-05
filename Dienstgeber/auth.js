@@ -1,11 +1,10 @@
 module.exports = {
     init: function(app) {
-        // endpoint for getting and setting user
+        // endpoint for getting and setting user. 
        app.all('*', function(req, res, next) {
         
-	        // exceptions
-	        console.log(req);
-	        if (req.path == '/authenticate' || (req.path == '/events' && req.method.toLowerCase() == 'get')) {
+	        // exceptions  
+	        if (req.path == '/authenticate' || (req.path == '/event' && req.method.toLowerCase() == 'get')) {
 		        return next();
 	        }
 	        
