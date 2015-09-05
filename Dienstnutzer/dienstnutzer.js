@@ -194,7 +194,7 @@ app.get('/mitarbeiter', function(req, res) {
         externalres.on('data', function(chunk){
             var users = JSON.parse(chunk);
             console.log(req.cookies.isCompany);
-            if(req.cookies.isCompany == true){
+            if(req.cookies.isCompany == 'true'){
                 users = users.filter(function(user) {
 	               return user.isCompany == false && user.companyId == req.cookies.companyId;
                     console.log("hier");
@@ -281,6 +281,7 @@ app.post('/login', function(req, res) {
 		            httpOnly: true 
 		        };
                 res.cookie('token', jsonResp.token, cookieOptions);
+                res.cookie('id', jsonResp.user.id, cookieOptions);
                 res.cookie('username', jsonResp.user.username, cookieOptions);
                 res.cookie('companyId', jsonResp.user.companyId, cookieOptions);
                 res.cookie('isCompany', jsonResp.user.isCompany, cookieOptions);
