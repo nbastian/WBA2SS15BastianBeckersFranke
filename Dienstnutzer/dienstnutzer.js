@@ -100,7 +100,7 @@ app.get('/veranstaltungen', function(req, res) {
             }
             res.render('pages/veranstaltungen', {
                 veranstaltungen: veranstaltungen,
-                name: 'ANME'
+                name: req.cookies.username
             });
         });
     });                   
