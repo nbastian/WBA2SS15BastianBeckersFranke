@@ -17,6 +17,9 @@
                     <a href="/mitarbeiter/<%= user.id %>" class="list-group-item">
                         <h4 class="list-group-item-heading"><%= user.username %></h4>
                         <p class="list-group-item-text">Email:<%= user.email %></p>
+                        <p class="list-group-item-text">codiertes Password:<%= user.password %></p>
+                        <p class="list-group-item-text">Experiences:<%= user.experiences %></p>
+                        <p class="list-group-item-text">companyId:<%= user.companyId %></p>
                     </a>
                     <button class="btn btn-danger" onclick="deleteUser(<%= user.id %>);">löschen</button>
                     <% }); %>
@@ -31,3 +34,11 @@
     
 </body>
 </html>
+
+id: 1,
+		            isCompany: false,
+		            companyId: 3,
+		            username: 'Franky',
+		            email: 'fh@franky.ws',
+		            password: sha1sum('test123'),
+		            experiences:
