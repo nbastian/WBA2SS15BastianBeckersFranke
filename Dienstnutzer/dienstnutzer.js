@@ -313,9 +313,8 @@ app.post('/login', function(req, res) {
 })
 
 app.get('/logout', function(req, res) {
-    
-    localStorage.removeItem("token");
-    localStorage.removeItem("name");
+    res.clearCookie('token');
+    res.clearCookie('user');
     
     var options = {
         host: 'localhost',
