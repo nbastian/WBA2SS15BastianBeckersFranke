@@ -2,8 +2,7 @@
 
 How to start that stuff:
 
-  1. Datenhaltung in gesonderten Tab in der Konsole mit "redis-server" starten			
-	-->Datenhaltung aktivieren
+  1. **Datenhaltung aktivieren** -Datenhaltung in gesonderten Tab in der Konsole mit "redis-server" starten			
   2. Dienstgeber in gesondertem Tab in der Konsole mit "node main.js" starten		
 
 	--> Dienstgeber aktivieren
