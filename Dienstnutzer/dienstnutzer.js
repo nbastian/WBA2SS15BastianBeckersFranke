@@ -41,7 +41,8 @@ app.get('/', function(req, res) {
             
             res.render('pages/index', {
                 anVer: anVer,
-                name: req.cookies.username
+                name: req.cookies.username,
+                isCompany: req.cookies.isCompany
             });
         });
     });
@@ -107,7 +108,8 @@ app.get('/veranstaltungen', function(req, res) {
             }
             res.render('pages/veranstaltungen', {
                 veranstaltungen: veranstaltungen,
-                name: req.cookies.username
+                name: req.cookies.username,
+                isCompany: req.cookies.isCompany
             });
         });
     });                   
@@ -185,7 +187,8 @@ app.get('/mitarbeiter', function(req, res) {
             
             res.render('pages/mitarbeitervw', {
                 users: users,
-                name: req.cookies.username
+                name: req.cookies.username,
+                isCompany: req.cookies.isCompany
             });
         });
     });
@@ -300,7 +303,8 @@ app.get('/profil', function(req, res) {
             });
             res.render('pages/profil', {
                 user: users,
-                name: req.cookies.username
+                name: req.cookies.username,
+                isCompany: req.cookies.isCompany
             });
         });
     });
