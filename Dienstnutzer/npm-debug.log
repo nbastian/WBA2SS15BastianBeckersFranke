@@ -1,0 +1,66 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'install', 'cookieParser' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.35
+4 verbose cache add [ 'cookieParser', null ]
+5 verbose cache add name=undefined spec="cookieParser" args=["cookieParser",null]
+6 verbose parsed url { protocol: null,
+6 verbose parsed url   slashes: null,
+6 verbose parsed url   auth: null,
+6 verbose parsed url   host: null,
+6 verbose parsed url   port: null,
+6 verbose parsed url   hostname: null,
+6 verbose parsed url   hash: null,
+6 verbose parsed url   search: null,
+6 verbose parsed url   query: null,
+6 verbose parsed url   pathname: 'cookieParser',
+6 verbose parsed url   path: 'cookieParser',
+6 verbose parsed url   href: 'cookieParser' }
+7 silly lockFile 0e37acdf-cookieParser cookieParser
+8 verbose lock cookieParser /Users/Franky/.npm/0e37acdf-cookieParser.lock
+9 silly lockFile 0e37acdf-cookieParser cookieParser
+10 silly lockFile 0e37acdf-cookieParser cookieParser
+11 verbose addNamed [ 'cookieParser', '' ]
+12 verbose addNamed [ null, '*' ]
+13 silly lockFile 74f56a99-cookieParser cookieParser@
+14 verbose lock cookieParser@ /Users/Franky/.npm/74f56a99-cookieParser.lock
+15 silly addNameRange { name: 'cookieParser', range: '*', hasData: false }
+16 verbose request where is /cookieParser
+17 verbose request registry https://registry.npmjs.org/
+18 verbose request id c50237c274380d0b
+19 verbose url raw /cookieParser
+20 verbose url resolving [ 'https://registry.npmjs.org/', './cookieParser' ]
+21 verbose url resolved https://registry.npmjs.org/cookieParser
+22 verbose request where is https://registry.npmjs.org/cookieParser
+23 info trying registry request attempt 1 at 16:15:26
+24 http GET https://registry.npmjs.org/cookieParser
+25 http 404 https://registry.npmjs.org/cookieParser
+26 silly registry.get cb [ 404,
+26 silly registry.get   { 'content-type': 'application/json',
+26 silly registry.get     'cache-control': 'max-age=0',
+26 silly registry.get     'content-length': '2',
+26 silly registry.get     'accept-ranges': 'bytes',
+26 silly registry.get     date: 'Sat, 05 Sep 2015 14:15:26 GMT',
+26 silly registry.get     via: '1.1 varnish',
+26 silly registry.get     age: '0',
+26 silly registry.get     connection: 'keep-alive',
+26 silly registry.get     'x-served-by': 'cache-fra1222-FRA',
+26 silly registry.get     'x-cache': 'MISS',
+26 silly registry.get     'x-cache-hits': '0',
+26 silly registry.get     'x-timer': 'S1441462526.441653,VS0,VE408' } ]
+27 silly lockFile 74f56a99-cookieParser cookieParser@
+28 silly lockFile 74f56a99-cookieParser cookieParser@
+29 error 404 Not Found
+29 error 404
+29 error 404 'cookieParser' is not in the npm registry.
+29 error 404 You should bug the author to publish it
+29 error 404
+29 error 404 Note that you can also install from a
+29 error 404 tarball, folder, or http url, or git url.
+30 error System Darwin 14.5.0
+31 error command "node" "/usr/local/bin/npm" "install" "cookieParser"
+32 error cwd /Users/Franky/Websites/wba2repo/Dienstnutzer
+33 error node -v v0.10.35
+34 error npm -v 1.4.28
+35 error code E404
+36 verbose exit [ 1, true ]

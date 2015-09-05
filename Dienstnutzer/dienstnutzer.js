@@ -6,10 +6,11 @@ var jsonParser = bodyparser.json();
 var moment = require('moment');
 
 var app = express();
+var cookieParser = require('cookie-parser')
 
 // set bodyparser as default
 app.use(bodyparser.urlencoded({ extended: true }));
-app.use(express.cookieParser());
+app.use(cookieParser());
 
 app.set('view engine', 'ejs');
 
@@ -37,9 +38,10 @@ app.get('/', function(req, res) {
                     delete anVer[i];
                 }
             }
+            
             res.render('pages/index', {
                 anVer: anVer,
-                name: localStorage.getItem("name")
+                name: (req.cookies.user && req.cookies.user.username) || null
             });
         });
     });
@@ -98,7 +100,7 @@ app.get('/veranstaltungen', function(req, res) {
             }
             res.render('pages/veranstaltungen', {
                 veranstaltungen: veranstaltungen,
-                name: localStorage.getItem("name")
+                name: 'ANME'
             });
         });
     });                   
@@ -125,7 +127,7 @@ app.get('/veranstaltungen/:VeranstaltungsID', function(req, res) {
 
             res.render('pages/veranstaltung', {
                 veranstaltung: veranstaltung,
-                name: localStorage.getItem("name")
+                name: 'NAME'
             });
         });
     });                     
@@ -169,7 +171,7 @@ app.delete('/veranstaltungen/:VeranstaltungsID', function(req, res) {
 
             res.render('pages/veranstaltung', {
                 veranstaltung: veranstaltung,
-                name: localStorage.getItem("name")
+                name: 'NAME'
             });*/
             res.json({"success": true});
         });
@@ -193,7 +195,7 @@ app.get('/mitarbeiter', function(req, res) {
             var users = JSON.parse(chunk);
             res.render('pages/mitarbeitervw', {
                 users: users,
-                name: localStorage.getItem("name")
+                name: 'NAME'
             });
         });
     });
@@ -260,8 +262,9 @@ app.post('/login', function(req, res) {
     var x = http.request(options, function(externalres){		
       	externalres.on('data', function(chunk){
             var jsonResp = JSON.parse(chunk);
+            
             // Save data to the current local store falls falsches Login alten Token auch löschen eher für Testzwecke
-            if (token.success == true) {
+            if (jsonResp.success == true) {
 	            var cookieOptions = { 
 		            maxAge: 60 * 60 * 24 * 30 * 12, // one year
 		            httpOnly: true 
@@ -303,7 +306,7 @@ app.post('/login', function(req, res) {
             }
             res.render('pages/index', {
                 anVer: anVer,
-                name: localStorage.getItem("name")
+                name: 'NAME'
             });
         });
     });
@@ -340,7 +343,7 @@ app.get('/logout', function(req, res) {
             }
             res.render('pages/index', {
                 anVer: anVer,                      
-                name: localStorage.getItem("name")
+                name: 'NAME'
             });
         });
     });
@@ -352,7 +355,7 @@ app.get('/profil', function(req, res) {
     var options = {
         host: 'localhost',
         port: 1337,
-        path: '/user?username='+localStorage.getItem("name"),
+        path: '/user?username='+'NAME',
         method: 'GET',
         headers: {
             accept: 'application/json'
@@ -364,7 +367,7 @@ app.get('/profil', function(req, res) {
             var nutzer = JSON.parse(chunk);
             res.render('pages/profil', {
                 nutzer: nutzer,
-                name: localStorage.getItem("name")
+                name: 'NAME'
             });
         });
     });
