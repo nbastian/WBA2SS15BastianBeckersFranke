@@ -53,7 +53,7 @@ app.post('/veranstaltungen', function(req, res) {
     var options = {
         host: 'localhost',
         port: 1337,
-        path: '/event',
+        path: '/event?token=' + req.cookies.token,
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -154,7 +154,7 @@ app.delete('/veranstaltungen/:VeranstaltungsID', function(req, res) {
     var options = {
         host: 'localhost',
         port: 1337,
-        path: '/event/'+req.params.VeranstaltungsID,
+        path: '/event/'+req.params.VeranstaltungsID + '?token=' + req.cookies.token,
         method: 'DELETE',
         headers: {
             accept: 'application/json'
