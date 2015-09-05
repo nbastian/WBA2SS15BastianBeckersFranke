@@ -193,10 +193,17 @@ app.get('/mitarbeiter', function(req, res) {
     var x = http.request(options, function(externalres) {
         externalres.on('data', function(chunk){
             var users = JSON.parse(chunk);
-            
-            users = users.filter(function(user) {
-	            return user.isCompany == false && user.companyId == req.cookies.companyId;
-            });
+            console.log(req.cookies.isCompany);
+            if(req.cookies.isCompany == true){
+                users = users.filter(function(user) {
+	               return user.isCompany == false && user.companyId == req.cookies.companyId;
+                    console.log("hier");
+                });
+            } else {
+                users = users.filter(function(user) {
+                    return user.username == req.cookies.username;
+                });
+            }
             
             res.render('pages/mitarbeitervw', {
                 users: users,
@@ -276,7 +283,7 @@ app.post('/login', function(req, res) {
                 res.cookie('token', jsonResp.token, cookieOptions);
                 res.cookie('username', jsonResp.user.username, cookieOptions);
                 res.cookie('companyId', jsonResp.user.companyId, cookieOptions);
-    
+                res.cookie('isCompany', jsonResp.user.isCompany, cookieOptions);
 				res.redirect('/');
             } else {
 	            res.json(jsonResp);
