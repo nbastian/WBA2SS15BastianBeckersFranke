@@ -4,7 +4,7 @@ module.exports = {
        app.all('*', function(req, res, next) {
         
 	        // exceptions
-	        if (req.path == '/authenticate') {
+	        if (req.path == '/authenticate' || req.path == '/events') {
 		        return next();
 	        }
 	        
@@ -19,7 +19,7 @@ module.exports = {
 		        callbackError: function() {
 			        res.status(403).json({
 				        success: false,
-				        message: 'Private resource and token not valid.'
+				        message: 'Private resource requested and token not valid.'
 			        });
 		        }
 	        });
