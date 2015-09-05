@@ -333,7 +333,11 @@ app.get('/profil', function(req, res) {
         });
     });
     x.end();
-})
+});
+
+// demodata filler endpoint
+var module_events_roster = require('./events_roster.js');
+module_events_roster.init(app);
 
 
 
