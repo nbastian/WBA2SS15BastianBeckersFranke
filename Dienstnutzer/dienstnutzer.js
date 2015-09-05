@@ -183,7 +183,7 @@ app.get('/mitarbeiter', function(req, res) {
     var options = {
         host: 'localhost',
         port: 1337,
-        path: '/user',
+        path: '/user?token='+req.cookies.token,
         method: 'GET',
         headers: {
             accept: 'application/json'
@@ -207,7 +207,7 @@ app.delete('/mitarbeiter/:userID', function(req, res) {
     var options = {
         host: 'localhost',
         port: 1337,
-        path:'/user/'+req.params.userID,
+        path:'/user?token='+req.cookies.token+'/'+req.params.userID,
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
@@ -262,16 +262,12 @@ app.post('/login', function(req, res) {
     var x = http.request(options, function(externalres){		
       	externalres.on('data', function(chunk){
             var jsonResp = JSON.parse(chunk);
-            
-            console.log(jsonResp);
-            
             // Save data to the current local store falls falsches Login alten Token auch löschen eher für Testzwecke
             if (jsonResp.success == true) {
 	            var cookieOptions = { 
 		            maxAge: 60 * 60 * 24 * 30 * 12, // one year
 		            httpOnly: true 
 		        };
-		        
                 res.cookie('token', jsonResp.token, cookieOptions);
                 res.cookie('username', jsonResp.user.username, cookieOptions);
     
