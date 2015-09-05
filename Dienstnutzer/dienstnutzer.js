@@ -62,7 +62,7 @@ app.post('/veranstaltungen', function(req, res) {
     var x = http.request(options, function(externalres){
         externalres.on('data', function(chunk){
             var veranstaltung = JSON.parse(chunk);
-
+            console.log(req.cookies.id);
             if(veranstaltung != null)
             {
                 res.json({"id": veranstaltung.id,
@@ -74,7 +74,7 @@ app.post('/veranstaltungen', function(req, res) {
         });
     });
     
-    x.write(JSON.stringify({"id": req.body.id,
+    x.write(JSON.stringify({"id": req.cookies.id,
                           "dateStart": req.body.dateStart + " " + req.body.timeStart,
                           "dateEnd": req.body.dateEnd + " " + req.body.timeEnd,
                           "name": req.body.name}));
@@ -182,7 +182,7 @@ app.delete('/veranstaltungen/:VeranstaltungsID', function(req, res) {
             });*/
             res.json({"success": true});
         });
-    });                     
+    });                      
     x.end();
 })
 

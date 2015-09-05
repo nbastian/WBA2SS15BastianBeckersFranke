@@ -35,6 +35,7 @@ module.exports = {
                     var newEvent = {
                         id: newId,
                         name: req.body.name,
+                        userId: req.body.id,
                         dateStart: moment(req.body.dateStart).format('X'),
                         dateEnd: moment(req.body.dateEnd).format('X')
                     };
