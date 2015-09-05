@@ -34,6 +34,7 @@ module.exports = {
 		        {
 		            id: 3,
 		            isCompany: true,
+                    companyId: 3,
 		            username: 'PollerWiesen GmbH',
 		            email: 'franky@pollwiesen.org',
 		            password: sha1sum('test123'),
