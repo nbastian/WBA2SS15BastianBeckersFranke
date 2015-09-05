@@ -4,7 +4,7 @@ module.exports = {
        app.all('*', function(req, res, next) {
         
 	        // exceptions
-	        if (req.path == '/authenticate' || req.path == '/events') {
+	        if (req.path == '/authenticate' || (req.path == '/events' && req.method == 'get')) {
 		        return next();
 	        }
 	        
