@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+    
+    <script>
+    	$(function() {
+			
+			$('.form-useredit').on('submit', function(e) {
+				e.preventDefault();
+				var currUserId = $(this).data('userid');
+				
+				var pass1 = $('input[name="password"]').val(),
+					pass2 = $('input[name="pass2"]').val();
+				
+				if (pass1 != '' && pass1 != pass2) {
+					alert('Passwörter sind nicht identisch!');
+					return;
+				}
+				
+				$.put('/mitarbeiter/' + currUserId + '/', $(this).serialize(), function(resp) {
+					if (resp.success) location.reload();
+					else alert('Es ist ein Fehler aufgetreten..');
+				});
+			});
+    	});
+    </script>
+</head>
+<body>
+	<div class="container">
+	    <header>
+	        <% include ../partials/header %> 
+	    </header>
+	
+	    <main>
+	        <h3>Mitarbeiter bearbeiten</h3>
+	        <form class="form-horizontal form-useredit" data-userid="<%= user.id %>">
+		        <div class="row">
+		        	<div class="col-md-6">
+		        		<h4>Allgemeine Daten</h4>
+		        		
+	               	 	<div class="form-group">
+							<label class="col-sm-3 control-label">Benutzername</label>
+							<div class="col-sm-9">
+								<input type="text" name="username" class="form-control" value="<%= user.username %>" required>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">E-Mail</label>
+							<div class="col-sm-9">
+								<input type="email" name="email" class="form-control" value="<%= user.email %>" required>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Neues Passwort</label>
+							<div class="col-sm-9">
+								<input type="password" name="password" class="form-control">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Neues Passwort wiederholen</label>
+							<div class="col-sm-9">
+								<input type="password" name="pass2" class="form-control">
+							</div>
+						</div>
+						
+					  	<div class="form-group">
+							<label class="col-sm-3 control-label"></label>
+							<div class="col-sm-9">
+								<input type="submit" class="btn btn-primary" value="Speichern">
+							</div>
+						</div>
+					</div>
+		        	<div class="col-md-6">
+		        		<h4>Erfahrungen</h4>
+		        		
+		        		<% user.experiences.forEach(function(exp, i) { %>
+			        		<div class="form-group">
+								<label class="col-sm-3 control-label">Erfahrung</label>
+								<div class="col-sm-6">
+									<input type="text" name="experiences[<%= i %>][experience]" class="form-control" value="<%= exp.experience %>">
+								</div>
+								<div class="col-sm-3">
+									<input type="number" name="experiences[<%= i %>][level]" class="form-control" value="<%= exp.level %>" min="1" max="10">
+								</div>
+							</div>
+						<% }); %>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Erfahrung</label>
+							<div class="col-sm-6">
+								<input type="text" name="experiences[<%= user.experiences.length %>][experience]" class="form-control" placeholder="Neue Erfahrung" value="">
+							</div>
+							<div class="col-sm-3">
+								<input type="number" name="experiences[<%= user.experiences.length %>][level]" class="form-control" min="1" max="10" value="">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label"></label>
+							<div class="col-sm-9">
+								<input type="submit" class="btn btn-primary" value="Speichern">
+							</div>
+						</div>
+		        	</div>
+		        </div>
+			</form>
+	    </main>
+	
+	    <footer>
+	        <% include ../partials/footer %>
+	    </footer>
+    </div>
+</body>
+</html>
