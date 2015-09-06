@@ -34,11 +34,7 @@ module.exports = {
 			            	endTime: endDate.format(inputFormat.time)
 			            }),
 		                name: req.cookies.username,
-<<<<<<< HEAD
 						isCompany: req.cookies.isCompany
-=======
-                        isCompany: req.cookies.isCompany
->>>>>>> 7413f0bce96f4300881ca175233d7706049307bd
 		            });
 		        });
 		    }).end();
