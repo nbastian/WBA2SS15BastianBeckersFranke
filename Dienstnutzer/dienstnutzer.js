@@ -164,7 +164,7 @@ app.delete('/veranstaltungen/:VeranstaltungsID', function(req, res) {
         });
     });                      
     x.end();
-})
+});
 
 app.get('/mitarbeiter', function(req, res) {
     var options = {
@@ -199,7 +199,50 @@ app.get('/mitarbeiter', function(req, res) {
     });
     
     x.end();
-})
+});
+
+app.get('/mitarbeiter/:userID', function(req, res) {
+    var x = http.request({
+        host: 'localhost',
+        port: 1337,
+        path: '/user/' + req.params.userID + '?token=' + req.cookies.token,
+        method: 'GET',
+        headers: {
+            accept: 'application/json'
+        }
+    }, function(externalres){
+        externalres.on('data', function(respJsonString){
+            var userRow = JSON.parse(respJsonString);
+            
+            res.render('pages/mitarbeiter', {
+                user: userRow,
+                name: req.cookies.username,
+                isCompany: req.cookies.isCompany
+            });
+        });
+    });                   
+    x.end();
+});
+
+app.put('/mitarbeiter/:userID', function(req, res) {
+    var x = http.request({
+        host: 'localhost',
+        port: 1337,
+        path: '/user/' + req.params.userID + '?token=' + req.cookies.token,
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }, function(externalres){
+        externalres.on('data', function(respJsonString){
+            res.json({ success: true });
+        });
+    });
+
+    x.write(JSON.stringify(req.body));      
+               
+    x.end();
+});
 
 app.delete('/mitarbeiter/:userID', function(req, res) {
     var options = {

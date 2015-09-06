@@ -87,12 +87,19 @@ module.exports = {
                         if (userList[i].id == req.params.id) {
                             
                             // todo: check for valid inputs
-                                                
-                            userList[i].isCompany = !!req.body.isCompany;
-                            userList[i].companyId = parseInt(req.body.companyId);
-                            userList[i].username = req.body.username;
-                            userList[i].email = req.body.email;
-                            if (req.body.password) userList[i].password = sha1sum(req.body.password);
+                            
+                            console.log(req.body);
+                                   
+                            if (req.body.isCompany) userList[i].isCompany = !!req.body.isCompany;
+                            if (req.body.companyId) userList[i].companyId = parseInt(req.body.companyId);
+                            if (req.body.username) userList[i].username = req.body.username;
+                            if (req.body.email) userList[i].email = req.body.email;
+                            if (req.body.password && req.body.password != '') userList[i].password = sha1sum(req.body.password);
+                            if (req.body.experiences) {
+	                            userList[i].experiences = req.body.experiences.filter(function(exp) {
+		                            return exp.experience != '';
+	                            });
+                            }
                             
                             var newUser = userList[i];
                             
