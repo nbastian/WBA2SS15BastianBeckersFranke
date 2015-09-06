@@ -17,7 +17,24 @@
 		};
 
     	$(function() {
-	    	
+			jQuery.each( [ "put", "delete" ], function( i, method ) {
+			  jQuery[ method ] = function( url, data, callback, type ) {
+			    if ( jQuery.isFunction( data ) ) {
+			      type = type || callback;
+			      callback = data;
+			      data = undefined;
+			    }
+			
+			    return jQuery.ajax({
+			      url: url,
+			      type: method,
+			      dataType: type,
+			      data: data,
+			      success: callback
+			    });
+			  };
+			});
+			
 	    	var $cal = $('.calendar'),
 	    		$rosterForm = $('.form-addroster'),
 	    		
@@ -141,6 +158,14 @@
 					fullCal.fullCalendar('refetchEvents');
 				});
 			});
+			
+			$('.form-eventedit').on('submit', function(e) {
+				e.preventDefault();
+				
+				$.put('/veranstaltungen/' + currEventId, $(this).serialize(), function(resp) {
+					location.reload();
+				});
+			});
     	});
     </script>
     <style>
@@ -241,7 +266,7 @@
 						<div class="form-group">
 							<label class="col-sm-3 control-label">Name</label>
 							<div class="col-sm-9">
-								<input type="text" class="form-control" value="<%= event.name %>">
+								<input type="text" name="name" class="form-control" value="<%= event.name %>">
 							</div>
 						</div>
 						<div class="form-group">

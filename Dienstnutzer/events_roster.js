@@ -40,6 +40,33 @@ module.exports = {
 		    }).end();
 		});
 		
+		// edit event
+		app.put('/veranstaltungen/:eventId([0-9]+)', function(req, res) {
+			var options = {
+		        host: 'localhost',
+		        port: 1337,
+		        path: '/event/' + req.params.eventId + '?token=' + req.cookies.token,
+		        method: 'PUT',
+		        headers: {
+		            'Content-Type': 'application/json'
+		        }
+		    };
+		    
+		    req.body = extend(req.body, {
+			    dateStart: moment(req.body.eventdate_date + ' ' + req.body.eventdate_time).format('X'),
+			    dateEnd: moment(req.body.eventdate_end_date + ' ' + req.body.eventdate_end_time).format('X')
+		    });
+			 
+		    var serverRequest = http.request(options, function(apiRes){
+	            apiRes.on('data', function(jsonString){
+		            var json = JSON.parse(jsonString);
+	                res.json(json);
+	            });
+	        });
+	        serverRequest.write(JSON.stringify(req.body));
+	        serverRequest.end();
+		});
+		
 		// here comes the intelligence
 		app.get('/veranstaltungen/:eventId([0-9]+)/roster', function(req, res) {
 		    // get roster and find best fitting user

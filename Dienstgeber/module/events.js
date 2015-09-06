@@ -82,11 +82,11 @@ module.exports = {
                             
                             // todo: check for valid inputs
                                                 
-                            if (req.body.name) organizerList[i].name = req.body.name;
-                            if (req.body.dateStart) organizerList[i].dateStart = moment(req.body.dateStart).format('X');
-                            if (req.body.dateEnd) organizerList[i].dateEnd = moment(req.body.dateEnd).format('X');
+                            if (req.body.name) eventList[i].name = req.body.name;
+                            if (req.body.dateStart) eventList[i].dateStart = req.body.dateStart;
+                            if (req.body.dateEnd) eventList[i].dateEnd = req.body.dateEnd;
                             
-                            var newEvent = organizerList[i];
+                            var newEvent = eventList[i];
                             
                             break;
                         }

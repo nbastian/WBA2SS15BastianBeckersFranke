@@ -18,8 +18,6 @@ module.exports = {
             .post(function(req, res) {
                 // save new roster entry in db
                 
-                console.log('post incoming');
-                
                 redis.get(rosterObj, function (err, obj) { 
                     // get old list
                     var rosterList = JSON.parse(obj)
@@ -62,7 +60,6 @@ module.exports = {
         app.route('/roster/:rosterId([0-9]+)')
             .put(function(req, res) {
                 // update single rosterObj.
-                console.log('put incoming');
                         
                 redis.get(rosterObj, function (err, obj) {
                     var rosterList = JSON.parse(obj);
