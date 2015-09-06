@@ -39,6 +39,15 @@
 		        	<div class="col-md-6">
 		        		<h4>Allgemeine Daten</h4>
 		        		
+		        		<div class="form-group">
+							<label class="col-sm-3 control-label">Rolle</label>
+							<div class="col-sm-9">
+								<select name="isCompany" class="form-control">
+									<option value="1"<%= user.isCompany ? ' selected' : '' %>>Firma</option>
+									<option value="0"<%= !user.isCompany ? ' selected' : '' %>>Nutzer</option>
+								</select>
+							</div>
+						</div>
 	               	 	<div class="form-group">
 							<label class="col-sm-3 control-label">Benutzername</label>
 							<div class="col-sm-9">
@@ -71,36 +80,38 @@
 							</div>
 						</div>
 					</div>
-		        	<div class="col-md-6">
-		        		<h4>Erfahrungen</h4>
-		        		
-		        		<% user.experiences.forEach(function(exp, i) { %>
-			        		<div class="form-group">
+					<% if (user.experiences && user.experiences.isArray()) { %>
+			        	<div class="col-md-6">
+			        		<h4>Erfahrungen</h4>
+			        		
+			        		<% user.experiences.forEach(function(exp, i) { %>
+				        		<div class="form-group">
+									<label class="col-sm-3 control-label">Erfahrung</label>
+									<div class="col-sm-6">
+										<input type="text" name="experiences[<%= i %>][experience]" class="form-control" value="<%= exp.experience %>">
+									</div>
+									<div class="col-sm-3">
+										<input type="number" name="experiences[<%= i %>][level]" class="form-control" value="<%= exp.level %>" min="1" max="10">
+									</div>
+								</div>
+							<% }); %>
+							<div class="form-group">
 								<label class="col-sm-3 control-label">Erfahrung</label>
 								<div class="col-sm-6">
-									<input type="text" name="experiences[<%= i %>][experience]" class="form-control" value="<%= exp.experience %>">
+									<input type="text" name="experiences[<%= user.experiences.length %>][experience]" class="form-control" placeholder="Neue Erfahrung" value="">
 								</div>
 								<div class="col-sm-3">
-									<input type="number" name="experiences[<%= i %>][level]" class="form-control" value="<%= exp.level %>" min="1" max="10">
+									<input type="number" name="experiences[<%= user.experiences.length %>][level]" class="form-control" min="1" max="10" value="">
 								</div>
 							</div>
-						<% }); %>
-						<div class="form-group">
-							<label class="col-sm-3 control-label">Erfahrung</label>
-							<div class="col-sm-6">
-								<input type="text" name="experiences[<%= user.experiences.length %>][experience]" class="form-control" placeholder="Neue Erfahrung" value="">
+							<div class="form-group">
+								<label class="col-sm-3 control-label"></label>
+								<div class="col-sm-9">
+									<input type="submit" class="btn btn-primary" value="Speichern">
+								</div>
 							</div>
-							<div class="col-sm-3">
-								<input type="number" name="experiences[<%= user.experiences.length %>][level]" class="form-control" min="1" max="10" value="">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-3 control-label"></label>
-							<div class="col-sm-9">
-								<input type="submit" class="btn btn-primary" value="Speichern">
-							</div>
-						</div>
-		        	</div>
+			        	</div>
+		        	<% } %>
 		        </div>
 			</form>
 	    </main>
