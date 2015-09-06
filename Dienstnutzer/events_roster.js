@@ -111,7 +111,7 @@ module.exports = {
 					for (var j in asyncRes.user) {
 						var currUser = asyncRes.user[j];
 						
-						currUser['blockedFor'] = [];
+						if (!currUser['blockedFor']) currUser['blockedFor'] = [];
 					
 						for (var k in currUser.experiences) {
 							var currUserExperience = currUser.experiences[k];
@@ -167,11 +167,36 @@ module.exports = {
 					outputJson.push(outputJsonBit);
 				}
 				
-			    res.json({
-				    user: asyncRes.user,
-				    output: outputJson
-			    });
+			    res.json(outputJson);
 			});
+		});
+		
+		app.post('/veranstaltungen/:eventId([0-9]+)/roster', function(req, res) {
+			var options = {
+		        host: 'localhost',
+		        port: 1337,
+		        path: req.body.id && req.body.id != '' ? '/roster/' + req.body.id + '?token=' + req.cookies.token : '/event/' + req.params.eventId + '/roster?token=' + req.cookies.token,
+		        method: req.body.id && req.body.id != '' ? 'PUT' : 'POST',
+		        headers: {
+		            'Content-Type': 'application/json'
+		        }
+		    };
+		    
+		    req.body = extend(req.body, {
+			    dateStart: moment(req.body.eventdate_date + ' ' + req.body.eventdate_time).format('X'),
+			    dateEnd: moment(req.body.eventdate_end_date + ' ' + req.body.eventdate_end_time).format('X')
+		    });
+		    
+		    console.log(req.body);
+			 
+		    var serverRequest = http.request(options, function(apiRes){
+	            apiRes.on('data', function(jsonString){
+		            var json = JSON.parse(jsonString);
+	                res.json(json);
+	            });
+	        });
+	        serverRequest.write(JSON.stringify(req.body));
+	        serverRequest.end();
 		});
     }
 }

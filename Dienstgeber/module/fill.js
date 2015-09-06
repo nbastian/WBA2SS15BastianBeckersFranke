@@ -61,15 +61,15 @@ module.exports = {
 		            id: 1,
 		            userId: 3,
 		            name: 'PollerWiesen Minus',
-		            dateStart: moment('2015-08-15 13:00').format('X'),
-		            dateEnd: moment('2015-08-15 18:00').format('X')
+		            dateStart: moment('2015-08-15 12:00').format('X'),
+		            dateEnd: moment('2015-08-15 22:00').format('X')
 		        },
 		        {
 		            id: 2,
 		            userId: 3,
 		            name: 'PollerWiesen Dortmund',
-		            dateStart: moment('2015-09-15 13:00').format('X'),
-		            dateEnd: moment('2015-09-15 18:00').format('X')
+		            dateStart: moment('2015-09-15 12:00').format('X'),
+		            dateEnd: moment('2015-09-15 22:00').format('X')
 		        }
 		    ]));
 		    

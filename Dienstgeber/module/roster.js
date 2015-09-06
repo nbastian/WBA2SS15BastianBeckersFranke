@@ -18,6 +18,8 @@ module.exports = {
             .post(function(req, res) {
                 // save new roster entry in db
                 
+                console.log('post incoming');
+                
                 redis.get(rosterObj, function (err, obj) { 
                     // get old list
                     var rosterList = JSON.parse(obj)
@@ -36,10 +38,12 @@ module.exports = {
                     
                     var newRoster = {
                         id: newId,
-                        userId: parseInt(req.body.userId),
-                        eventId: parseInt(req.body.eventId),
-                        dataStart: moment(req.body.dateStart).format('X'),
-                        dataEnd: moment(req.body.dataEnd).format('X')
+                        userId: req.body.userId ? parseInt(req.body.userId) : null,
+                        eventId: parseInt(req.body.eventId || req.params.eventId),
+                        dateStart: req.body.dateStart || null,
+                        dateEnd: req.body.dateEnd || null,
+                        position: req.body.position || '',
+                        jobPriority: parseInt(req.body.jobPriority)
                     };
                     
                     // push new roster
@@ -58,6 +62,7 @@ module.exports = {
         app.route('/roster/:rosterId([0-9]+)')
             .put(function(req, res) {
                 // update single rosterObj.
+                console.log('put incoming');
                         
                 redis.get(rosterObj, function (err, obj) {
                     var rosterList = JSON.parse(obj);
@@ -69,8 +74,10 @@ module.exports = {
                                                 
                             if (req.body.userId) rosterList[i].userId = parseInt(req.body.userId);
                             if (req.body.eventId) rosterList[i].eventId = parseInt(req.body.eventId);
-                            if (req.body.dateStart) rosterList[i].dateStart = moment(req.body.dateStart).format('X');
-                            if (req.body.dateEnd) rosterList[i].dateEnd = moment(req.body.dateEnd).format('X');
+                            if (req.body.dateStart) rosterList[i].dateStart = req.body.dateStart;
+                            if (req.body.dateEnd) rosterList[i].dateEnd = req.body.dateEnd;
+							if (req.body.position) rosterList[i].position = req.body.position;
+							if (req.body.jobPriority) rosterList[i].jobPriority = parseInt(req.body.jobPriority);
                             
                             var newRosterEntry = rosterList[i];
                             

@@ -8,18 +8,58 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.3.2/lang/de.js"></script>
 	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.4.0/fullcalendar.min.css">
     <script>
+    	$.fn.flashit = function(cb) {
+	    	var elem = this;
+		    this.fadeOut(200, function() {
+			    if (typeof cb == 'function') cb();
+			    elem.fadeIn(200);
+		    });
+		};
+
     	$(function() {
-	    	var $cal = $('.calendar'),
 	    	
+	    	var $cal = $('.calendar'),
+	    		$rosterForm = $('.form-addroster'),
+	    		
 	    		currEventId = $cal.data('eventid'),
-	    		currDefaultDate = moment($cal.data('defaultdate'), 'X'),
+	    		currDefaultDate = moment($cal.data('startdate'), 'X'),
+	    		
+	    		loadEvent2Edit = function(event, cb) {
+		    		$rosterForm.flashit(function() {
+					    $rosterForm.removeClass('form-modus-add').addClass('form-modus-edit').get(0).reset();
+				        
+				        $('input[name="eventdate_date"]', $rosterForm).val(event.start.format('YYYY-MM-DD'));
+					    $('input[name="eventdate_time"]', $rosterForm).val(event.start.format('HH:mm'));
+					    $('input[name="eventdate_end_date"]', $rosterForm).val(event.end.format('YYYY-MM-DD'));
+					    $('input[name="eventdate_end_time"]', $rosterForm).val(event.end.format('HH:mm'));
+					    
+					    $('input[name="position"]', $rosterForm).val(event.position);
+					    $('input[name="jobPriority"]', $rosterForm).val(event.jobPriority);
+					    $('input[name="id"]', $rosterForm).val(event.id);
+					    
+					    rosterUser = [];
+					    for (var i in event.userFit4Job) {
+						    rosterUser.push('<div class="thumbnail" style="padding: 8px 10px' + (i == 0 ? '; background-color: green; color: #fff' : '') + '"><p><b>' + event.userFit4Job[i].user.username + '</b></p><p>Eignung für diese Position: ' + event.userFit4Job[i].level + ' von 10<br>E-Mail: ' + event.userFit4Job[i].user.email + '</p></div>');
+					    }
+					    $('.roster-user', $rosterForm).html(rosterUser.length > 0 ? rosterUser.join('') : '<div class="thumbnail" style="padding: 8px 10px">Leider keine Treffer bzw. alles an Personal, welches für diese Position in Frage käme, schon ausgebucht.</div>');
+					    
+					    if (typeof cb == 'function') cb();
+					});
+	    		},
 	    		
 	    		fullCal = $cal.fullCalendar({
 					defaultView: 'agendaDay',
 					defaultDate: currDefaultDate,
 					
 					editable: true,
-					selectable: false,
+					selectable: true,
+					height: 600,
+					
+					businessHours: {
+						start: moment($cal.data('startdate'), 'X').format('HH:mm'),
+						end: moment($cal.data('enddate'), 'X').format('HH:mm'),
+						dow: [ 0, 1, 2, 3, 4, 5, 6 ]
+					},
 					
 					//events: '/admin/employer/?getCal=1',
 					header: {
@@ -28,41 +68,175 @@
 						right: 'month,agendaWeek,agendaDay'
 					},
 					eventClick: function(event, jsEvent, view) {
-				        return false;            
+						loadEvent2Edit(event);
 				    },
 				    events: function(start, end, timezone, callback) {
 					    $.getJSON('/veranstaltungen/' + currEventId + '/roster', function(resp) {
-			                console.log(resp);
-			                
 			                var events = [];
 			                for (var i in resp) {
 				                var currEvent = resp[i];
-			                    events.push({
+				                
+			                    events.push($.extend(currEvent, {
 			                        start: moment(currEvent.dateStart, 'X'),
-			                        end: moment(currEvent.dateEnd, 'X')
-			                    });
+			                        end: moment(currEvent.dateEnd, 'X'),
+			                        title: currEvent.position,
+			                        
+			                        color: currEvent.userFit4Job.length > 0 ? 'green' : 'darkred'
+			                    }));
 			                };
+			                
+			                console.log(events);
+			                
 			                callback(events);
 				        });
-				    }
+				    },
+				    
+				    select: function(start, end, jsEvent, view) {
+					    $rosterForm.flashit(function() {
+						    $rosterForm.addClass('form-modus-add').removeClass('form-modus-edit').get(0).reset();
+						    
+						    $('input[name="eventdate_date"]', $rosterForm).val(start.format('YYYY-MM-DD'));
+						    $('input[name="eventdate_time"]', $rosterForm).val(start.format('HH:mm'));
+						    $('input[name="eventdate_end_date"]', $rosterForm).val(end.format('YYYY-MM-DD'));
+						    $('input[name="eventdate_end_time"]', $rosterForm).val(end.format('HH:mm'));
+						    $('input[name="id"]', $rosterForm).val('');
+					    });
+				    },
+				    
+				    eventResize: function(event, delta, revertFunc) {
+					    /* if (!confirm('Zeit wirklich ändern? Unter Umständen muss der Plan neu befüllt werden!')) {
+						    revertFunc();
+						    return;
+					    } */
+					    
+					    loadEvent2Edit(event, function() {
+						    $rosterForm.trigger('submit');
+					    });
+					},
+				    
+				    eventDrop: function(event, delta, revertFunc) {
+					    /* if (!confirm('Zeit wirklich ändern? Unter Umständen muss der Plan neu befüllt werden!')) {
+						    revertFunc();
+						    return;
+					    } */
+					    
+					    loadEvent2Edit(event, function() {
+						    $rosterForm.trigger('submit');
+					    });
+					}
 				});
+				
+			$('.btn-abort', $rosterForm).on('click', function(e) {
+				e.preventDefault();
+				
+				$rosterForm.flashit(function() {
+					$('.form-addroster').addClass('form-modus-add').removeClass('form-modus-edit').get(0).reset();
+				});
+			});
+			
+			$rosterForm.on('submit', function(e) {
+				e.preventDefault();
+				
+				$.post('/veranstaltungen/' + currEventId + '/roster', $(this).serialize(), function(resp) {
+					fullCal.fullCalendar('refetchEvents');
+				});
+			});
     	});
     </script>
+    <style>
+	    .form-modus-add .modus-add { display: inline-block; }
+	    .form-modus-add .modus-edit { display: none; }
+	    .form-modus-add .modus-edit-block { display: none; }
+	    .form-modus-edit .modus-edit { display: inline-block; }
+	    .form-modus-edit .modus-edit-block { display: block; }
+	    .form-modus-edit .modus-add { display: none; }
+    </style>
 </head>
 <body>
 	<div class="container">
 	    <header>
-	        <% include ../partials/header %>
+	        <% include ../partials/header %> 
 	    </header>
 	
 	    <main>
 	        <div class="row">
 	            <div class="col-md-6">
 	                <h4>Dienstplan <i><%= event.name %></i></h4>
-	                <div class="calendar" data-eventid="<%= event.id %>" data-defaultdate="<%= event.dateStart %>"></div>
+	                <div class="calendar" data-eventid="<%= event.id %>" data-startdate="<%= event.dateStart %>" data-enddate="<%= event.dateEnd %>"></div>
+	                <p class="text-muted" style="margin-top:7px">Der weisse Bereich im Kalender markiert den Veranstaltungszeitraum.</p>
 	            </div>
 	            <div class="col-md-6">
-	                <h4>Veranstaltung bearbeiten</h4>
+
+	                <form class="form-horizontal form-addroster form-modus-add" style="margin-bottom:40px">
+	               	 	<h3 class="modus-add">Schicht hinzufügen</h3>
+	               	 	<h3 class="modus-edit">Schicht bearbeiten</h3>
+	               	 	
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Position</label>
+							<div class="col-sm-9">
+								<input type="text" name="position" class="form-control">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-3 control-label">Priorität</label>
+							<div class="col-sm-5">
+								<input type="number" name="jobPriority" min="1" max="10" class="form-control">
+								<span class="help-block text-muted">Job-Priorität zwischen 1 und 10.</span>
+							</div>
+						</div>
+						<div class="form-group">
+					    	<label class="col-sm-3 control-label">Schicht-Start</label>
+					    	<div class="col-sm-5">
+					      		<input type="date" name="eventdate_date" placeholder="dd.mm.yyyy" class="form-control" required>
+					    	</div>
+					      	<div class="col-sm-4">
+					      		<div class="input-group">
+									<input type="time" name="eventdate_time" placeholder="hh:mm" class="form-control" required>
+									<span class="input-group-addon">Uhr</span>
+					    		</div>
+					    	</div>
+					  	</div>
+					  	<div class="form-group">
+					    	<label class="col-sm-3 control-label">Schicht-Ende</label>
+					    	<div class="col-sm-5">
+					      		<input type="date" name="eventdate_end_date" placeholder="dd.mm.yyyy" class="form-control" required>
+					      	</div>
+					      	<div class="col-sm-4">
+								<div class="input-group">
+									<input type="time" name="eventdate_end_time" placeholder="hh:mm" class="form-control" required>
+									<span class="input-group-addon">Uhr</span>
+					    		</div>
+					    	</div>
+					  	</div>
+					  	<div class="form-group">
+					    	<label class="col-sm-3 control-label"></label>
+					      	<div class="col-sm-9">
+						  		<p class="text-muted">Alternativ zur Zeitwahl kann auch einfach ein entsprechender Bereich im Kalender markiert werden.</p>
+					    	</div>
+					  	</div>
+					  	<div class="form-group modus-edit-block">
+					  		<div class="col-sm-12">
+						  		<h4>Mögliches Personal für diese Schicht</h4>
+						  		<div class="roster-user"></div>
+						  	</div>
+					    </div>
+					  	<div class="form-group">
+							<label class="col-sm-3 control-label"></label>
+							<div class="col-sm-9">
+								<input type="hidden" name="id" value="">
+								<div class="modus-edit">
+									<input type="submit" class="btn btn-primary" value="Bearbeiten">
+									<input type="button" class="btn btn-link btn-abort" value="Abbrechen">
+								</div>
+								<div class="modus-add">
+									<input type="submit" class="btn btn-primary" value="Hinzufügen">
+								</div>
+							</div>
+						</div>
+					</form>
+
+					
+	                <h3>Veranstaltung bearbeiten</h3>
 	                <form class="form-horizontal form-eventedit" style="margin-bottom:40px">
 						<div class="form-group">
 							<label class="col-sm-3 control-label">Name</label>
@@ -101,47 +275,6 @@
 							</div>
 						</div>
 					</form>
-
-	                <h4>Schicht hinzufügen</h4>
-	                <form class="form-horizontal form-addroster" style="margin-bottom:40px">
-						<div class="form-group">
-							<label class="col-sm-3 control-label">Position</label>
-							<div class="col-sm-9">
-								<input type="text" class="form-control">
-							</div>
-						</div>
-						<div class="form-group">
-					    	<label class="col-sm-3 control-label">Schicht-Start</label>
-					    	<div class="col-sm-5">
-					      		<input type="date" name="eventdate_date" placeholder="dd.mm.yyyy" class="form-control" required>
-					    	</div>
-					      	<div class="col-sm-4">
-					      		<div class="input-group">
-									<input type="time" name="eventdate_time" placeholder="hh:mm" class="form-control" required>
-									<span class="input-group-addon">Uhr</span>
-					    		</div>
-					    	</div>
-					  	</div>
-					  	<div class="form-group">
-					    	<label class="col-sm-3 control-label">Schicht-Ende</label>
-					    	<div class="col-sm-5">
-					      		<input type="date" name="eventdate_end_date" placeholder="dd.mm.yyyy" class="form-control" required>
-					      	</div>
-					      	<div class="col-sm-4">
-								<div class="input-group">
-									<input type="time" name="eventdate_end_time" placeholder="hh:mm" class="form-control" required>
-									<span class="input-group-addon">Uhr</span>
-					    		</div>
-					    	</div>
-					  	</div>
-					  	<div class="form-group">
-							<label class="col-sm-3 control-label"></label>
-							<div class="col-sm-9">
-								<input type="submit" class="btn btn-primary" value="Hinzufügen">
-							</div>
-						</div>
-					</form>
-
 	            </div>
 	        </div>
 	    </main>
