@@ -350,30 +350,7 @@ app.get('/logout', function(req, res) {
 })
 
 app.get('/profil', function(req, res) {
-    var options = {
-        host: 'localhost',
-        port: 1337,
-        path: '/user?token='+req.cookies.token,
-        method: 'GET',
-        headers: {
-            accept: 'application/json'
-        }
-    };
-    
-    var x = http.request(options, function(externalres){
-        externalres.on('data', function(chunk){
-            var users = JSON.parse(chunk);
-            users = users.filter(function(user) {
-                return user.id == Number(req.cookies.id);
-            });
-            res.render('pages/profil', {
-                user: users,
-                name: req.cookies.username,
-                isCompany: req.cookies.isCompany
-            });
-        });
-    });
-    x.end();
+    res.redirect('/mitarbeiter/' + req.cookies.id + '/');
 });
 
 // demodata filler endpoint
