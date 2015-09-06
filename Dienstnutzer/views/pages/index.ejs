@@ -15,6 +15,9 @@
                 <% if(!name) { %>
                     <div class="jumbotron" id="signin">
                         <form class="form-signin" action="//localhost:1338/login" method="post">
+                            <% if(error == 'true') { %>
+                            <h2 class="form-signin-heading">Login failed</h2>
+                            <% } %>
                             <h2 class="form-signin-heading">Please sign in</h2>
                             <label for="inputUsername" class="sr-only">Username</label>
                             <input name="username" type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus>

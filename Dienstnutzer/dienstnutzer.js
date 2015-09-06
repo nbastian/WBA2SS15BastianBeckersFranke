@@ -43,11 +43,11 @@ app.get('/', function(req, res) {
                     delete anVer[i];
                 }
             }
-            
             res.render('pages/index', {
                 anVer: anVer,
                 name: req.cookies.username,
-                isCompany: req.cookies.isCompany
+                isCompany: req.cookies.isCompany,
+                error: req.query.error
             });
         });
     });
@@ -333,7 +333,7 @@ app.post('/login', function(req, res) {
                 res.cookie('isCompany', jsonResp.user.isCompany, cookieOptions);
 				res.redirect('/');
             } else {
-	            res.json(jsonResp);
+	            res.redirect('/?error=true');
             }
       	});			
     });
