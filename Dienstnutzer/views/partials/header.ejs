@@ -8,8 +8,8 @@
         <ul class="nav navbar-nav">
             <li><a href="/">Home</a></li>
             <% if(name) { %>
-                <li><a href="/veranstaltungen">Veranstaltungen</a></li>
                 <% if(isCompany == "true") { %>
+                    <li><a href="/veranstaltungen">Veranstaltungen</a></li>
                     <li><a href="/mitarbeiter">Mitarbeiterverwaltung</a></li>
                 <% } %>
             <% } %>

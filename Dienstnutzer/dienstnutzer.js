@@ -68,7 +68,6 @@ app.post('/veranstaltungen', function(req, res) {
     var x = http.request(options, function(externalres){
         externalres.on('data', function(chunk){
             var veranstaltung = JSON.parse(chunk);
-            console.log(req.cookies.id);
             if(veranstaltung != null)
             {
                 res.json({"id": veranstaltung.id,
@@ -122,22 +121,6 @@ app.get('/veranstaltungen', function(req, res) {
 })
 
 app.delete('/veranstaltungen/:VeranstaltungsID', function(req, res) {
-    /*var options = {
-        host: 'localhost',
-        port: 1337,
-        path: '/event',
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    };
-    var x = http.request(options, function(externalres){
-        externalres.on('data', function(chunk){
-            res.json({"success": true});
-        });
-    });
-    x.end();*/
-    
     var options = {
         host: 'localhost',
         port: 1337,
@@ -150,16 +133,6 @@ app.delete('/veranstaltungen/:VeranstaltungsID', function(req, res) {
     
     var x = http.request(options, function(externalres){
         externalres.on('data', function(chunk){
-            console.log(chunk);
-            /*var veranstaltung = JSON.parse(chunk);
-            
-            veranstaltung.dateEnd = moment(veranstaltung.dateEnd, 'X').format('DD.MM.YYYY HH:mm');
-            veranstaltung.dateStart = moment(veranstaltung.dateStart, 'X').format('DD.MM.YYYY HH:mm');
-
-            res.render('pages/veranstaltung', {
-                veranstaltung: veranstaltung,
-                name: req.cookies.username
-            });*/
             res.json({"success": true});
         });
     });                      
