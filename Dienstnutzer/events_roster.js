@@ -24,8 +24,6 @@ module.exports = {
 						startDate = moment(jsonEvent.dateStart, 'X'),
 						endDate = moment(jsonEvent.dateEnd, 'X');
 					
-					console.log(jsonEvent);
-					
 		            res.render('pages/veranstaltung', {
 		                event: extend(jsonEvent, { 
 			            	startDate: startDate.format(inputFormat.date),
@@ -144,7 +142,6 @@ module.exports = {
 							var currUserExperience = currUser.experiences[k];
 							
 							// is user experience that what were searching for?
-							// TODO: and is user not blocked for another job at this time?
 							if (
 								currUserExperience.experience.toLowerCase() == positionForFindingUser.toLowerCase()
 							) {
@@ -213,8 +210,6 @@ module.exports = {
 			    dateStart: moment(req.body.eventdate_date + ' ' + req.body.eventdate_time).format('X'),
 			    dateEnd: moment(req.body.eventdate_end_date + ' ' + req.body.eventdate_end_time).format('X')
 		    });
-		    
-		    console.log(req.body);
 			 
 		    var serverRequest = http.request(options, function(apiRes){
 	            apiRes.on('data', function(jsonString){
