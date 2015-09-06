@@ -16,7 +16,8 @@ module.exports = {
 		                { experience: 'zapfen', level: 2 },
 		                { experience: 'worker', level: 4 },
 		                { experience: 'aufbau', level: 5 },
-		                { experience: 'abbau', level: 8 }
+		                { experience: 'abbau', level: 8 },
+		                { experience: 'kasse', level: 3 }
 		            ]
 		        },
 		        {
@@ -76,43 +77,48 @@ module.exports = {
 		    redis.set(rosterObj, JSON.stringify([
 		        {
 		            id: 1,
-		            userId: 1,
+		            userId: null,
 		            eventId: 1,
 		            dateStart: moment('2015-08-15 13:00').format('X'),
 		            dateEnd: moment('2015-08-15 14:00').format('X'),
-		            position: 'kasse'
+		            position: 'kasse',
+		            jobPriority: 5
 		        },
 		        {
 		            id: 2,
-		            userId: 2,
+		            userId: null,
 		            eventId: 1,
 		            dateStart: moment('2015-08-15 14:00').format('X'),
 		            dateEnd: moment('2015-08-15 16:00').format('X'),
-		            position: 'kasse'
+		            position: 'kasse',
+		            jobPriority: 5
 		        },
 		        {
 		            id: 3,
-		            userId: 3,
+		            userId: null,
 		            eventId: 1,
 		            dateStart: moment('2015-08-15 13:00').format('X'),
 		            dateEnd: moment('2015-08-15 18:00').format('X'),
-		            position: 'kassenleitung'
+		            position: 'kassenleitung',
+		            jobPriority: 8
 		        },
 		        {
-		            id: 1,
-		            userId: 1,
+		            id: 4,
+		            userId: null,
 		            eventId: 2,
 		            dateStart: moment('2015-09-15 13:00').format('X'),
 		            dateEnd: moment('2015-09-15 15:00').format('X'),
-		            position: 'worker'
+		            position: 'worker',
+		            jobPriority: 1
 		        },
 		        {
-		            id: 2,
-		            userId: 2,
+		            id: 5,
+		            userId: null,
 		            eventId: 2,
 		            dateStart: moment('2015-09-15 15:00').format('X'),
 		            dateEnd: moment('2015-09-15 16:00').format('X'),
-		            position: 'worker'
+		            position: 'worker',
+		            jobPriority: 1
 		        }
 		    ]));
 		    

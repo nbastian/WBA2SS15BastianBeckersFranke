@@ -9,23 +9,43 @@
 	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.4.0/fullcalendar.min.css">
     <script>
     	$(function() {
-	    	var calendar = $('.calendar').fullCalendar({
-				defaultView: 'agendaWeek',
-				editable: true,
-				selectable: true,
-				
-				//events: '/admin/employer/?getCal=1',
-				header: {
-					left: 'prev,next today',
-					center: 'title',
-					right: 'month,agendaWeek,agendaDay'
-				},
-				eventClick: function(event, jsEvent, view) {
-			        
-				    
-			        return false;            
-			    }
-			});
+	    	var $cal = $('.calendar'),
+	    	
+	    		currEventId = $cal.data('eventid'),
+	    		currDefaultDate = moment($cal.data('defaultdate'), 'X'),
+	    		
+	    		fullCal = $cal.fullCalendar({
+					defaultView: 'agendaDay',
+					defaultDate: currDefaultDate,
+					
+					editable: true,
+					selectable: false,
+					
+					//events: '/admin/employer/?getCal=1',
+					header: {
+						left: 'prev,next today',
+						center: 'title',
+						right: 'month,agendaWeek,agendaDay'
+					},
+					eventClick: function(event, jsEvent, view) {
+				        return false;            
+				    },
+				    events: function(start, end, timezone, callback) {
+					    $.getJSON('/veranstaltungen/' + currEventId + '/roster', function(resp) {
+			                console.log(resp);
+			                
+			                var events = [];
+			                for (var i in resp) {
+				                var currEvent = resp[i];
+			                    events.push({
+			                        start: moment(currEvent.dateStart, 'X'),
+			                        end: moment(currEvent.dateEnd, 'X')
+			                    });
+			                };
+			                callback(events);
+				        });
+				    }
+				});
     	});
     </script>
 </head>
@@ -39,7 +59,7 @@
 	        <div class="row">
 	            <div class="col-md-6">
 	                <h4>Dienstplan <i><%= event.name %></i></h4>
-	                <div class="calendar"></div>
+	                <div class="calendar" data-eventid="<%= event.id %>" data-defaultdate="<%= event.dateStart %>"></div>
 	            </div>
 	            <div class="col-md-6">
 	                <h4>Veranstaltung bearbeiten</h4>
