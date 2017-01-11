@@ -47,7 +47,7 @@
           "id": 2,
           "coordinate": {
               "latitude": 51.24629,
-              "longitude": 6.79069,
+              "longitude": 6.79069
           },
           "question": {
             "type": "multiple-choice",
@@ -55,24 +55,24 @@
             "choices": [
               {
                 "id": 0,
-                "text": "Ahorn",
+                "text": "Ahorn"
               },
               {
                 "id": 1,
-                "text": "Birke",
+                "text": "Birke"
               },
               {
                 "id": 2,
-                "text": "Tiger",
+                "text": "Tiger"
               },
               {
                 "id": 3,
-                "text": "Affe",
+                "text": "Affe"
               }
             ],
-            "solution": [ 0, 1 ],
+            "solution": [ 0, 1 ]
           }
-      },
+      }
     ]
   }
 }
