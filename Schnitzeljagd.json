@@ -1,0 +1,78 @@
+{
+  "schnitzeljagd":{
+    "name": "Wissenspark Tag der offenen Tür",
+    "schnitzel": [{
+          "id": 0,
+          "coordinate": {
+              "latitude": 51.2462300,
+              "longitude": 6.7906900,
+          },
+          "question": {
+            "type": "free-text",
+            "text": "Welchen Baum erkennen sie an diesem Ort?",
+            "solution": "Ahorn",
+          },
+      },
+      {
+          "id": 1,
+          "coordinate": {
+              "latitude": 51.24629,
+              "longitude": 6.79061,
+          },
+          "question": {
+            "type": "single-choice",
+            "text": "Welche Pflanze erkennen sie an diesem Ort?",
+            "choices": [
+              {
+                "id": 0,
+                "text": "Ahorn",
+              },
+              {
+                "id": 1,
+                "text": "Birke",
+              },
+              {
+                "id": 2,
+                "text": "Tiger",
+              },
+              {
+                "id": 3,
+                "text": "Affe",
+              }
+            ],
+            "solution": [ 0 ],
+          },
+      },
+      {
+          "id": 2,
+          "coordinate": {
+              "latitude": 51.24629,
+              "longitude": 6.79069,
+          },
+          "question": {
+            "type": "multiple-choice",
+            "text": "Welches Tier erkennen sie an diesem Ort?",
+            "choices": [
+              {
+                "id": 0,
+                "text": "Ahorn",
+              },
+              {
+                "id": 1,
+                "text": "Birke",
+              },
+              {
+                "id": 2,
+                "text": "Tiger",
+              },
+              {
+                "id": 3,
+                "text": "Affe",
+              }
+            ],
+            "solution": [ 0, 1 ],
+          }
+      },
+    ]
+  }
+}
